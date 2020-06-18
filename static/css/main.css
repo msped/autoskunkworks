@@ -24,7 +24,9 @@
     height: 60px;
 }
 
-
+.text-center {
+    text-align: center;
+}
 
 .nav-link {
     font-family: 'Oswald', serif;
