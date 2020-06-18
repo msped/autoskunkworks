@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap_tags %}
+
+{% block title %}
+Login
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div>
+    <h1 class="login-header text-center">Login</h1>
+    <div class="offset-lg-4 col-lg-4 offset-md-3 col-md-6 col-sm-12col-xs-12">
+        <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            {{ login_form | as_bootstrap }}
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">
+                    Login
+                </button>
+            </div>
+        </form>
+
+        <div class="form-group register">
+            <p class="text-center">Don't have an account? Register <a href="{% url 'register' %}">here.</a></p>
+        </div>
+    </div>
+</div>
+{% endblock content %}
