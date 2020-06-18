@@ -34,3 +34,12 @@ class InteriorCategory(models.Model):
 
     def __str__(self):
         return self.title
+
+class Domains(models.Model):
+    """Domains for scraping"""
+    class Attr(models.TextChoices):
+        ID = '1', 'id'
+        CLASS = '2', 'class'
+    domain = models.CharField(max_length=50)
+    price_element = models.CharField(max_length=50)
+    attr = models.CharField(max_length=5, choices=Attr.choices, default='1')
