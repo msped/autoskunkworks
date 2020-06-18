@@ -10,3 +10,7 @@
 div.container {
     margin-bottom: 50px;
 }
+
+#forgot-password {
+    text-align: right;
+}

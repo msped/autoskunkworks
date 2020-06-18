@@ -121,3 +121,10 @@ footer {
     ;
 }
 
+.loading {
+    display: none;
+}
+
+.loading img {
+    height: 40px;
+}
