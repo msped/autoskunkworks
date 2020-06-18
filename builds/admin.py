@@ -3,7 +3,7 @@ from .models import ExteriorCategory, EngineCategory, InteriorCategory, RunningC
 
 # Register your models here.
 
-admin.site.regsiter(ExteriorCategory)
-admin.site.regsiter(EngineCategory)
-admin.site.regsiter(InteriorCategory)
-admin.site.regsiter(RunningCategory)
+admin.site.register(ExteriorCategory)
+admin.site.register(EngineCategory)
+admin.site.register(InteriorCategory)
+admin.site.register(RunningCategory)
