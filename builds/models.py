@@ -47,7 +47,6 @@ class Domains(models.Model):
 
 class Exterior(models.Model):
     """Model for exterior items"""
-    build_parent = models.ForeignKey('builds.Builds', on_delete=models.CASCADE, null=True, blank=True)
     exterior_category = models.ForeignKey(ExteriorCategory, on_delete=models.PROTECT)
     link = models.URLField()
     price = models.FloatField(default=0)
@@ -58,7 +57,6 @@ class Exterior(models.Model):
 
 class Engine(models.Model):
     """Model for engine items"""
-    build_parent = models.ForeignKey('builds.Builds', on_delete=models.CASCADE, null=True, blank=True)
     engine_category = models.ForeignKey(EngineCategory, on_delete=models.PROTECT)
     link = models.URLField()
     price = models.FloatField(default=0)
@@ -69,7 +67,6 @@ class Engine(models.Model):
 
 class Running(models.Model):
     """Model for running items"""
-    build_parent = models.ForeignKey('builds.Builds', on_delete=models.CASCADE, null=True, blank=True)
     running_category = models.ForeignKey(RunningCategory, on_delete=models.PROTECT)
     link = models.URLField()
     price = models.FloatField(default=0)
@@ -80,7 +77,6 @@ class Running(models.Model):
 
 class Interior(models.Model):
     """Model for interior items"""
-    build_parent = models.ForeignKey('builds.Builds', on_delete=models.CASCADE, null=True, blank=True)
     interior_category = models.ForeignKey(InteriorCategory, on_delete=models.PROTECT)
     link = models.URLField()
     price = models.FloatField(default=0)
