@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}
 Create a new build
 {% endblock title %}
@@ -15,7 +15,8 @@ Create a new build
 </div>
 
 
-<form method="POST" action="{% url 'create_record' %}">
+<form method="POST" action="{% url 'create_build' %}">
+    {% csrf_token %}
     <!--Make/Model/Trim/Year-->
     <div class="card">
         <div class="card-header" id="headingTwo">
@@ -117,7 +118,7 @@ Create a new build
                     <select class="form-control" id="exterior-categories">
                         <option value="Choose an option" disabled selected>Choose an option</option>
                         {% for item in exterior %}
-                        <option value="{% item.id %}">{% item.title %}</option>
+                        <option value="{{ item.id }}">{{ item.title }}</option>
                         {% endfor %}
                     </select>
                     <a id="add-exterior" class="btn btn-light">Add</a>
@@ -164,7 +165,7 @@ Create a new build
                         <select class="form-control" id="engine-categories">
                             <option value="Choose an option" disabled selected>Choose an option</option>
                             {% for item in engine %}
-                            <option value="{% item.id %}">{% item.title %}</option>
+                            <option value="{{ item.id }}">{{ item.title }}</option>
                             {% endfor %}
                         </select>
                         <a id="add-engine" class="btn btn-light">Add</a>
@@ -211,7 +212,7 @@ Create a new build
                         <select class="form-control" id="running-gear-categories">
                             <option value="Choose an option" disabled selected>Choose an option</option>
                             {% for item in running %}
-                            <option value="{% item.id %}">{% item.title %}</option>
+                            <option value="{{ item.id }}">{{ item.title }}</option>
                             {% endfor %}
                         </select>
                         <a id="add-running-gear" class="btn btn-light">Add</a>
@@ -258,7 +259,7 @@ Create a new build
                     <select class="form-control" id="interior-categories">
                         <option value="Choose an option" disabled selected>Choose an option</option>
                         {% for item in interior %}
-                        <option value="{% item.id %}">{% item.title %}</option>
+                        <option value="{{ item.id }}">{{ item.title }}</option>
                         {% endfor %}
                     </select>
                     <a id="add-interior" class="btn btn-light">Add</a>
@@ -299,7 +300,7 @@ Create a new build
 
     <!--Submit / Go back to Builds Page-->
     <div class="text-center submit-buttons">
-        <a class="btn btn-btn-outline-dark" href="{% url 'builds' %}">Back to Builds</a>
+        <a class="btn btn-btn-outline-dark" href="">Back to Builds</a>
         <button type="submit" class="btn btn-outline-success">Create</button>
     </div>
 
