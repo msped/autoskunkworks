@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -43,3 +44,71 @@ class Domains(models.Model):
     domain = models.CharField(max_length=50)
     price_element = models.CharField(max_length=50)
     attr = models.CharField(max_length=5, choices=Attr.choices, default='1')
+
+class Exterior(models.Model):
+    """Model for exterior items"""
+    build_parent = models.ForeignKey('builds.Builds', on_delete=models.CASCADE, null=True, blank=True)
+    exterior_category = models.ForeignKey(ExteriorCategory, on_delete=models.PROTECT)
+    link = models.URLField()
+    price = models.FloatField(default=0)
+    purchased = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.id
+
+class Engine(models.Model):
+    """Model for engine items"""
+    build_parent = models.ForeignKey('builds.Builds', on_delete=models.CASCADE, null=True, blank=True)
+    engine_category = models.ForeignKey(EngineCategory, on_delete=models.PROTECT)
+    link = models.URLField()
+    price = models.FloatField(default=0)
+    purchased = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.id
+
+class Running(models.Model):
+    """Model for running items"""
+    build_parent = models.ForeignKey('builds.Builds', on_delete=models.CASCADE, null=True, blank=True)
+    running_category = models.ForeignKey(RunningCategory, on_delete=models.PROTECT)
+    link = models.URLField()
+    price = models.FloatField(default=0)
+    purchased = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.id
+
+class Interior(models.Model):
+    """Model for interior items"""
+    build_parent = models.ForeignKey('builds.Builds', on_delete=models.CASCADE, null=True, blank=True)
+    interior_category = models.ForeignKey(InteriorCategory, on_delete=models.PROTECT)
+    link = models.URLField()
+    price = models.FloatField(default=0)
+    purchased = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.id
+
+class Cars(models.Model):
+    """Cars for a build"""
+    make = models.CharField(max_length=30)
+    model = models.CharField(max_length=30)
+    trim = models.CharField(max_length=45)
+    year = models.CharField(max_length=4)
+    price = models.FloatField()
+
+    def __str__(self):
+        return f'{self.make} {self.model} {self.trim}'
+
+class Builds(models.Model):
+    """Model for builds"""
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=150)
+    total = models.FloatField()
+    private = models.BooleanField(default=False)
+    car = models.ForeignKey(Cars, on_delete=models.CASCADE)
+    exterior_parts = models.ManyToManyField(Exterior) 
+    engine_parts = models.ManyToManyField(Engine)
+    running_gear_parts = models.ManyToManyField(Running)
+    interior_parts = models.ManyToManyField(Interior)
+    views = models.IntegerField(default=0)
