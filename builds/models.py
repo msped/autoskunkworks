@@ -53,7 +53,7 @@ class Exterior(models.Model):
     purchased = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
 class Engine(models.Model):
     """Model for engine items"""
@@ -63,7 +63,7 @@ class Engine(models.Model):
     purchased = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
 class Running(models.Model):
     """Model for running items"""
@@ -73,7 +73,7 @@ class Running(models.Model):
     purchased = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
 class Interior(models.Model):
     """Model for interior items"""
@@ -83,7 +83,7 @@ class Interior(models.Model):
     purchased = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
 class Cars(models.Model):
     """Cars for a build"""
