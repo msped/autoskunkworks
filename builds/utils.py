@@ -1,11 +1,6 @@
 from django.contrib.auth.models import User
 from .models import *
 
-def votes(user_email, build_votes):
-    if user_email in build_votes:
-        return True
-    return False
-
 def check_visibility(user_input):
     if user_input == "Public":
         private = False
