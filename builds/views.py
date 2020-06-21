@@ -39,4 +39,8 @@ def create_build(request):
 def view_build(request, build_id):
     """View a Build"""
     build = Builds.objects.get(id=build_id)
+
+    if request.user.id is not build.author.id:
+        build.views += 1
+        build.save()
     return render(request, "view.html", {'build': build})
