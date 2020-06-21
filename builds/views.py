@@ -3,7 +3,8 @@ from .models import (
     ExteriorCategory,
     EngineCategory,
     RunningCategory,
-    InteriorCategory
+    InteriorCategory,
+    Builds
 )
 from .utils import new_build_content
 
@@ -34,3 +35,8 @@ def create_build(request):
     }
     
     return render(request, "create.html", context)
+
+def view_build(request, build_id):
+    """View a Build"""
+    build = Builds.objects.get(id=build_id)
+    return render(request, "view.html", {'build': build})
