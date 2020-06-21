@@ -316,31 +316,31 @@ View a build
         Selected Total: <strong><span id="mini-total"></span></strong>
     </div>
 
-    <!--Voting
+    <!--Voting-->
     <div class="col">
         <div class="voting-content">
             <div class="like">
                 <div class="{% if user.is_authenticated %}like-button{% endif %} like-button-div like-button-hover">
                     <i class="far fa-thumbs-up"></i>
                 </div>
-                <span id="like-count"></span>
-                <input type="hidden" value="" id="user-liked">
+                <span id="like-count">{{ build.like_count }}</span>
+                <input type="hidden" value="{{ user_liked }}" id="user-liked">
             </div>
             <div class="dislike">
                 <div class="{% if user.is_authenticated %}dislike-button{% endif %} dislike-button-div dislike-button-hover">
                     <i class="far fa-thumbs-down"></i>
                 </div>
-                <span id="dislike-count"></span>
-                <input type="hidden" value="" id="user-disliked">
+                <span id="dislike-count">{{ build.dislike_count }}</span>
+                <input type="hidden" value="{{ user_disliked }}" id="user-disliked">
             </div>
         </div>
     </div>
-</div>-->
+</div>
 
 <!--Submit-->
 
 <div class="text-center submit-buttons">
-    <a class="btn btn-outline-dark" href="">Back to Builds</a>
+    <a class="btn btn-outline-dark" href="{% url 'builds' %}">Back to Builds</a>
     {% if user.is_authenticated and user.id == build.author.id %}
     <a class="btn btn-outline-secondary" href="">Edit</a>
     {% endif %}
