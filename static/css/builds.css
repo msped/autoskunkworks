@@ -34,15 +34,6 @@
     display: inline-block;
 }
 
-#sort-button {
-    vertical-align: initial;
-}
-
-.reset-button {
-    margin-top: 15px;
-    text-align: center
-}
-
 /*Build Cards*/
 .card {
     margin: 10px;
