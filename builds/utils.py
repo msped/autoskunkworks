@@ -112,6 +112,9 @@ def new_build_content(request, exterior_category, engine_category,
         private=private,
         car=car
     )
+
+    # Add Author to liked list
+    build.likes.add(user)
     
     # Adds exterior collection to record
     exterior = get_heading_contents_exterior(request, exterior_category)
