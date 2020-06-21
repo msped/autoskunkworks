@@ -108,7 +108,9 @@ class Builds(models.Model):
     running_gear_parts = models.ManyToManyField(Running)
     interior_parts = models.ManyToManyField(Interior)
     views = models.IntegerField(default=0)
+    like_count = models.IntegerField(default=1)
     likes = models.ManyToManyField(User, related_name="%(class)s_likes")
+    dislike_count = models.IntegerField(default=0)
     dislikes = models.ManyToManyField(User, related_name="%(class)s_dislikes")
 
     def __str__(self):
