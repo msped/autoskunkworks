@@ -62,10 +62,23 @@
         </nav>
     
         <div class="container">
-            
             <main>
-            {% block content %}
-            {% endblock content %}
+                {% if messages %}
+                <ul class="flashes">
+                    {% for message in messages %}
+                    <li>
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% block content %}
+                {% endblock content %}
             </main>
         </div>
         <footer class="container-fluid page-footer font-small blue ">
