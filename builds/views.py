@@ -163,7 +163,23 @@ def like_build(request, build_id):
             build.likes.remove(user)
             build.save()
         else:
-            count = build.like_count =- 1
+            count = build.like_count =+ 1
             build.likes.add(user)
+            build.save()
+        return HttpResponse(count)
+
+@csrf_exempt
+def dislike_build(request, build_id):
+    """Like a build, unlike if already liked"""
+    if request.method == "POST" and request.user.is_authenticated:
+        build = Builds.objects.get(id=build_id)
+        user = User.objects.get(id=request.user.id)
+        if build.dislikes.filter(user=user).exists():
+            count = build.dislike_count =- 1
+            build.likes.remove(user)
+            build.save()
+        else:
+            count = build.dislike_count =+ 1
+            build.dislikes.add(user)
             build.save()
         return HttpResponse(count)
