@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
 from django.db.models import Count
 from .models import (
     ExteriorCategory,
@@ -150,3 +152,18 @@ def builds(request):
 
     return render(request, "builds.html", {"builds": builds_paginator})
 
+@csrf_exempt
+def like_build(request, build_id):
+    """Like a build, unlike if already liked"""
+    if request.method == "POST" and request.user.is_authenticated:
+        build = Builds.objects.get(id=build_id)
+        user = User.objects.get(id=request.user.id)
+        if build.likes.filter(user=user).exists():
+            count = build.like_count =- 1
+            build.likes.remove(user)
+            build.save()
+        else:
+            count = build.like_count =- 1
+            build.likes.add(user)
+            build.save()
+        return HttpResponse(count)
