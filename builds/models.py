@@ -103,15 +103,15 @@ class Builds(models.Model):
     total = models.FloatField()
     private = models.BooleanField(default=False)
     car = models.ForeignKey(Cars, on_delete=models.CASCADE)
-    exterior_parts = models.ManyToManyField(Exterior) 
-    engine_parts = models.ManyToManyField(Engine)
-    running_gear_parts = models.ManyToManyField(Running)
-    interior_parts = models.ManyToManyField(Interior)
+    exterior_parts = models.ManyToManyField(Exterior, blank=True, null=True) 
+    engine_parts = models.ManyToManyField(Engine, blank=True, null=True)
+    running_gear_parts = models.ManyToManyField(Running, blank=True, null=True)
+    interior_parts = models.ManyToManyField(Interior, blank=True, null=True)
     views = models.IntegerField(default=0)
     like_count = models.IntegerField(default=1)
-    likes = models.ManyToManyField(User, related_name="%(class)s_likes")
+    likes = models.ManyToManyField(User, related_name="%(class)s_likes", blank=True, null=True)
     dislike_count = models.IntegerField(default=0)
-    dislikes = models.ManyToManyField(User, related_name="%(class)s_dislikes")
+    dislikes = models.ManyToManyField(User, related_name="%(class)s_dislikes", blank=True, null=True)
 
     def __str__(self):
         return self.name
