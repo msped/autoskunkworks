@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
+from django.http import JsonResponse
+from django.contrib.auth.models import User
 from django.db.models import Count
 from .models import (
     ExteriorCategory,
@@ -43,20 +44,20 @@ def create_build(request):
 def view_build(request, build_id):
     """View a Build"""
     build = Builds.objects.get(id=build_id)
+    user = User.objects.get(id=request.user.id)
 
     if request.user.id is not build.author.id:
-        build.views += 1
+        build.views =+ 1
         build.save()
+
     user_liked = False
     user_disliked = False
+
     if request.user.is_authenticated:
-        if build.likes.filter(id=request.user.id):
+        if build.likes.filter(id=request.user.id).exists():
             user_liked = True
-        if build.dislikes.filter(id=request.user.id):
+        if build.dislikes.filter(id=request.user.id).exists():
             user_disliked = True
-    else: 
-        user_liked = True
-        user_disliked = True
 
     context = {
         'build': build,
@@ -155,31 +156,66 @@ def builds(request):
 @csrf_exempt
 def like_build(request, build_id):
     """Like a build, unlike if already liked"""
-    if request.method == "POST" and request.user.is_authenticated:
+    if request.user.is_authenticated:
         build = Builds.objects.get(id=build_id)
         user = User.objects.get(id=request.user.id)
-        if build.likes.filter(user=user).exists():
-            count = build.like_count =- 1
+        if build.likes.filter(id=request.user.id).exists():
+            build.like_count -= 1
+            like_count = build.like_count
+            dislike_count = build.dislike_count
+            liked = False
+            disliked = False
             build.likes.remove(user)
             build.save()
         else:
-            count = build.like_count =+ 1
+            if build.dislikes.filter(id=request.user.id).exists():
+                if build.dislike_count >= 0:
+                    build.dislike_count -= 1
+                else: 
+                    build.dislike =+ 1
+                build.dislikes.remove(user)
+            build.like_count =+ 1
+            like_count = build.like_count
+            dislike_count = build.dislike_count
+            liked = True
+            disliked = False
             build.likes.add(user)
             build.save()
-        return HttpResponse(count)
+        return JsonResponse({
+            'like_count': like_count,
+            'dislike_count': dislike_count,
+            'liked': liked,
+            'disliked': disliked
+        })
 
 @csrf_exempt
 def dislike_build(request, build_id):
     """Like a build, unlike if already liked"""
-    if request.method == "POST" and request.user.is_authenticated:
+    if request.user.is_authenticated:
         build = Builds.objects.get(id=build_id)
         user = User.objects.get(id=request.user.id)
-        if build.dislikes.filter(user=user).exists():
-            count = build.dislike_count =- 1
-            build.likes.remove(user)
+        if build.dislikes.filter(id=request.user.id).exists():
+            build.dislike_count -= 1
+            like_count = build.like_count
+            dislike_count = build.dislike_count
+            disliked = False
+            liked = False
+            build.dislikes.remove(user)
             build.save()
         else:
-            count = build.dislike_count =+ 1
+            if build.likes.filter(id=request.user.id).exists():
+                build.like_count -= 1
+                build.likes.remove(user)
+            build.dislike_count =+ 1
+            like_count = build.like_count
+            dislike_count = build.dislike_count
+            liked = False
+            disliked = True
             build.dislikes.add(user)
             build.save()
-        return HttpResponse(count)
+        return JsonResponse({
+            'like_count': like_count,
+            'dislike_count': dislike_count,
+            'liked': liked,
+            'disliked': disliked
+        })

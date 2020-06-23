@@ -57,10 +57,12 @@
 
 .like-button-hover:hover {
     color: green;
+    cursor: pointer;
 }
 
 .dislike-button-hover:hover {
     color: red;
+    cursor: pointer;
 }
 
 .liked {
