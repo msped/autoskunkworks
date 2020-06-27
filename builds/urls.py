@@ -1,6 +1,4 @@
 from django.conf.urls import url
-from django.urls import path
-from builds import views
 from .views import create_build, view_build, builds, like_build, dislike_build, users_builds
 
 urlpatterns = [
@@ -9,5 +7,5 @@ urlpatterns = [
     url(r'^$', builds, name="builds"),
     url(r'^like/(?P<build_id>\d+)', like_build, name="like_build"),
     url(r'^dislike/(?P<build_id>\d+)', dislike_build, name="dislike_build"),
-    path(r'^<str:username>/', views.users_builds, name="users_builds")
+    url(r'^(?P<username>[\w.@+-]+)/', users_builds, name="users_builds")
 ]
