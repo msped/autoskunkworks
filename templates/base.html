@@ -44,7 +44,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link"
-                                href="">
+                                href="{% url 'users_builds' request.user.username %}">
                                 My Builds
                             </a>
                         </li>
@@ -93,11 +93,11 @@
                                 <a class="footer-text" href="{% url 'home' %}">Home</a>
                             </li>
                             <li>
-                                <a class="footer-text" href="">Builds</a>
+                                <a class="footer-text" href="{% url 'builds' %}">Builds</a>
                             </li>
                             {% if current_user.is_authenticated %}
                             <li>
-                                <a class="footer-text" href="">My Builds</a>
+                                <a class="footer-text" href="{% url 'users_builds' request.user.username %}">My Builds</a>
                             </li>
                             <li>
                                 <a class="footer-text" href="{% url 'logout' %}">Logout</a>
