@@ -39,9 +39,14 @@
     margin: 10px;
 }
 
-.card-title {
+.build-title {
     font-family: 'PM', monospace;
     font-size: 20pt;
+}
+
+.fa-lock, .fa-lock-open {
+    color: #6C757D;
+    font-size: 16pt;
 }
 
 .card-subtitle {
