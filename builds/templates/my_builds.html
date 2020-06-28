@@ -104,11 +104,13 @@ Builds
             </div>
             {% endfor %}
             {% else %}
-            <p class="text-center">There are no current Builds. <a href="{% url 'create_build' %}">Create one!</a></p>
+            <div class="col-12 my-5">
+                <p class="text-center">This user has no public builds.</p>
+            </div>
             {% endif %}
         </div>
     </div>
-
+    {% if builds|length > 0 %}
     <div class="text-center">
         <span class="step-links">
             {% if builds.has_previous %}
@@ -126,4 +128,5 @@ Builds
             {% endif %}
         </span>
     </div>
+    {% endif %}
 {% endblock content %}
