@@ -3,15 +3,24 @@ from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.contrib.auth.models import User
-from django.db.models import Count
 from .models import (
     ExteriorCategory,
     EngineCategory,
     RunningCategory,
     InteriorCategory,
-    Builds
+    Builds,
+    Exterior,
+    Engine,
+    Running,
+    Interior
 )
-from .utils import new_build_content, sort_builds_standard, sort_builds_users, sort_builds_users_public
+from .utils import (
+    new_build_content,
+    sort_builds_standard,
+    sort_builds_users,
+    sort_builds_users_public,
+    update_build_content
+)
 
 # Create your views here.
 
@@ -164,3 +173,49 @@ def users_builds(request, username):
     builds_paginator = paginator.get_page(page)
 
     return render(request, "my_builds.html", {"builds": builds_paginator})
+
+def edit_build(request, build_id):
+    """Edit a build"""
+    exterior_category = ExteriorCategory.objects.all()
+    engine_category = EngineCategory.objects.all()
+    running_category = RunningCategory.objects.all()
+    interior_category = InteriorCategory.objects.all()
+    build = Builds.objects.get(id=build_id)
+
+    if request.method == "POST":
+
+        return redirect('view_build', build_id)
+    context = {
+        'exterior': exterior_category,
+        'engine': engine_category,
+        'running': running_category,
+        'interior': interior_category,
+        'build': build
+    }
+    return render(request, "edit.html", context)
+
+@csrf_exempt
+def delete_row(request, row_id, table):
+    """Delete row from a build when editing"""
+    if request.method == "POST":
+        if table == "exterior-table":
+            row = Exterior.objects.get(id=row_id)
+            row.delete()
+            result = True
+        elif table == "engine-table":
+            row = Engine.objects.get(id=row_id)
+            row.delete()
+            result = True
+        elif table == "running-gear-table":
+            row = Running.objects.get(id=row_id)
+            row.delete()
+            result = True
+        elif table == "interior-table":
+            row = Interior.objects.get(id=row_id)
+            row.delete()
+            result = True
+        else:
+            result = False
+
+    deleted = {'result': result}
+    return JsonResponse(deleted)
