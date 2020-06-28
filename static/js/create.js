@@ -123,7 +123,24 @@ $(document).ready(function () {
     });
 
     $('tbody').on('click', '#delete-row', function(){
-        $(this).closest('tr').remove();
+        const model_id = $(this).next().val()
+        if (model_id == null){
+            //$(this).closest('tr').remove());
+        } else {
+            let table = $(this).closest('tbody').attr('id');
+            $.ajax({
+                url: '/builds/delete_row/' + model_id + '/' + table,
+                type: 'POST',
+                success: function(data){
+                    if (data.result){
+                        alert("Row deleted")
+                        //$(this).closest('tr').remove();
+                    } else {
+                        alert("There was an error processing this request.");
+                    }
+                }
+            })
+        }        
     });
 
     $('tbody').on('change paste', 'input[type=url]', function(){
