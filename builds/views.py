@@ -11,7 +11,7 @@ from .models import (
     InteriorCategory,
     Builds
 )
-from .utils import new_build_content, sort_builds_standard, sort_builds_users
+from .utils import new_build_content, sort_builds_standard, sort_builds_users, sort_builds_users_public
 
 # Create your views here.
 
@@ -154,10 +154,10 @@ def users_builds(request, username):
     sort_by_likes = request.GET.get('sort_by_likes')
     sort_by_views = request.GET.get('sort_by_views')
     user = User.objects.get(username=username)
-    if request.user.id is user.id:
+    if request.user.id == user.id:
         builds = sort_builds_users(user, sort_by_likes, sort_by_price, sort_by_views)
     else:
-        builds = sort_builds_users(user, sort_by_likes, sort_by_price, sort_by_views)
+        builds = sort_builds_users_public(user, sort_by_likes, sort_by_price, sort_by_views)
 
     paginator = Paginator(builds, 15)
     page = request.GET.get('page')
