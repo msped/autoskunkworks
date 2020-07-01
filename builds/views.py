@@ -25,6 +25,7 @@ from .utils import (
 
 # Create your views here.
 
+@login_required
 def create_build(request):
     """Create a Build"""
     exterior_category = ExteriorCategory.objects.all()
@@ -175,6 +176,7 @@ def users_builds(request, username):
 
     return render(request, "my_builds.html", {"builds": builds_paginator})
 
+@login_required
 def edit_build(request, build_id):
     """Edit a build"""
     exterior_category = ExteriorCategory.objects.all()
@@ -203,6 +205,7 @@ def edit_build(request, build_id):
     return render(request, "edit.html", context)
 
 @csrf_exempt
+@login_required
 def delete_row(request, row_id, table, build_id):
     """Delete row from a build when editing"""
     build = Builds.objects.get(id=build_id)
