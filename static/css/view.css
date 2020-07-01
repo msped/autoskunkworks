@@ -93,3 +93,7 @@ input[type=checkbox] {
     color: #F60002;
     font-size: 15pt;
 }
+
+.no-parts-available {
+    font-family: 'PM', monospace;
+}
