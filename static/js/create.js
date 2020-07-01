@@ -123,28 +123,30 @@ $(document).ready(function () {
     });
 
     $('tbody').on('click', '#delete-row', function(){
-        const model_id = $(this).next().val()
+        const model_id = $(this).next().val();
+        const row = $(this).closest('tr');
+        let build = $('#build_id').val();
         if (model_id == null){
-            //$(this).closest('tr').remove());
+            row.remove();
         } else {
             let table = $(this).closest('tbody').attr('id');
             $.ajax({
-                url: '/builds/delete_row/' + model_id + '/' + table,
+                url: '/builds/delete_row/' + model_id + '/' + table + '/' + build,
                 type: 'POST',
                 success: function(data){
                     if (data.result){
-                        alert("Row deleted")
-                        //$(this).closest('tr').remove();
+                        row.remove();
+                        $('#build-total').html(data.total);
                     } else {
                         alert("There was an error processing this request.");
                     }
                 }
-            })
+            });
         }        
     });
 
     $('tbody').on('change paste', 'input[type=url]', function(){
-        url_box = $(this)
+        url_box = $(this);
         url = $(this).val();
         $.ajax({
             url: "/get_web_price",
@@ -154,8 +156,8 @@ $(document).ready(function () {
             },
             success: function(data){
                 input = url_box.closest('tr').find('.url-price').children('input.part-price');
-                input.val(data)
+                input.val(data);
             }
         });
-    })
+    });
 });
