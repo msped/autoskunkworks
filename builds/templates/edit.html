@@ -1,0 +1,386 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Edit a build
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/edit.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="text-center edit-header">
+    <h1>Edit {{ build.build_name }}</h1>
+    <p class="small">Remove, add and update parts.</p>
+</div>
+
+
+<form method="POST" action="{% url 'edit_build' build.id %}">
+    <input type="hidden" name="build_id" id="build_id" value="{{ build.id }}">
+    {% csrf_token %}
+    <!--Make/Model/Trim/Year-->
+    <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#vehicle" aria-expanded="false"
+                    aria-controls="vehicle">
+                    Car
+                </h6>
+            </div>
+            <div id="vehicle" class="collapse" aria-labelledby="headingTwo" data-parent="#vehicle">
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    Make
+                                </th>
+                                <th scope="col">
+                                    Model
+                                </th>
+                                <th scope="col">
+                                    Trim
+                                </th>
+                                <th scope="col">
+                                    Year
+                                </th>
+                                <th scope="col">
+                                    Price
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--Car-->
+                            <tr>
+                                <th scope="row">
+                                    <input type="text" class="form-control input-sm" name="make" value="{{ build.car.make }}">
+                                </th>
+                                <td>
+                                    <input type="text" class="form-control input-sm" name="model" value="{{ build.car.model }}">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control input-sm" name="trim" value="{{ build.car.trim }}">
+                                </td>
+                                <td>
+                                    <input type="number" class="form-control input-sm" name="year" value="{{ build.car.year }}">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control input-sm part-price" name="price" value="{{ build.car.price }}">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <table class="table-sm col-md-4">
+                        <thead>
+                            <tr>
+                                <th>Visibility</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <select name="visibility" class="form-control" id="visibility">
+                                        <option value="Private" {% if build.private %}selected{% endif %}>Private</option>
+                                        <option value="Public" {% if build.private == False %}selected{% endif %}>Public</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+
+    <!--Exterior-->
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+            <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#exterior" aria-expanded="false"
+                aria-controls="exterior">
+                Exterior
+            </h6>
+        </div>
+        <div id="exterior" class="collapse" aria-labelledby="headingTwo" data-parent="#exterior">
+            <div class="card-body">
+                <div class="add-category col-md-12">
+                    <select class="form-control" id="exterior-categories">
+                        <option value="Choose an option" disabled selected>Choose an option</option>
+                        {% for item in exterior %}
+                        <option value="{{ item.id }}">{{ item.title }}</option>
+                        {% endfor %}
+                    </select>
+                    <a id="add-exterior" class="btn btn-light">Add</a>
+                </div>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                Part
+                            </th>
+                            <th scope="col">
+                                Web Link
+                            </th>
+                            <th scope="col" id="price-table-header">
+                                Price
+                            </th>
+                            <th scope="col" class="text-center">
+                                Purchased
+                            </th>
+                            <th scope="col">
+
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="exterior-table">                   
+                        {% for item in build.exterior_parts.all %}
+                        <tr>
+                            <td>
+                                {{ item.exterior_category.title   }}
+                            </td>
+                            <td>
+                                <input type="url" class="form-control input-sm" value="{{ item.link }}" name="exterior_{{ item.exterior_category.id }}_link" required>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm part-price" value="{{ item.price }}" name="exterior_{{ item.exterior_category.id }}_price" step="any" required>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    <input type="checkbox" name="exterior_{{ item.exterior_category.id }}_purchased" {% if item.purchased %}checked{% endif %}>
+                                </div>
+                            </td>
+                            <td>
+                                <i class="far fa-times-circle" id="delete-row"></i>
+                                <input type="hidden" name="part-id" value="{{ item.exterior_category.id }}">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--Engine-->
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+            <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#engine" aria-expanded="false"
+                aria-controls="engine">
+                Engine
+            </h6>
+        </div>
+        <div id="engine" class="collapse" aria-labelledby="headingTwo" data-parent="#engine">
+            <div class="card-body">
+                    <div class="add-category col-md-12">
+                        <select class="form-control" id="engine-categories">
+                            <option value="Choose an option" disabled selected>Choose an option</option>
+                            {% for item in engine %}
+                            <option value="{{ item.id }}">{{ item.title }}</option>
+                            {% endfor %}
+                        </select>
+                        <a id="add-engine" class="btn btn-light">Add</a>
+                    </div>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                Part
+                            </th>
+                            <th scope="col">
+                                Web Link
+                            </th>
+                            <th scope="col" id="price-table-header">
+                                Price
+                            </th>
+                            <th scope="col" class="text-center">
+                                Purchased
+                            </th>
+                            <th scope="col">
+
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="engine-table">
+                        {% for item in build.engine_parts.all %}
+                        <tr>
+                            <td>
+                                {{ item.engine_category.title  }}
+                            </td>
+                            <td>
+                                <input type="url" class="form-control input-sm" value="{{ item.link }}" name="engine_{{ item.engine_category.id }}_link" required>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm part-price" value="{{ item.price }}" name="engine_{{ item.engine_category.id }}_price" step="any" required>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    <input type="checkbox" name="engine_{{ item.engine_category.id }}_purchased" {% if item.purchased %}checked{% endif %}>
+                                </div>
+                            </td>
+                            <td>
+                                <i class="far fa-times-circle" id="delete-row"></i>
+                                <input type="hidden" name="part-id" value="{{ item.id }}">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--Running Gear-->
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+            <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#running-gear" aria-expanded="false"
+                aria-controls="running-gear">
+                Running Gear
+            </h6>
+        </div>
+        <div id="running-gear" class="collapse" aria-labelledby="headingTwo" data-parent="#running-gear">
+            <div class="card-body">
+                    <div class="add-category col-md-12">
+                        <select class="form-control" id="running-gear-categories">
+                            <option value="Choose an option" disabled selected>Choose an option</option>
+                            {% for item in running %}
+                            <option value="{{ item.id }}">{{ item.title }}</option>
+                            {% endfor %}
+                        </select>
+                        <a id="add-running-gear" class="btn btn-light">Add</a>
+                    </div>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                Part
+                            </th>
+                            <th scope="col">
+                                Web Link
+                            </th>
+                            <th scope="col" id="price-table-header">
+                                Price
+                            </th>
+                            <th scope="col" class="text-center">
+                                Purchased
+                            </th>
+                            <th scope="col">
+
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="running-gear-table">
+                        {% for item in build.running_gear_parts.all %}
+                        <tr>
+                            <td>
+                                {{ item.running_category.title  }}
+                            </td>
+                            <td>
+                                <input type="url" class="form-control input-sm" value="{{ item.link }}" name="running_{{ item.running_category.id }}_link" required>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm part-price" value="{{ item.price }}" name="running_{{ item.running_category.id }}_price" step="any" required>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    <input type="checkbox" name="running_{{ item.running_category.id }}_purchased" {% if item.purchased %}checked{% endif %}>
+                                </div>
+                            </td>
+                            <td>
+                                <i class="far fa-times-circle" id="delete-row"></i>
+                                <input type="hidden" name="part-id" value="{{ item.running_category.id }}">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--Interior-->
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+            <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#interior" aria-expanded="false"
+                aria-controls="interior">
+                Interior
+            </h6>
+        </div>
+        <div id="interior" class="collapse" aria-labelledby="headingTwo" data-parent="#interior">
+            <div class="card-body">
+                <div class="add-category col-md-12">
+                    <select class="form-control" id="interior-categories">
+                        <option value="Choose an option" disabled selected>Choose an option</option>
+                        {% for item in interior %}
+                        <option value="{{ item.id }}">{{ item.title }}</option>
+                        {% endfor %}
+                    </select>
+                    <a id="add-interior" class="btn btn-light">Add</a>
+                </div>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                Part
+                            </th>
+                            <th scope="col">
+                                Web Link
+                            </th>
+                            <th scope="col" id="price-table-header">
+                                Price
+                            </th>
+                            <th scope="col" class="text-center">
+                                Purchased
+                            </th>
+                            <th scope="col">
+
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="interior-table">
+                        {% for item in build.interior_parts.all %}
+                        <tr>
+                            <td>
+                                {{ item.interior_category.title  }}
+                            </td>
+                            <td>
+                                <input type="url" class="form-control input-sm" value="{{ item.link }}" name="interior_{{ item.interior_category.id }}_link" required>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm part-price" value="{{ item.price }}" name="interior_{{ item.interior_category.id }}_price" step="any" required>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    <input type="checkbox" name="interior_{{ item.interior_category.id }}_purchased" {% if item.purchased %}checked{% endif %}>
+                                </div>
+                            </td>
+                            <td>
+                                <i class="far fa-times-circle" id="delete-row"></i>
+                                <input type="hidden" name="part-id" value="{{ item.interior_category.id }}">
+                            </td>
+                        </tr>
+                        {% endfor %}    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!--Build Total-->
+    <div class="col-md-12">
+        Total Price: <strong><span id="build-total" name="total" >{{ build.total }}</span></strong>
+        <input type="hidden" name="total" value="{{ build.total }}" id="build-total">
+    </div>
+
+    
+    <!--Submit-->
+    <div class="text-center submit-buttons">
+        <a class="btn btn-outline-dark" href="{% url 'view_build' build.id %}">Back to View</a>
+        <button type="submit" class="btn btn-outline-warning">Update</button>
+        <a class="btn btn-outline-danger float-right" href="{% url 'delete_build' build.id %}">Delete Build</a>
+    </div>
+
+</form>
+
+{% endblock content %}
+
+{% block js %}
+    <script src="{% static 'js/create.js' %}"></script>
+{% endblock js %}
