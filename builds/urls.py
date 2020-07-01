@@ -18,5 +18,5 @@ urlpatterns = [
     url(r'^dislike/(?P<build_id>\d+)', dislike_build, name="dislike_build"),
     url(r'^/u/(?P<username>[\w.@+-]+)', users_builds, name="users_builds"),
     url(r'^edit/(?P<build_id>\d+)', edit_build, name="edit_build"),
-    url(r'^delete_row/(?P<row_id>\d+)/(?P<table>[\w-]+)', delete_row, name="delete_row"),
+    url(r'^delete_row/(?P<row_id>\d+)/(?P<table>[\w-]+)/(?P<build_id>\d+)', delete_row, name="delete_row"),
 ]
