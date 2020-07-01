@@ -45,7 +45,7 @@ def get_heading_contents_exterior(request, heading):
 def get_heading_contents_engine(request, heading):
     heading_ids = []
     for item in heading:
-        heading_model = ExteriorCategory.objects.get(id=item.id)
+        heading_model = EngineCategory.objects.get(id=item.id)
         link = request.POST.get('engine_' + str(item.id) + '_link')
         if link is not None:
             purchased = convert_purchased(request.POST.get('engine_' + str(item.id) + '_purchased'))
@@ -62,7 +62,7 @@ def get_heading_contents_engine(request, heading):
 def get_heading_contents_running(request, heading):
     heading_ids = []
     for item in heading:
-        heading_model = ExteriorCategory.objects.get(id=item.id)
+        heading_model = RunningCategory.objects.get(id=item.id)
         link = request.POST.get('running_' + str(item.id) + '_link')
         if link is not None:
             purchased = convert_purchased(request.POST.get('running_' + str(item.id) + '_purchased'))
@@ -79,7 +79,7 @@ def get_heading_contents_running(request, heading):
 def get_heading_contents_interior(request, heading):
     heading_ids = []
     for item in heading:
-        heading_model = ExteriorCategory.objects.get(id=item.id)
+        heading_model = InteriorCategory.objects.get(id=item.id)
         link = request.POST.get('interior_' + str(item.id) + '_link')
         if link is not None:
             purchased = convert_purchased(request.POST.get('interior_' + str(item.id) + '_purchased'))
@@ -140,38 +140,151 @@ def new_build_content(request, exterior_category, engine_category,
             build.interior_parts.add(part)
     build.save()
 
-def update_build_content(exterior, engine, running, interior, request):
+def update_heading_contents_exterior(request, heading):
+    new_heading_ids = []
+    for item in heading:
+        link = request.POST.get('exterior_' + str(item.id) + '_link')
+        price = request.POST.get('exterior_' + str(item.id) + '_price')
+        if link is not None:
+            purchased = convert_purchased(request.POST.get('exterior_' + str(item.id) + '_purchased'))
+            part, created = Exterior.objects.get_or_create(
+                exterior_category=item,
+                defaults={
+                    'link':link,
+                    'price': float(price),
+                    'purchased':purchased 
+                }
+            )
+            if created:    
+                part.save()
+                new_heading_ids.append(part.id)
+            elif not created and part.link is not link or park.price is not price or part.purchased is not purchased:
+                part.link = link
+                part.price = float(price)
+                part.purchased = purchased
+                part.save()
+    return new_heading_ids
 
-    record = {
-        'total': float(request.form.get('total')),
-        'visibility': request.form.get('visibility'),
-        'car': {
-            'make': request.form.get('make'),
-            'model': request.form.get('model'),
-            'trim': request.form.get('trim'),
-            'year': request.form.get('year'),
-            'price': float(request.form.get('price'))
-        },
-    }
+def update_heading_contents_engine(request, heading):
+    new_heading_ids = []
+    for item in heading:
+        link = request.POST.get('engine_' + str(item.id) + '_link')
+        price = request.POST.get('engine_' + str(item.id) + '_price')
+        if link is not None:
+            purchased = convert_purchased(request.POST.get('engine_' + str(item.id) + '_purchased'))
+            part, created = Engine.objects.get_or_create(
+                engine_category=item,
+                defaults={
+                    'link':link,
+                    'price': float(price),
+                    'purchased':purchased 
+                }
+            )
+            if created:    
+                part.save()
+                new_heading_ids.append(part.id)
+            elif not created and part.link is not link or park.price is not price or part.purchased is not purchased:
+                part.link = link
+                part.price = float(price)
+                part.purchased = purchased
+                part.save()
+    return new_heading_ids
 
+def update_heading_contents_running(request, heading):
+    new_heading_ids = []
+    for item in heading:
+        link = request.POST.get('running_' + str(item.id) + '_link')
+        price = request.POST.get('running_' + str(item.id) + '_price')
+        if link is not None:
+            purchased = convert_purchased(request.POST.get('running_' + str(item.id) + '_purchased'))
+            part, created = Running.objects.get_or_create(
+                running_category=item,
+                defaults={
+                    'link':link,
+                    'price': float(price),
+                    'purchased':purchased 
+                }
+            )
+            if created:    
+                part.save()
+                new_heading_ids.append(part.id)
+            elif not created and part.link is not link or park.price is not price or part.purchased is not purchased:
+                part.link = link
+                part.price = float(price)
+                part.purchased = purchased
+                part.save()
+    return new_heading_ids
+
+def update_heading_contents_interior(request, heading):
+    new_heading_ids = []
+    for item in heading:
+        link = request.POST.get('interior_' + str(item.id) + '_link')
+        price = request.POST.get('interior_' + str(item.id) + '_price')
+        if link is not None:
+            purchased = convert_purchased(request.POST.get('interior_' + str(item.id) + '_purchased'))
+            part, created = Interior.objects.get_or_create(
+                interior_category=item,
+                defaults={
+                    'link':link,
+                    'price': float(price),
+                    'purchased':purchased 
+                }
+            )
+            if created:    
+                part.save()
+                new_heading_ids.append(part.id)
+            elif not created and part.link is not link or park.price is not price or part.purchased is not purchased:
+                part.link = link
+                part.price = float(price)
+                part.purchased = purchased
+                part.save()
+    return new_heading_ids
+
+def update_car(request, build):
+    car = Cars.objects.get(id=build.car.id)
+    car.make = request.POST.get('make')
+    car.model = request.POST.get('model')
+    car.trim = request.POST.get('trim')
+    car.year = request.POST.get('year')
+    car.price = float(request.POST.get('price'))
+    car.save()
+
+def update_build_content(build, exterior, engine, running, interior, request):
+    print("updating build content")
+    if float(request.POST.get('total')) is not build.total:
+        build.total = float(request.POST.get('total'))
+    private = check_visibility(request.POST.get('visibility'))
+    if private is not build.private:
+        build.private = private
+    car = update_car(request, build)
     # Adds exterior collection to record
-    record.update({'exterior': get_heading_contents(request, exterior,
-                                                    'exterior_')})
+    new_exterior = update_heading_contents_exterior(request, exterior)
+    if new_exterior is not None:
+        for item in new_exterior:
+            part = Exterior.objects.get(id=item)
+            build.exterior_parts.add(part)
 
     # Adds Engine collection to record
-    record.update({'engine': get_heading_contents(request, engine,
-                                                  'engine_')})
+    new_engine = update_heading_contents_engine(request, engine)
+    if new_engine is not None:
+        for item in new_engine:
+            part = Engine.objects.get(id=item)
+            build.engine_parts.add(part)
 
     # Adds Running Gear collection to record
-    record.update({'running': get_heading_contents(request, running,
-                                                   'running_')})
+    running = update_heading_contents_running(request, running)
+    if running is not None:
+        for item in running:
+            part = Running.objects.get(id=item)
+            build.running_gear_parts.add(part)
 
     # Adds Interior collection to record
-    record.update({'interior': get_heading_contents(request, interior,
-                                                    'interior_')})
-
-    return record
-
+    interior = update_heading_contents_interior(request, interior)
+    if interior is not None:
+        for item in interior:
+            part = Interior.objects.get(id=item)
+            build.interior_parts.add(part)
+    build.save()
 
 def sort_builds_standard(sort_by_likes, sort_by_price, sort_by_views):
 
