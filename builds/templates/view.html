@@ -342,7 +342,7 @@ View a build
 <div class="text-center submit-buttons">
     <a class="btn btn-outline-dark" href="{% url 'builds' %}">Back to Builds</a>
     {% if user.is_authenticated and user.id == build.author.id %}
-    <a class="btn btn-outline-secondary" href="">Edit</a>
+    <a class="btn btn-outline-secondary" href="{% url 'edit_build' build.id %}">Edit</a>
     {% endif %}
 </div>
 
