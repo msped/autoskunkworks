@@ -8,6 +8,7 @@ from .views import (
     users_builds,
     edit_build,
     delete_row,
+    delete_build
 )
 
 urlpatterns = [
@@ -19,4 +20,5 @@ urlpatterns = [
     url(r'^/u/(?P<username>[\w.@+-]+)', users_builds, name="users_builds"),
     url(r'^edit/(?P<build_id>\d+)', edit_build, name="edit_build"),
     url(r'^delete_row/(?P<row_id>\d+)/(?P<table>[\w-]+)/(?P<build_id>\d+)', delete_row, name="delete_row"),
+    url(r'^delete/(?P<build_id>\d+)', delete_build, name="delete_build"),
 ]
