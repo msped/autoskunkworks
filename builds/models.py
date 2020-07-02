@@ -45,6 +45,9 @@ class Domains(models.Model):
     price_element = models.CharField(max_length=50)
     attr = models.CharField(max_length=5, choices=Attr.choices, default='1')
 
+    def __str__(self):
+        return self.domain
+
 class Exterior(models.Model):
     """Model for exterior items"""
     exterior_category = models.ForeignKey(ExteriorCategory, on_delete=models.PROTECT)
