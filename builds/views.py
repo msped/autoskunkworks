@@ -2,8 +2,12 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.models import User
+from tld import parse_tld
+from bs4 import BeautifulSoup
+import requests
+import re
 from .models import (
     ExteriorCategory,
     EngineCategory,
@@ -13,7 +17,8 @@ from .models import (
     Exterior,
     Engine,
     Running,
-    Interior
+    Interior,
+    Domains
 )
 from .utils import (
     new_build_content,
@@ -253,3 +258,32 @@ def delete_build(request, build_id):
         build.delete()
         messages.success(request, "Build Deleted.")
         return redirect('users_build')
+
+@csrf_exempt
+def get_web_price(request):
+    """Scrap page for price automatically"""
+    url = request.POST.get('url')
+    user_domain = parse_tld(str(url))
+    try:
+        domain = Domains.objects.get(domain=user_domain[1])
+    except Domains.DoesNotExist:
+        price = '0'
+        return HttpResponse(price)
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
+    }
+    if domain is not None:
+        page = requests.get(url, headers=headers)
+        soup = BeautifulSoup(page.content, 'html.parser')
+        attr_val = str(domain.price_element)
+        if domain.attr == "1":
+            price_site = soup.find(id=attr_val).get_text()
+            price = price_site.strip()
+        else:
+            price_site = soup.find(class_=attr_val).get_text()
+            price = price_site.strip()
+        new_price = re.sub(r'[^\w^.]','', price)
+        return HttpResponse(new_price)
+    
+    price = '0'
+    return HttpResponse(price)
