@@ -1,14 +1,18 @@
+function get_total(){
+    var buildPrice = 0;
+    $('.part-price').each(function () {
+        current = $(this);
+        if (!current.closest("tr").find("td>div>input").is(":checked")){
+            buildPrice += parseFloat(current.val()) || 0;  
+        }
+    });
+    $('#build-total').html(buildPrice.toFixed(2));
+    $('input[name="total"]').val(buildPrice.toFixed(2));
+};
+
 $(document).ready(function () {
-    $('tbody').on('change', '.part-price, input[type=checkbox]', function () {
-        var buildPrice = 0;
-        $('.part-price').each(function () {
-            current = $(this);
-            if (!current.closest("tr").find("td>div>input").is(":checked")){
-                buildPrice += parseFloat(current.val()) || 0;  
-            }
-        });
-        $('#build-total').html(buildPrice.toFixed(2));
-        $('input[name="total"]').val(buildPrice.toFixed(2));
+    $('tbody').on('change input', '.part-price, input[type=checkbox]', function () {
+        get_total();
     });
 
     $(window).keydown(function(event){
@@ -149,7 +153,7 @@ $(document).ready(function () {
         url_box = $(this);
         url = $(this).val();
         $.ajax({
-            url: "/get_web_price",
+            url: "/builds/get_web_price",
             type: 'POST',
             data: {
                 'url': url
@@ -157,6 +161,7 @@ $(document).ready(function () {
             success: function(data){
                 input = url_box.closest('tr').find('.url-price').children('input.part-price');
                 input.val(data);
+                get_total();
             }
         });
     });
