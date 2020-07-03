@@ -8,7 +8,8 @@ from .views import (
     users_builds,
     edit_build,
     delete_row,
-    delete_build
+    delete_build,
+    get_web_price
 )
 
 urlpatterns = [
@@ -21,4 +22,5 @@ urlpatterns = [
     url(r'^edit/(?P<build_id>\d+)', edit_build, name="edit_build"),
     url(r'^delete_row/(?P<row_id>\d+)/(?P<table>[\w-]+)/(?P<build_id>\d+)', delete_row, name="delete_row"),
     url(r'^delete/(?P<build_id>\d+)', delete_build, name="delete_build"),
+    url(r'^get_web_price', get_web_price, name="get_web_price"),
 ]
