@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
@@ -25,7 +26,8 @@ from .utils import (
     sort_builds_standard,
     sort_builds_users,
     sort_builds_users_public,
-    update_build_content
+    update_build_content,
+    delete_manytomany_relations
 )
 
 # Create your views here.
@@ -255,9 +257,10 @@ def delete_build(request, build_id):
     """Delete a Build"""
     build = Builds.objects.get(id=build_id)
     if request.user.is_authenticated and request.user.id is build.author.id:
+        delete_manytomany_relations(build)        
         build.delete()
         messages.success(request, "Build Deleted.")
-        return redirect('users_build')
+        return redirect('users_builds', request.user.username)
 
 @csrf_exempt
 def get_web_price(request):
