@@ -51,7 +51,7 @@ class Domains(models.Model):
 class Exterior(models.Model):
     """Model for exterior items"""
     exterior_category = models.ForeignKey(ExteriorCategory, on_delete=models.PROTECT)
-    link = models.URLField()
+    link = models.URLField(max_length=400)
     price = models.FloatField(default=0)
     purchased = models.BooleanField(default=False)
 
@@ -61,7 +61,7 @@ class Exterior(models.Model):
 class Engine(models.Model):
     """Model for engine items"""
     engine_category = models.ForeignKey(EngineCategory, on_delete=models.PROTECT)
-    link = models.URLField()
+    link = models.URLField(max_length=400)
     price = models.FloatField(default=0)
     purchased = models.BooleanField(default=False)
 
@@ -71,7 +71,7 @@ class Engine(models.Model):
 class Running(models.Model):
     """Model for running items"""
     running_category = models.ForeignKey(RunningCategory, on_delete=models.PROTECT)
-    link = models.URLField()
+    link = models.URLField(max_length=400)
     price = models.FloatField(default=0)
     purchased = models.BooleanField(default=False)
 
@@ -81,7 +81,7 @@ class Running(models.Model):
 class Interior(models.Model):
     """Model for interior items"""
     interior_category = models.ForeignKey(InteriorCategory, on_delete=models.PROTECT)
-    link = models.URLField()
+    link = models.URLField(max_length=400)
     price = models.FloatField(default=0)
     purchased = models.BooleanField(default=False)
 
