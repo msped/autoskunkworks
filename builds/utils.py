@@ -50,7 +50,7 @@ def get_heading_contents_engine(request, heading):
         if link is not None:
             purchased = convert_purchased(request.POST.get('engine_' + str(item.id) + '_purchased'))
             part = Engine.objects.create(
-                exterior_category=heading_model,
+                engine_category=heading_model,
                 link=link,
                 price=float(request.POST.get('engine_' + str(item.id) + '_price')),
                 purchased=purchased
@@ -67,7 +67,7 @@ def get_heading_contents_running(request, heading):
         if link is not None:
             purchased = convert_purchased(request.POST.get('running_' + str(item.id) + '_purchased'))
             part = Running.objects.create(
-                exterior_category=heading_model,
+                running_category=heading_model,
                 link=link,
                 price=float(request.POST.get('running_' + str(item.id) + '_price')),
                 purchased=purchased
@@ -84,7 +84,7 @@ def get_heading_contents_interior(request, heading):
         if link is not None:
             purchased = convert_purchased(request.POST.get('interior_' + str(item.id) + '_purchased'))
             part = Interior.objects.create(
-                exterior_category=heading_model,
+                interior_category=heading_model,
                 link=link,
                 price=float(request.POST.get('interior_' + str(item.id) + '_price')),
                 purchased=purchased

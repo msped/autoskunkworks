@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib import auth, messages
+from django.core.paginator import Paginator
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+from builds.utils import sort_builds_users
 from .forms import UserLoginForm, UserRegisterForm
 
 def login(request):
@@ -77,3 +80,20 @@ def change_password(request):
         'change_password.html',
         {'change_password_form': form}
     )
+
+def users_builds(request, username):
+    """All of a users build"""
+    sort_by_price = request.GET.get('sort_by_price')
+    sort_by_likes = request.GET.get('sort_by_likes')
+    sort_by_views = request.GET.get('sort_by_views')
+    user = User.objects.get(username=username)
+    if request.user.id == user.id:
+        builds = sort_builds_users(user, sort_by_likes, sort_by_price, sort_by_views)
+    else:
+        builds = sort_builds_users_public(user, sort_by_likes, sort_by_price, sort_by_views)
+
+    paginator = Paginator(builds, 15)
+    page = request.GET.get('page')
+    builds_paginator = paginator.get_page(page)
+
+    return render(request, "my_builds.html", {"builds": builds_paginator})

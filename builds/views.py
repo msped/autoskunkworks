@@ -166,23 +166,6 @@ def dislike_build(request, build_id):
             'disliked': disliked
         })
 
-def users_builds(request, username):
-    """All of a users build"""
-    sort_by_price = request.GET.get('sort_by_price')
-    sort_by_likes = request.GET.get('sort_by_likes')
-    sort_by_views = request.GET.get('sort_by_views')
-    user = User.objects.get(username=username)
-    if request.user.id == user.id:
-        builds = sort_builds_users(user, sort_by_likes, sort_by_price, sort_by_views)
-    else:
-        builds = sort_builds_users_public(user, sort_by_likes, sort_by_price, sort_by_views)
-
-    paginator = Paginator(builds, 15)
-    page = request.GET.get('page')
-    builds_paginator = paginator.get_page(page)
-
-    return render(request, "my_builds.html", {"builds": builds_paginator})
-
 @login_required
 def edit_build(request, build_id):
     """Edit a build"""
