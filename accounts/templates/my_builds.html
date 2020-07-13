@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Builds
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/builds.css' %}">
+{% endblock css %}
+
+{% block content %}
+    <div class="text-center build-header">
+        <h1>My Builds</h1>
+        <p class="small">View all your builds and sort them by price and likes.</p>
+    </div>
+    
+    <div class="row user-sort-graph">
+        <div class="search-builds offset-lg-2 col-lg-8 offset-md-2 col-md-8 col-sm-12 col-12">
+            <div class="search-header">
+                Filter Options
+            </div>
+            <div class="search-options">
+                <form action="{% url 'builds' %}" method="GET" class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                        <select class="form-control" name="sort_by_price" id="sort-by-price">
+                            <option value="" disabled selected>Filter By Price</option>
+                            <option value="high_to_low">High to Low</option>
+                            <option value="low_to_high">Low to High</option>
+                        </select>
+                    </div>
+    
+                    <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                        <select class="form-control" name="sort_by_likes" id="sort-by-likes">
+                            <option value="" disabled selected>Filter By Likes</option>
+                            <option value="high_to_low">High to Low</option>
+                            <option value="low_to_high">Low to High</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                        <select class="form-control" name="sort_by_views" id="sort-by-views">
+                            <option value="" disabled selected>Filter By Views</option>
+                            <option value="high_to_low">High to Low</option>
+                            <option value="low_to_high">Low to High</option>
+                        </select>
+                    </div>
+    
+                    <div class="text-center col-12 mt-3">
+                        <button type="submit" class="btn btn-outline-dark">Filter</button>
+                        <a class="btn btn-outline-danger d-inline-block float-right" href="{% url 'builds' %}">Reset</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="builds">
+        <div class="row">
+            {% if builds|length > 0 %}
+            {% for item in builds %}
+            <div class="card col-lg-5 col-md-5 col-sm-12 col-xs-6">
+                <div class="card-body">
+                    <div class="card-title row">
+                        <p class="col-9 build-title">{{ item.name }}</p>
+                        {% if item.author.id == request.user.id %}
+                        <p class="col-3">
+                            {% if item.private %}
+                            <i class="fas fa-lock float-right"></i>
+                            {% else %}
+                            <i class="fas fa-lock-open float-right"></i>
+                            {% endif %}
+                        </p>
+                        {% endif %}
+                    </div>
+                    <hr>
+                    <p class="card-subtitle mb-2 text-muted">{{ item.car.make }} {{ item.car.model }} {{ item.car.trim }}
+                    </p>
+                    <p class="card-subtitle mb-2 text-muted"> Car Price: {{ item.car.price }}</p>
+                    <p class="card-text">The build will cost you {{ item.total }}.</p>
+                    <div class="row">
+                        <div class="col">
+                            <a class="btn btn-sm btn-outline-dark" href="{% url 'view_build' item.id %}">View Build</a>
+                        </div>
+                        <div class="col">
+                            <div class="voting-content">
+                                <div class="like">
+                                    <div class="like-button">
+                                        <i class="far fa-thumbs-up"></i>
+                                    </div>
+                                    <span id="like-count">
+                                        {{ item.like_count }}</span>
+                                </div>
+                                <div class="dislike">
+                                    <div class="dislike-button">
+                                        <i class="far fa-thumbs-down"></i>
+                                    </div>
+                                    <span id="dislike-count">
+                                        {{ item.dislike_count }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="col-12 my-5">
+                <p class="text-center">This user has no public builds.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% if builds|length > 0 %}
+    <div class="text-center">
+        <span class="step-links">
+            {% if builds.has_previous %}
+                <a href="?page=1{% if request.GET|length > 0 %}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}{% endif %}"><i class="fas fa-angle-double-left"></i></a>
+                <a href="?page={{ builds.previous_page_number }}{% if request.GET|length > 0 %}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}{% endif %}"><i class="fas fa-angle-left"></i></a>
+            {% endif %}
+    
+            <span class="current">
+                {{ builds.number }} of {{ builds.paginator.num_pages }}
+            </span>
+    
+            {% if builds.has_next %}
+                <a href="?page={{ builds.next_page_number }}{% if request.GET|length > 0 %}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}{% endif %}"><i class="fas fa-angle-right"></i></a>
+                <a href="?page={{ builds.paginator.num_pages }}{% if request.GET|length > 0 %}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}{% endif %}"><i class="fas fa-angle-double-right"></i></a>
+            {% endif %}
+        </span>
+    </div>
+    {% endif %}
+{% endblock content %}
