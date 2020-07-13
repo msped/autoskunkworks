@@ -96,4 +96,5 @@ def users_builds(request, username):
     page = request.GET.get('page')
     builds_paginator = paginator.get_page(page)
 
-    return render(request, "my_builds.html", {"builds": builds_paginator})
+    return render(request, "my_builds.html", {"builds": builds_paginator,
+                                              'user': user})
