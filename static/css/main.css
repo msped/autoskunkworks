@@ -28,7 +28,7 @@
     text-align: center;
 }
 
-.nav-link {
+.nav-link, .dropdown-item {
     font-family: 'Oswald', serif;
     font-size: 14pt; 
 }
