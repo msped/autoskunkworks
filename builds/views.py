@@ -41,14 +41,14 @@ def create_build(request):
     interior_category = InteriorCategory.objects.all()
 
     if request.method == "POST":
-        new_build_content(
+        build = new_build_content(
             request,
             exterior_category,
             engine_category,
             running_category,
             interior_category
         )
-        return redirect('home')
+        return redirect('view_build', build)
 
     context = {
         'exterior': exterior_category,
