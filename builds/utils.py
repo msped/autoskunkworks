@@ -139,6 +139,7 @@ def new_build_content(request, exterior_category, engine_category,
             part = Interior.objects.get(id=item)
             build.interior_parts.add(part)
     build.save()
+    return build.id
 
 def update_heading_contents_exterior(request, heading):
     new_heading_ids = []
@@ -286,291 +287,26 @@ def update_build_content(build, exterior, engine, running, interior, request):
             build.interior_parts.add(part)
     build.save()
 
-def sort_builds_standard(sort_by_likes, sort_by_price, sort_by_views):
-
-    if sort_by_price and sort_by_likes is None and sort_by_views is None:
-        if sort_by_price == "high_to_low":
-            builds = Builds.objects.filter(private=False).order_by('-total')
-        else:
-            builds = Builds.objects.filter(private=False).order_by('total')
-    elif sort_by_likes and sort_by_price is None and sort_by_views is None:
-        if sort_by_likes == "high_to_low":
-            builds = Builds.objects.filter(
-                private=False).order_by('-like_count')
-        else:
-            builds = Builds.objects.filter(
-                private=False).order_by('-dislike_count')
-    elif sort_by_views and sort_by_price is None and sort_by_likes is None:
-        if sort_by_views == "high_to_low":
-            builds = Builds.objects.filter(private=False).order_by('-views')
-        else:
-            builds = Builds.objects.filter(private=False).order_by('views')
-    elif sort_by_likes and sort_by_price and sort_by_views is None:
-        if sort_by_price == "high_to_low":
-            if sort_by_likes == "high_to_low":
-                builds = Builds.objects.filter(
-                    private=False).order_by('-total', '-like_count')
-            else:
-                builds = Builds.objects.filter(
-                    private=False).order_by('-total', 'like_count')
-        else:
-            if sort_by_likes == "high_to_low":
-                builds = Builds.objects.filter(
-                    private=False).order_by('total', '-like_count')
-            else:
-                builds = Builds.objects.filter(
-                    private=False).order_by('total', 'like_count')
-    elif sort_by_likes and sort_by_views and sort_by_price is None:
-        if sort_by_views == "high_to_low":
-            if sort_by_likes == "high_to_low":
-                builds = Builds.objects.filter(
-                    private=False).order_by('-views', '-like_count')
-            else:
-                builds = Builds.objects.filter(
-                    private=False).order_by('-views', 'like_count')
-        else:
-            if sort_by_likes == "high_to_low":
-                builds = Builds.objects.filter(
-                    private=False).order_by('views', '-like_count')
-            else:
-                builds = Builds.objects.filter(
-                    private=False).order_by('views', 'like_count')
-    elif sort_by_price and sort_by_views and sort_by_likes is None:
-        if sort_by_price == "high_to_low":
-            if sort_by_views == "high_to_low":
-                builds = Builds.objects.filter(
-                    private=False).order_by('-total', '-views')
-            else:
-                builds = Builds.objects.filter(
-                    private=False).order_by('-total', 'views')
-        else:
-            if sort_by_views == "high_to_low":
-                builds = Builds.objects.filter(
-                    private=False).order_by('total', '-views')
-            else:
-                builds = Builds.objects.filter(
-                    private=False).order_by('total', 'views')
-    elif sort_by_likes and sort_by_price and sort_by_views:
-        if sort_by_likes == "high_to_low":
-            if sort_by_price == "high_to_low":
-                if sort_by_views == "high_to_low":
-                    builds = Builds.objects.filter(private=False).order_by(
-                        '-total', '-views', '-like_count')
-                else:
-                    builds = Builds.objects.filter(private=False).order_by(
-                        '-total', '-views', '-like_count')
-            else:
-                if sort_by_views == "high_to_low":
-                    builds = Builds.objects.filter(private=False).order_by(
-                        'total', '-views', '-like_count')
-                else:
-                    builds = Builds.objects.filter(private=False).order_by(
-                        'total', '-views', '-like_count')
-        else:
-            if sort_by_price == "high_to_low":
-                if sort_by_views == "high_to_low":
-                    builds = Builds.objects.filter(private=False).order_by(
-                        '-total', '-views', 'like_count')
-                else:
-                    builds = Builds.objects.filter(private=False).order_by(
-                        '-total', '-views', 'like_count')
-            else:
-                if sort_by_views == "high_to_low":
-                    builds = Builds.objects.filter(private=False).order_by(
-                        'total', '-views', 'like_count')
-                else:
-                    builds = Builds.objects.filter(private=False).order_by(
-                        'total', '-views', 'like_count')
+def sort_builds_standard(sort_options):
+    if sort_options is not None:
+        builds = Builds.objects.filter(private=False).order_by(sort_options)
     else:
         builds = Builds.objects.filter(private=False)
 
     return builds
 
-def sort_builds_users(user, sort_by_likes, sort_by_price, sort_by_views):
-
-    if sort_by_price and sort_by_likes is None and sort_by_views is None:
-        if sort_by_price == "high_to_low":
-            builds = Builds.objects.filter(author=user).order_by('-total')
-        else:
-            builds = Builds.objects.filter(author=user).order_by('total')
-    elif sort_by_likes and sort_by_price is None and sort_by_views is None:
-        if sort_by_likes == "high_to_low":
-            builds = Builds.objects.filter(author=user).order_by('-like_count')
-        else:
-            builds = Builds.objects.filter(author=user).order_by('-dislike_count')
-    elif sort_by_views and sort_by_price is None and sort_by_likes is None:
-        if sort_by_views == "high_to_low":
-            builds = Builds.objects.filter(author=user).order_by('-views')
-        else:
-            builds = Builds.objects.filter(author=user).order_by('views')
-    elif sort_by_likes and sort_by_price and sort_by_views is None:
-        if sort_by_price == "high_to_low":
-            if sort_by_likes == "high_to_low":
-                builds = Builds.objects.filter(author=user).order_by('-total', '-like_count')
-            else:
-                builds = Builds.objects.filter(author=user).order_by('-total', 'like_count')
-        else:
-            if sort_by_likes == "high_to_low":
-                builds = Builds.objects.filter(author=user).order_by('total', '-like_count')
-            else:
-                builds = Builds.objects.filter(author=user).order_by('total', 'like_count')
-    elif sort_by_likes and sort_by_views and sort_by_price is None:
-        if sort_by_views == "high_to_low":
-            if sort_by_likes == "high_to_low":
-                builds = Builds.objects.filter(author=user).order_by('-views', '-like_count')
-            else:
-                builds = Builds.objects.filter(author=user).order_by('-views', 'like_count')
-        else:
-            if sort_by_likes == "high_to_low":
-                builds = Builds.objects.filter(author=user).order_by('views', '-like_count')
-            else:
-                builds = Builds.objects.filter(author=user).order_by('views', 'like_count')
-    elif sort_by_price and sort_by_views and sort_by_likes is None:
-        if sort_by_price == "high_to_low":
-            if sort_by_views == "high_to_low":
-                builds = Builds.objects.filter(author=user).order_by('-total', '-views')
-            else:
-                builds = Builds.objects.filter(author=user).order_by('-total', 'views')
-        else:
-            if sort_by_views == "high_to_low":
-                builds = Builds.objects.filter(author=user).order_by('total', '-views')
-            else:
-                builds = Builds.objects.filter(author=user).order_by('total', 'views')
-    elif sort_by_likes and sort_by_price and sort_by_views:
-        if sort_by_likes == "high_to_low":
-            if sort_by_price == "high_to_low":
-                if sort_by_views == "high_to_low":
-                    builds = Builds.objects.filter(author=user).order_by(
-                        '-total', '-views', '-like_count')
-                else:
-                    builds = Builds.objects.filter(author=user).order_by(
-                        '-total', '-views', '-like_count')
-            else:
-                if sort_by_views == "high_to_low":
-                    builds = Builds.objects.filter(author=user).order_by(
-                        'total', '-views', '-like_count')
-                else:
-                    builds = Builds.objects.filter(author=use, private=False).order_by(
-                        'total', '-views', '-like_count')
-        else:
-            if sort_by_price == "high_to_low":
-                if sort_by_views == "high_to_low":
-                    builds = Builds.objects.filter(author=user).order_by(
-                        '-total', '-views', 'like_count')
-                else:
-                    builds = Builds.objects.filter(author=user).order_by(
-                        '-total', '-views', 'like_count')
-            else:
-                if sort_by_views == "high_to_low":
-                    builds = Builds.objects.filter(author=user).order_by(
-                        'total', '-views', 'like_count')
-                else:
-                    builds = Builds.objects.filter(author=user).order_by(
-                        'total', '-views', 'like_count')
+def sort_builds_users(user, sort_options):
+    if sort_options is not None:
+        builds = Builds.objects.filter(author=user).order_by(sort_options)
     else:
         builds = Builds.objects.filter(author=user)
 
     return builds
 
-def sort_builds_users_public(user, sort_by_likes, sort_by_price, sort_by_views):
+def sort_builds_users_public(user, sort_options):
 
-    if sort_by_price and sort_by_likes is None and sort_by_views is None:
-        if sort_by_price == "high_to_low":
-            builds = Builds.objects.filter(
-                author=user, private=False).order_by('-total')
-        else:
-            builds = Builds.objects.filter(
-                author=user, private=False).order_by('total')
-    elif sort_by_likes and sort_by_price is None and sort_by_views is None:
-        if sort_by_likes == "high_to_low":
-            builds = Builds.objects.filter(author=user,
-                                           private=False).order_by('-like_count')
-        else:
-            builds = Builds.objects.filter(author=user,
-                                           private=False).order_by('-dislike_count')
-    elif sort_by_views and sort_by_price is None and sort_by_likes is None:
-        if sort_by_views == "high_to_low":
-            builds = Builds.objects.filter(
-                author=user, private=False).order_by('-views')
-        else:
-            builds = Builds.objects.filter(
-                author=user, private=False).order_by('views')
-    elif sort_by_likes and sort_by_price and sort_by_views is None:
-        if sort_by_price == "high_to_low":
-            if sort_by_likes == "high_to_low":
-                builds = Builds.objects.filter(author=user,
-                                               private=False).order_by('-total', '-like_count')
-            else:
-                builds = Builds.objects.filter(author=user,
-                                               private=False).order_by('-total', 'like_count')
-        else:
-            if sort_by_likes == "high_to_low":
-                builds = Builds.objects.filter(author=user,
-                                               private=False).order_by('total', '-like_count')
-            else:
-                builds = Builds.objects.filter(author=user,
-                                               private=False).order_by('total', 'like_count')
-    elif sort_by_likes and sort_by_views and sort_by_price is None:
-        if sort_by_views == "high_to_low":
-            if sort_by_likes == "high_to_low":
-                builds = Builds.objects.filter(author=user,
-                                               private=False).order_by('-views', '-like_count')
-            else:
-                builds = Builds.objects.filter(author=user,
-                                               private=False).order_by('-views', 'like_count')
-        else:
-            if sort_by_likes == "high_to_low":
-                builds = Builds.objects.filter(author=user,
-                                               private=False).order_by('views', '-like_count')
-            else:
-                builds = Builds.objects.filter(author=user,
-                                               private=False).order_by('views', 'like_count')
-    elif sort_by_price and sort_by_views and sort_by_likes is None:
-        if sort_by_price == "high_to_low":
-            if sort_by_views == "high_to_low":
-                builds = Builds.objects.filter(author=user,
-                                               private=False).order_by('-total', '-views')
-            else:
-                builds = Builds.objects.filter(author=user,
-                                               private=False).order_by('-total', 'views')
-        else:
-            if sort_by_views == "high_to_low":
-                builds = Builds.objects.filter(author=user,
-                                               private=False).order_by('total', '-views')
-            else:
-                builds = Builds.objects.filter(author=user,
-                                               private=False).order_by('total', 'views')
-    elif sort_by_likes and sort_by_price and sort_by_views:
-        if sort_by_likes == "high_to_low":
-            if sort_by_price == "high_to_low":
-                if sort_by_views == "high_to_low":
-                    builds = Builds.objects.filter(author=user, private=False).order_by(
-                        '-total', '-views', '-like_count')
-                else:
-                    builds = Builds.objects.filter(author=user, private=False).order_by(
-                        '-total', '-views', '-like_count')
-            else:
-                if sort_by_views == "high_to_low":
-                    builds = Builds.objects.filter(author=user, private=False).order_by(
-                        'total', '-views', '-like_count')
-                else:
-                    builds = Builds.objects.filter(author=user, private=False).order_by(
-                        'total', '-views', '-like_count')
-        else:
-            if sort_by_price == "high_to_low":
-                if sort_by_views == "high_to_low":
-                    builds = Builds.objects.filter(author=user, private=False).order_by(
-                        '-total', '-views', 'like_count')
-                else:
-                    builds = Builds.objects.filter(author=user, private=False).order_by(
-                        '-total', '-views', 'like_count')
-            else:
-                if sort_by_views == "high_to_low":
-                    builds = Builds.objects.filter(author=user, private=False).order_by(
-                        'total', '-views', 'like_count')
-                else:
-                    builds = Builds.objects.filter(author=user, private=False).order_by(
-                        'total', '-views', 'like_count')
+    if sort_options is not None:
+        builds = Builds.objects.filter(author=user, private=False).order_by(sort_options)
     else:
         builds = Builds.objects.filter(author=user, private=False)
 
