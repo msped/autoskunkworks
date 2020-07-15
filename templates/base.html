@@ -106,9 +106,12 @@
                             <li>
                                 <a class="footer-text" href="{% url 'builds' %}">Builds</a>
                             </li>
-                            {% if current_user.is_authenticated %}
+                            {% if user.is_authenticated %}
                             <li>
                                 <a class="footer-text" href="{% url 'users_builds' request.user.username %}">My Builds</a>
+                            </li>
+                            <li>
+                                <a class="footer-text" href="">Account</a>
                             </li>
                             <li>
                                 <a class="footer-text" href="{% url 'logout' %}">Logout</a>
