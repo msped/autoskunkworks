@@ -83,14 +83,12 @@ def change_password(request):
 
 def users_builds(request, username):
     """All of a users build"""
-    sort_by_price = request.GET.get('sort_by_price')
-    sort_by_likes = request.GET.get('sort_by_likes')
-    sort_by_views = request.GET.get('sort_by_views')
+    sort_options = request.GET.get('sort_options')
     user = User.objects.get(username=username)
     if request.user.id == user.id:
-        builds = sort_builds_users(user, sort_by_likes, sort_by_price, sort_by_views)
+        builds = sort_builds_users(user, sort_options)
     else:
-        builds = sort_builds_users_public(user, sort_by_likes, sort_by_price, sort_by_views)
+        builds = sort_builds_users_public(user, sort_options)
 
     paginator = Paginator(builds, 15)
     page = request.GET.get('page')

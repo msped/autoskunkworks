@@ -87,11 +87,9 @@ def view_build(request, build_id):
 def builds(request):
 
     """Show all builds that are public"""
-    sort_by_price = request.GET.get('sort_by_price')
-    sort_by_likes = request.GET.get('sort_by_likes')
-    sort_by_views = request.GET.get('sort_by_views')
+    sort_options = request.GET.get('sort_options')
 
-    builds = sort_builds_standard(sort_by_likes, sort_by_price, sort_by_views)
+    builds = sort_builds_standard(sort_options)
 
     paginator = Paginator(builds, 15)
     page = request.GET.get('page')
