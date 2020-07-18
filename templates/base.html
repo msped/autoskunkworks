@@ -43,11 +43,11 @@
                             </a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'account' or request.resolver_match.url_name == 'users_builds' %}
+                            <a class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'settings' or request.resolver_match.url_name == 'users_builds' %}
                             active{% endif %}" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                {% if request.resolver_match.url_name == 'account' %}
-                                Account
+                                {% if request.resolver_match.url_name == 'settings' %}
+                                Settings
                                 {% elif request.resolver_match.url_name == 'users_builds' %}
                                 My Builds
                                 {% else %}
@@ -56,7 +56,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{% url 'users_builds' request.user.username %}">My Builds</a>
-                                <a class="dropdown-item" href="#">Account</a>
+                                <a class="dropdown-item" href="{% url 'settings' %}">Settings</a>
                             </div>
                         </li>
                         <li class="nav-item">
@@ -111,7 +111,7 @@
                                 <a class="footer-text" href="{% url 'users_builds' request.user.username %}">My Builds</a>
                             </li>
                             <li>
-                                <a class="footer-text" href="">Account</a>
+                                <a class="footer-text" href="{% url 'settings' %}">Settings</a>
                             </li>
                             <li>
                                 <a class="footer-text" href="{% url 'logout' %}">Logout</a>
