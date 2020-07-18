@@ -14,3 +14,11 @@ div.container {
 #forgot-password {
     text-align: right;
 }
+
+#forgot-password a {
+    font-family: 'Oswald', sans-serif;
+}
+
+.register p, .register p a {
+    font-family: 'Oswald', sans-serif;
+}
