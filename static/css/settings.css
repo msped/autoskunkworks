@@ -1,0 +1,8 @@
+h1, h2 {
+    font-family: 'PM', sans-serif;
+}
+
+.nav-tabs li a {
+    color:rgba(0,0,0,.5);
+    text-decoration: none;
+}
