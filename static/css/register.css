@@ -10,3 +10,11 @@
 div.container {
     margin-bottom: 50px;
 }
+
+.login p {
+    text-align: center;
+}
+
+.login p, .login p a {
+    font-family: 'Oswald', sans-serif;
+}
