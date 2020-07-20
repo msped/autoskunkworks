@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from builds.utils import sort_builds_users
-from .forms import UserLoginForm, UserRegisterForm
+from .forms import UserLoginForm, UserRegisterForm, Profile
 
 def login(request):
     """Logs a user in / display login page"""
@@ -66,25 +66,44 @@ def register(request):
 def change_password(request):
     """Displays Change Password Page / Changes password in DB"""
     if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
+        form = PasswordChangeForm(request.POST, instance=request.user)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
             messages.success(request, 'Password has been updated')
-            return redirect('profile')
-    else:
-        form = PasswordChangeForm(request.user)
+            return redirect('settings')
 
-    return render(
-        request,
-        'change_password.html',
-        {'change_password_form': form}
-    )
+@login_required
+def update_profile(request):
+    """update Profile"""
+    if request.method == "POST":
+        form = Profile(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile Updated")
+            return redirect('settings')
+
+@login_required
+def settings(request):
+    """Account settings"""
+    user = User.objects.get(id=request.user.id)
+    password_form = PasswordChangeForm(user)
+    profile_form = Profile(instance=user)
+
+    context = {
+        'change_password_form': password_form,
+        'profile_form': profile_form
+    }
+
+    return render(request, "settings.html", context)
 
 def users_builds(request, username):
     """All of a users build"""
     sort_options = request.GET.get('sort_options')
-    user = User.objects.get(username=username)
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return redirect('builds')
     if request.user.id == user.id:
         builds = sort_builds_users(user, sort_options)
     else:

@@ -60,3 +60,12 @@ class UserRegisterForm(UserCreationForm):
             raise ValidationError("Passwords don't match")
 
         return password2
+
+class Profile(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            'first_name',
+            'last_name',
+            'email'
+        ]

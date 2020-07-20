@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap_tags %}
+{% block title %}
+Settings
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/settings.css' %}">
+{% endblock css %}
+
+{% block content %}
+
+<h1 class="text-center mb-3">
+    Settings
+</h1>
+<div class="row">
+    <div class="col-12">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a data-toggle="tab" class="nav-link active" role="tab" aria-controls="profile" href="#profile" aria-selected="true">
+                    Profile
+                </a>
+            </li>
+            <li class="nav-item">
+                <a data-toggle="tab" class="nav-link" role="tab" aria-controls="password " href="#password" aria-selected="false">
+                    Change Password
+                </a>
+            </li>
+          </ul>
+
+        <div class="tab-content mt-3">
+            <div class="tab-pane fade show active" id="profile">
+                <h2 class="text-center">Profile</h2>
+                <div class="m-4">
+                    <form action="{% url 'update_profile' %}" class="offset-lg-3 col-lg-6 offset-md-3 col-md-6 col-sm-12 col-12" method="POST">
+                        {% csrf_token %}
+                        {{ profile_form|as_bootstrap}}
+                        <div class="text-center m-3">
+                            <button type="submit" class="btn btn-warning">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="password">
+                <h2 class="text-center">Change Password</h2>
+                <div class="m-4">
+                     <form class="offset-lg-3 col-lg-6 offset-md-3 col-md-6 col-sm-12 col-12" action="{% url 'change_password' %}" method="POST">
+                        {% csrf_token %}
+                        {{ change_password_form|as_bootstrap}}
+                        <div class="text-center m-5">
+                            <button type="submit" class="btn btn-warning">Update</button>
+                        </div>
+                    </form>
+                </div>
+               
+            </div>
+        </div>
+    </div>    
+</div> 
+{% endblock content %}
