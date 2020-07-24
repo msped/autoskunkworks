@@ -97,3 +97,11 @@ input[type=checkbox] {
 .no-parts-available {
     font-family: 'PM', monospace;
 }
+
+.share-clipboard {
+    margin-top: 10%;
+}
+
+.hide {
+    display: none;
+}
