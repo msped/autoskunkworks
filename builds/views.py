@@ -59,31 +59,6 @@ def create_build(request):
     
     return render(request, "create.html", context)
 
-def view_build(request, build_id):
-    """View a Build"""
-    build = Builds.objects.get(id=build_id)
-    user = User.objects.get(id=request.user.id)
-
-    if request.user.id is not build.author.id:
-        build.views =+ 1
-        build.save()
-
-    user_liked = False
-    user_disliked = False
-
-    if request.user.is_authenticated:
-        if build.likes.filter(id=request.user.id).exists():
-            user_liked = True
-        if build.dislikes.filter(id=request.user.id).exists():
-            user_disliked = True
-
-    context = {
-        'build': build,
-        'user_liked': user_liked,
-        'user_disliked': user_disliked
-    }
-    return render(request, "view.html", context)
-
 def builds(request):
 
     """Show all builds that are public"""
@@ -171,7 +146,7 @@ def edit_build(request, build_id):
     engine_category = EngineCategory.objects.all()
     running_category = RunningCategory.objects.all()
     interior_category = InteriorCategory.objects.all()
-    build = Builds.objects.get(id=build_id)
+    build = Builds.objects.get(build_id=build_id)
 
     if request.method == "POST":
         update_build_content(
@@ -271,3 +246,28 @@ def get_web_price(request):
     
     price = '0'
     return HttpResponse(price)
+
+def view_build(request, build_id):
+    """View a Build"""
+    build = Builds.objects.get(build_id=build_id)
+    user = User.objects.get(id=request.user.id)
+
+    if request.user.id is not build.author.id:
+        build.views =+ 1
+        build.save()
+
+    user_liked = False
+    user_disliked = False
+
+    if request.user.is_authenticated:
+        if build.likes.filter(id=request.user.id).exists():
+            user_liked = True
+        if build.dislikes.filter(id=request.user.id).exists():
+            user_disliked = True
+
+    context = {
+        'build': build,
+        'user_liked': user_liked,
+        'user_disliked': user_disliked
+    }
+    return render(request, "view.html", context)
