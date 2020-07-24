@@ -372,7 +372,7 @@ Edit a build
     
     <!--Submit-->
     <div class="text-center submit-buttons">
-        <a class="btn btn-outline-dark" href="{% url 'view_build' build.id %}">Back to View</a>
+        <a class="btn btn-outline-dark" href="{% url 'view_build' build.build_id %}">Back to View</a>
         <button type="submit" class="btn btn-outline-warning">Update</button>
         <a class="btn btn-outline-danger float-right" href="{% url 'delete_build' build.id %}">Delete Build</a>
     </div>
