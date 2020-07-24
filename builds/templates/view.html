@@ -370,15 +370,28 @@ View a build
 </div>
 
 <!--Submit-->
-
-<div class="text-center submit-buttons">
-    <a class="btn btn-outline-dark" href="{% url 'builds' %}">Back to Builds</a>
-    {% if user.is_authenticated and user.id == build.author.id %}
-    <a class="btn btn-outline-secondary" href="{% url 'edit_build' build.id %}">Edit</a>
-    {% endif %}
+<div class="row">
+    <div class="col-md-7 col-sm-8 col-9">
+        <div class="float-right mt-5">
+            <a class="btn btn-outline-dark" href="{% url 'builds' %}">Back to Builds</a>
+            {% if user.is_authenticated and user.id == build.author.id %}
+            <a class="btn btn-outline-secondary" href="{% url 'edit_build' build.build_id %}">Edit</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-5 col-sm-4 col-3">
+        <div class="mt-5 float-right">
+            <button class="btn btn-outline-dark d-inline-block mb-1" id="copy-to-clipboard-btn" data-text="{% if request.is_secure %}https{% else %}http{% endif %}://{{ request.get_host }}{% url 'view_build' build.build_id %}">
+                <div class="show" title="Copy link to Clipboard">
+                    <i class="far fa-copy"></i>
+                </div>
+                <div class="hide">
+                    <span>Copied to Clipboard!</span>
+                </div>
+            </button>
+        </div>
+    </div>
 </div>
-
-
 {% endblock content %}
 
 {% block js %}
@@ -483,6 +496,30 @@ View a build
                    $('.selected-total').show(); 
                 };
             });
+
+            $('#copy-to-clipboard-btn').on('click', function(e){
+                e.preventDefault();
+                const share_button = $('.show');
+                const copied_alert = $('.hide');
+                share_button.hide();
+                copied_alert.fadeIn(750);
+
+                var copyText = $(this).attr('data-text');
+
+                var textarea = document.createElement("textarea");
+                textarea.textContent = copyText;
+                textarea.style.position = "fixed";
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand("copy"); 
+
+                document.body.removeChild(textarea);
+
+                setTimeout(() => {
+                    copied_alert.hide();
+                    share_button.fadeIn(750);
+                }, 3000);
+            })
         });
     </script>
 {% endblock js %}
