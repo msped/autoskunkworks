@@ -1,5 +1,15 @@
+from django.utils.crypto import get_random_string
 from django.contrib.auth.models import User
 from .models import *
+
+def create_build_id():
+    """Create random build id and check if already in db or not"""
+    build_id = get_random_string(length=16, allowed_chars=('abcdefghijklmnopqrstuvwxyz' 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'))
+
+    if Builds.objects.filter(build_id=build_id).exists():
+        while not Builds.objects.filter(build_id=build_id).exists():
+            build_id = get_random_string(length=16, allowed_chars=('abcdefghijklmnopqrstuvwxyz' 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'))
+    return build_id
 
 def check_visibility(user_input):
     if user_input == "Public":
@@ -99,8 +109,10 @@ def new_build_content(request, exterior_category, engine_category,
     private = check_visibility(request.POST.get('visibility'))
 
     car = create_car(request)
+    gen_build_id = create_build_id()
     
     build = Builds.objects.create(
+        build_id=gen_build_id,
         author=user,
         name=request.POST.get('build_name'),
         total=float(request.POST.get('total')),
@@ -139,7 +151,7 @@ def new_build_content(request, exterior_category, engine_category,
             part = Interior.objects.get(id=item)
             build.interior_parts.add(part)
     build.save()
-    return build.id
+    return build.build_id
 
 def update_heading_contents_exterior(request, heading):
     new_heading_ids = []
