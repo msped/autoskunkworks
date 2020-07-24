@@ -101,6 +101,7 @@ class Cars(models.Model):
 
 class Builds(models.Model):
     """Model for builds"""
+    build_id = models.CharField(unique=True, editable=False, null=True, blank=True, max_length=32)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=150)
     total = models.FloatField()
