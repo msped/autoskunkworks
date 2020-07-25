@@ -107,7 +107,7 @@ def new_build_content(request, exterior_category, engine_category,
                       running_category, interior_category):
     user = User.objects.get(id=request.user.id)
     private = check_visibility(request.POST.get('visibility'))
-
+    price_hidden = check_visibility(request.POST.get('price-visibility'))
     car = create_car(request)
     gen_build_id = create_build_id()
     
@@ -117,6 +117,7 @@ def new_build_content(request, exterior_category, engine_category,
         name=request.POST.get('build_name'),
         total=float(request.POST.get('total')),
         private=private,
+        price_hidden=price_hidden,
         car=car
     )
 
@@ -263,12 +264,14 @@ def update_car(request, build):
     car.save()
 
 def update_build_content(build, exterior, engine, running, interior, request):
-    print("updating build content")
     if float(request.POST.get('total')) is not build.total:
         build.total = float(request.POST.get('total'))
     private = check_visibility(request.POST.get('visibility'))
     if private is not build.private:
         build.private = private
+    price_hidden = check_visibility(request.POST.get('price-visibility'))
+    if price_hidden is not build.price_hidden:
+        build.price_hidden = price_hidden
     car = update_car(request, build)
     # Adds exterior collection to record
     new_exterior = update_heading_contents_exterior(request, exterior)
