@@ -83,16 +83,23 @@ Create a new build
                     </tbody>
                 </table>
                 <br>
-                <table class="table-sm col-md-4">
+                <table class="table table-sm col-md-6 col-12">
                     <thead>
                         <tr>
                             <th>Visibility</th>
+                            <th>Price Visibility</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>
                                 <select name="visibility" class="form-control" id="visibility">
+                                    <option value="Public" selected>Public</option>
+                                    <option value="Private">Private</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select name="price-visibility" id="price-visibility" class="form-control">
                                     <option value="Public" selected>Public</option>
                                     <option value="Private">Private</option>
                                 </select>
