@@ -70,10 +70,11 @@ Edit a build
                         </tbody>
                     </table>
                     <br>
-                    <table class="table-sm col-md-4">
+                    <table class="table table-sm col-md-6 col-12">
                         <thead>
                             <tr>
                                 <th>Visibility</th>
+                                <th>Price Visibility</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -82,6 +83,12 @@ Edit a build
                                     <select name="visibility" class="form-control" id="visibility">
                                         <option value="Private" {% if build.private %}selected{% endif %}>Private</option>
                                         <option value="Public" {% if build.private == False %}selected{% endif %}>Public</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="price-visibility" id="price-visibility" class="form-control">
+                                        <option value="Private" {% if build.price_hidden %}selected{% endif %}>Private</option>
+                                        <option value="Public" {% if build.price_hidden == False %}selected{% endif %}>Public</option>
                                     </select>
                                 </td>
                             </tr>
