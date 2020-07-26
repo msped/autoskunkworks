@@ -9,11 +9,16 @@ View a build
 {% endblock css %}
 
 {% block content %}
+<div class="row">
+    <div class="offset-8 col-4">
+        <a href="{% url 'users_builds' build.author.username %}" class="badge badge-light p-2 float-right">Author: {{ build.author.username }}</a>
+    </div>
+</div>
+
 <div class="build-header">
     <h1> {{ build.name }}</h1>
     <p class="text-muted">This build has been viewed {{ build.views }} times!</p>
 </div>
-
 <!--Make/Model/Trim/Year-->
 <div class="card">
     <div class="card-header" id="headingTwo">
@@ -104,7 +109,7 @@ View a build
                             <a href="{{ item.link }}"
                                 target="_blank">{{ item.exterior_category.title }}</a>
                         </td>
-                        {% if not build.price_hidden %}
+                        {% if not build.price_hidden or build.author.id == request.user.id %}
                         <td class="object-price">
                             <p>{{ item.price }}</p>
                         </td>
@@ -175,7 +180,7 @@ View a build
                             <a href="{{ item.link }}"
                                 target="_blank">{{ item.engine_category.title }}</a>
                         </td>
-                        {% if not build.price_hidden %}
+                        {% if not build.price_hidden or build.author.id == request.user.id %}
                         <td class="object-price">
                             <p>{{ item.price }}</p>
                         </td>
@@ -244,9 +249,9 @@ View a build
                     <tr>
                         <td>
                             <a href="{{ item.link }}"
-                                target="_blank">{{ item.exterior_category.title }}</a>
+                                target="_blank">{{ item.running_category.title }}</a>
                         </td>
-                        {% if not build.price_hidden %}
+                        {% if not build.price_hidden or build.author.id == request.user.id %}
                         <td class="object-price">
                             <p>{{ item.price }}</p>
                         </td>
@@ -315,9 +320,9 @@ View a build
                     <tr>
                         <td>
                             <a href="{{ item.link }}"
-                                target="_blank">{{ item.exterior_category.title }}</a>
+                                target="_blank">{{ item.interior_category.title }}</a>
                         </td>
-                        {% if not build.price_hidden %}
+                        {% if not build.price_hidden or build.author.id == request.user.id %}
                         <td class="object-price">
                             <p>{{ item.price }}</p>
                         </td>
