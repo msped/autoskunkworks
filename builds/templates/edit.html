@@ -15,7 +15,7 @@ Edit a build
 </div>
 
 
-<form method="POST" action="{% url 'edit_build' build.id %}">
+<form method="POST" action="{% url 'edit_build' build.build_id %}">
     <input type="hidden" name="build_id" id="build_id" value="{{ build.id }}">
     {% csrf_token %}
     <!--Make/Model/Trim/Year-->
