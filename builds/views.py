@@ -250,7 +250,6 @@ def get_web_price(request):
 def view_build(request, build_id):
     """View a Build"""
     build = Builds.objects.get(build_id=build_id)
-    user = User.objects.get(id=request.user.id)
 
     if request.user.id is not build.author.id:
         build.views =+ 1
