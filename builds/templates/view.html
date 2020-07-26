@@ -104,6 +104,7 @@ View a build
                             <a href="{{ item.link }}"
                                 target="_blank">{{ item.exterior_category.title }}</a>
                         </td>
+                        {% if not build.price_hidden %}
                         <td class="object-price">
                             <p>{{ item.price }}</p>
                         </td>
@@ -121,6 +122,9 @@ View a build
                                 <input type="checkbox" class="mini-addition">
                             </div>
                         </td>
+                        {% else %}
+                        <td colspan="3" class="text-center no-prices">This user has chosen not to show prices.</td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                     {% else %}
@@ -171,6 +175,7 @@ View a build
                             <a href="{{ item.link }}"
                                 target="_blank">{{ item.engine_category.title }}</a>
                         </td>
+                        {% if not build.price_hidden %}
                         <td class="object-price">
                             <p>{{ item.price }}</p>
                         </td>
@@ -188,6 +193,9 @@ View a build
                                 <input type="checkbox" class="mini-addition">
                             </div>
                         </td>
+                        {% else %}
+                        <td colspan="3" class="text-center no-prices">This user has chosen not to show prices.</td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                     {% else %}
@@ -238,6 +246,7 @@ View a build
                             <a href="{{ item.link }}"
                                 target="_blank">{{ item.exterior_category.title }}</a>
                         </td>
+                        {% if not build.price_hidden %}
                         <td class="object-price">
                             <p>{{ item.price }}</p>
                         </td>
@@ -255,6 +264,9 @@ View a build
                                 <input type="checkbox" class="mini-addition">
                             </div>
                         </td>
+                        {% else %}
+                        <td colspan="3" class="text-center no-prices">This user has chosen not to show prices.</td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                     {% else %}
@@ -305,6 +317,7 @@ View a build
                             <a href="{{ item.link }}"
                                 target="_blank">{{ item.exterior_category.title }}</a>
                         </td>
+                        {% if not build.price_hidden %}
                         <td class="object-price">
                             <p>{{ item.price }}</p>
                         </td>
@@ -322,6 +335,9 @@ View a build
                                 <input type="checkbox" class="mini-addition">
                             </div>
                         </td>
+                        {% else %}
+                        <td colspan="3" class="text-center no-prices">This user has chosen not to show prices.</td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                     {% else %}
