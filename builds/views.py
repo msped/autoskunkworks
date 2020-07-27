@@ -26,8 +26,7 @@ from .utils import (
     sort_builds_standard,
     sort_builds_users,
     sort_builds_users_public,
-    update_build_content,
-    delete_manytomany_relations
+    update_build_content
 )
 
 # Create your views here.
@@ -212,8 +211,7 @@ def delete_row(request, row_id, table, build_id):
 def delete_build(request, build_id):
     """Delete a Build"""
     build = Builds.objects.get(id=build_id)
-    if request.user.is_authenticated and request.user.id is build.author.id:
-        delete_manytomany_relations(build)        
+    if request.user.is_authenticated and request.user.id is build.author.id:    
         build.delete()
         messages.success(request, "Build Deleted.")
         return redirect('users_builds', request.user.username)
