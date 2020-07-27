@@ -326,14 +326,3 @@ def sort_builds_users_public(user, sort_options):
         builds = Builds.objects.filter(author=user, private=False)
 
     return builds
-
-def delete_manytomany_relations(build):
-    """Delete all manytomany in tables"""
-    for items in build.exterior_parts.all():
-        item.delete()
-    for items in build.engine_parts.all():
-        item.delete()
-    for items in build.running_gear_parts.all():
-        item.delete()
-    for items in build.interior_parts.all():
-        item.delete()
