@@ -381,13 +381,58 @@ Edit {{ build.name }}
     <div class="text-center submit-buttons">
         <a class="btn btn-outline-dark" href="{% url 'view_build' build.build_id %}">Back to View</a>
         <button type="submit" class="btn btn-outline-warning">Update</button>
-        <a class="btn btn-outline-danger float-right" href="{% url 'delete_build' build.id %}">Delete Build</a>
+        <button type="button" class="btn btn-outline-danger float-right" data-toggle="modal" data-target="#delete_build_confirm">
+            Delete Build
+        </button>
     </div>
-
 </form>
+
+<div class="modal fade" id="delete_build_confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Delete Build {{ build.name }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-center alert alert-danger"><strong>Warning!</strong></p>
+                <p class="text-center">
+                    Before going through the scrapping of <strong>{{ build.name }}</strong> you must know that this action <strong>cannot</strong> be undone.
+                </p>
+                <p class="text-center">
+                    If you still wish to scrap this build, please type <strong>{{ build.author.username }}/{{ build.name }}</strong> below and click 'Delete Build'.
+                </p>
+                <div>
+                    <input type="text" class="form-control" id="delete-build-confirmation" placeholder="{{ build.author.username }}/{{ build.name }}">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                <a class="btn btn-outline-danger disabled" id="delete_button" href="{% url 'delete_build' build.id %}">Delete Build</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}
 
 {% block js %}
     <script src="{% static 'js/create.js' %}"></script>
+    <script>
+        $(document).ready(function(){
+            const delete_button = $('#delete_button');
+            const delete_input = $('#delete-build-confirmation');
+            const delete_confirm = '{{ build.author.username }}/{{ build.name }}';
+            delete_input.on('change input', function(){
+                if (delete_input.val() === delete_confirm) {
+                    delete_button.removeClass('disabled');
+                } else {
+                    delete_button.addClass('disabled');
+                }
+            });
+        });
+    </script>
 {% endblock js %}
