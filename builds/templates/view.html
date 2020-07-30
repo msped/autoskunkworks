@@ -47,6 +47,9 @@
                         <th scope="col">
                             Price
                         </th>
+                        <th scope="col" class="text-center">
+                            Purchased
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,9 +67,20 @@
                         <td>
                             {{ build.car.year }}
                         </td>
+                        {% if not build.price_hidden or build.author.id == request.user.id %}
                         <td>
                             {{ build.car.price }}
                         </td>
+                        <td>
+                            <div class="text-center">
+                                {% if build.car.purchased %} 
+                                <i class="far fa-check-circle purchased"></i>
+                                {% else %}
+                                <i class="far fa-times-circle not-purchased"></i>
+                                {% endif %}
+                            </div>
+                        </td>
+                        {% endif %}
                     </tr>
                 </tbody>
             </table>
