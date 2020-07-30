@@ -25,13 +25,23 @@ def convert_purchased(checkbox_input):
         purchased = False
     return purchased
 
+def is_car_purchased(user_answer):
+    """Check if a car is purchased from POST request"""
+    if user_answer == "on":
+        answer = True
+    else: 
+        answer = False
+    return answer
+
 def create_car(request):
+    car_purchased = is_car_purchased(request.POST.get('car_purchased'))
     car = Cars.objects.create(
         make=request.POST.get('make'),
         model=request.POST.get('model'),
         trim=request.POST.get('trim'),
         year=request.POST.get('year'),
-        price=float(request.POST.get('price'))
+        price=float(request.POST.get('price')),
+        purchased=car_purchased
     )
     return car
             
@@ -255,12 +265,14 @@ def update_heading_contents_interior(request, heading):
     return new_heading_ids
 
 def update_car(request, build):
+    car_purchased = is_car_purchased(request.POST.get('car_purchased'))
     car = Cars.objects.get(id=build.car.id)
     car.make = request.POST.get('make')
     car.model = request.POST.get('model')
     car.trim = request.POST.get('trim')
     car.year = request.POST.get('year')
     car.price = float(request.POST.get('price'))
+    car.purchased = car_purchased
     car.save()
 
 def update_build_content(build, exterior, engine, running, interior, request):
