@@ -55,9 +55,6 @@ Create a new build
                             <th scope="col">
                                 Year
                             </th>
-                            <th scope="col">
-                                Price
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -75,10 +72,32 @@ Create a new build
                             <td>
                                 <input type="number" class="form-control input-sm" name="year" required>
                             </td>
-                            <td>
-                                <input type="number" step="any" class="form-control input-sm part-price" name="price"
-                                    required>
-                            </td>
+                        </tr>
+                        <tr>
+                            <table class="table table-sm col-md-6 col-12">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">
+                                            Price
+                                        </th>
+                                        <th scope="col" class="text-center">
+                                            Do you own this car?
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <input type="text" class="form-control input-sm part-price" name="price">
+                                        </td>
+                                        <td>
+                                            <div class="text-center">
+                                                <input type="checkbox" name="car_purchased">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </tr>
                     </tbody>
                 </table>
