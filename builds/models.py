@@ -94,7 +94,8 @@ class Cars(models.Model):
     model = models.CharField(max_length=30)
     trim = models.CharField(max_length=45)
     year = models.CharField(max_length=4)
-    price = models.FloatField()
+    price = models.FloatField(default=0)
+    purchased = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.make} {self.model} {self.trim}'
