@@ -177,7 +177,7 @@ Edit {{ build.name }}
                             </td>
                             <td>
                                 <i class="far fa-times-circle" id="delete-row"></i>
-                                <input type="hidden" name="part-id" value="{{ item.exterior_category.id }}">
+                                <input type="hidden" name="part-id" value="{{ item.id }}">
                             </td>
                         </tr>
                         {% endfor %}
@@ -313,7 +313,7 @@ Edit {{ build.name }}
                             </td>
                             <td>
                                 <i class="far fa-times-circle" id="delete-row"></i>
-                                <input type="hidden" name="part-id" value="{{ item.running_category.id }}">
+                                <input type="hidden" name="part-id" value="{{ item.id }}">
                             </td>
                         </tr>
                         {% endfor %}
@@ -381,7 +381,7 @@ Edit {{ build.name }}
                             </td>
                             <td>
                                 <i class="far fa-times-circle" id="delete-row"></i>
-                                <input type="hidden" name="part-id" value="{{ item.interior_category.id }}">
+                                <input type="hidden" name="part-id" value="{{ item.id }}">
                             </td>
                         </tr>
                         {% endfor %}    

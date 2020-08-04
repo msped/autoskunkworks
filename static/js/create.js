@@ -135,7 +135,7 @@ $(document).ready(function () {
         } else {
             let table = $(this).closest('tbody').attr('id');
             $.ajax({
-                url: '/builds/delete_row/' + model_id + '/' + table + '/' + build,
+                url: '/b/delete_row/' + model_id + '/' + table + '/' + build,
                 type: 'POST',
                 success: function(data){
                     if (data.result){

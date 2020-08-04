@@ -87,10 +87,7 @@ def like_build(request, build_id):
             build.save()
         else:
             if build.dislikes.filter(id=request.user.id).exists():
-                if build.dislike_count >= 0:
-                    build.dislike_count -= 1
-                else: 
-                    build.dislike =+ 1
+                build.dislike_count -= 1
                 build.dislikes.remove(user)
             build.like_count =+ 1
             like_count = build.like_count
@@ -194,7 +191,7 @@ def delete_row(request, row_id, table, build_id):
             result = True
         else:
             result = False
-            total = build.total
+            new_total = build.total
         if result:
             old_total = build.total
             new_total = old_total - part_price
