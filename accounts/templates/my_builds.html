@@ -17,7 +17,7 @@
     <div class="row user-sort-graph">
         <div class="search-builds col-12">
             <div class="search-options">
-                <form action="{% url 'builds' %}" method="GET" class="row">            
+                <form action="{% url 'users_builds' user.username %}" method="GET" class="row">            
                     <div class="search-header col-lg-3 col-md-3 col-sm-12 col-12">
                         Filter Options
                     </div>
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                     <div class="text-center col-2">
-                        <a class="btn btn-outline-danger d-inline-block" href="{% url 'builds' %}"><i class="fas fa-sync-alt"></i></a>
+                        <a class="btn btn-outline-danger d-inline-block" href="{% url 'users_builds' user.username %}"><i class="fas fa-sync-alt"></i></a>
                     </div>
                 </form>
             </div>

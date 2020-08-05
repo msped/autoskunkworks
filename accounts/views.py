@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from builds.utils import sort_builds_users
+from builds.utils import sort_builds_users, sort_builds_users_public
 from .forms import UserLoginForm, UserRegisterForm, Profile
 
 def login(request):
@@ -25,7 +25,7 @@ def login(request):
             else:
                 login_form.add_error(
                     None,
-                    "Your email or password are incorrect"
+                    "Your username or password are incorrect"
                 )
     else:
         login_form = UserLoginForm()
@@ -66,11 +66,14 @@ def register(request):
 def change_password(request):
     """Displays Change Password Page / Changes password in DB"""
     if request.method == 'POST':
-        form = PasswordChangeForm(request.POST, instance=request.user)
+        form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
             messages.success(request, 'Password has been updated')
+            return redirect('settings')
+        else:
+            messages.error(request, 'There was an error with the Change Password Form.')
             return redirect('settings')
 
 @login_required
@@ -86,9 +89,8 @@ def update_profile(request):
 @login_required
 def settings(request):
     """Account settings"""
-    user = User.objects.get(id=request.user.id)
-    password_form = PasswordChangeForm(user)
-    profile_form = Profile(instance=user)
+    password_form = PasswordChangeForm(request.user)
+    profile_form = Profile(instance=request.user)
 
     context = {
         'change_password_form': password_form,
@@ -103,6 +105,7 @@ def users_builds(request, username):
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
+        messages.error(request, "That user doesn't exist.")
         return redirect('builds')
     if request.user.id == user.id:
         builds = sort_builds_users(user, sort_options)
