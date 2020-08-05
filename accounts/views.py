@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from builds.utils import sort_builds_users
+from builds.utils import sort_builds_users, sort_builds_users_public
 from .forms import UserLoginForm, UserRegisterForm, Profile
 
 def login(request):
@@ -105,6 +105,7 @@ def users_builds(request, username):
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
+        messages.error(request, "That user doesn't exist.")
         return redirect('builds')
     if request.user.id == user.id:
         builds = sort_builds_users(user, sort_options)
