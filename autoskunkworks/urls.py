@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^$', home, name="home"),
     url(r'^u/', include('accounts.urls')),
     url(r'^b/', include('builds.urls')),
+    url(r'^s/', include('support.urls')),
 ]
