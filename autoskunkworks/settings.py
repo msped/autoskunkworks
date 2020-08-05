@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'home',
     'accounts',
     'builds.apps.BuildsConfig',
+    'support',
 ]
 
 MIDDLEWARE = [
