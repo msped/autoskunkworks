@@ -1,0 +1,12 @@
+.support-header h1, h2, h3, h4 {
+    font-family: 'PM', monospace;
+}
+
+.support-header p {
+    font-family: 'Oswald', serif;
+}
+
+.fa-github-square {
+    color: #24292E;
+    font-size: 5rem;
+}

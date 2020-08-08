@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Support
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/support.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="text-center support-header">
+    <h1>Support</h1>
+    <p class="text-muted">Are you having issues with AutoSkunkWorks?</p>
+</div>
+
+<div class="row my-5">
+    <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+        <h2>How to get in contact</h2>
+        <p>To get in contact with urgent matters, questions or ideas (or to say hello!) please contact us via email or social media. We will aim to response within 24 hours but there maybe times were this isn't possible.</p>
+        <ul class="ml-5">
+            <li>E-mail: </li>
+            <li>Twitter: <a href="">@autoskunkworks</a></li>
+            <li>Instagram: <a href="">@autoskunkworks</a></li>
+        </ul>
+        <p class="text-center mt-3">Tag us on Instagram to show us your builds, we'd love to see them!</p>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12 col-12">
+        <h3 class="text-center">Issue Tracker</h3>
+        <div class="text-center my-3">
+            <a href="https://github.com/msped/projectparts/issues"><i class="fab fa-github-square"></i></a>
+        </div>
+        <p>For tracking issues with AutoSkunkWorks we use the <a href="https://github.com/msped/projectparts/issues">GitHub Issue Tracker</a>. If you are having issues that don't require urgent attention or have an addition to the website that you would like to see, please raise an issue and we will look into it.</p>
+        <p>If you do not have a GitHub account or the issue is urgent, please contact us via social media or e-mail as listed in 'How to get in contact'.</p> 
+        <br>
+        <p>Found something you can improve or would like to add yourself? Create a pull request! We'll take a look and see if it's something we would like with to add to the site, </p>       
+    </div>
+</div>
+{% endblock content %}
