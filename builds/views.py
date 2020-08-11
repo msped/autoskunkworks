@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 from django.contrib import messages
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.models import User
+from django.http import FileResponse
 from tld import parse_tld
 from bs4 import BeautifulSoup
 import requests
@@ -241,6 +243,13 @@ def get_web_price(request):
     
     price = '0'
     return HttpResponse(price)
+
+def download_qrcode(request, build_id):
+    """For a user to download the QR Code file for display"""
+    filename = build_id + '.png'
+    path = settings.MEDIA_ROOT + '\qr_codes\\' + filename
+    response = FileResponse(open(path, 'rb'), as_attachment=True)
+    return response
 
 def view_build(request, build_id):
     """View a Build"""
