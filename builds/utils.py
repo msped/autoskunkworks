@@ -115,8 +115,8 @@ def generate_qrcode(request, build, build_id):
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=4,
-        border=1,
+        box_size=5,
+        border=2,
     )
     qr.add_data(get_absolute_url(request, build_id))
     qr.make(fit=True)
