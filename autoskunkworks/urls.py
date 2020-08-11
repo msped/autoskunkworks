@@ -16,7 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
+from django.views import static
 from home.views import home
+from .settings import MEDIA_ROOT
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,4 +26,5 @@ urlpatterns = [
     url(r'^u/', include('accounts.urls')),
     url(r'^b/', include('builds.urls')),
     url(r'^s/', include('support.urls')),
-]
+    url(r'^media/(?P<path>.*)$', static.serve, {'document_root': MEDIA_ROOT})
+]    

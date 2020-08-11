@@ -1,5 +1,7 @@
 from django.utils.crypto import get_random_string
 from django.contrib.auth.models import User
+import io
+import qrcode
 from .models import *
 
 def create_build_id():
@@ -105,6 +107,25 @@ def get_heading_contents_interior(request, heading):
             heading_ids.append(part.id)
     return heading_ids
 
+def get_absolute_url(request, build_id):
+    url = request.build_absolute_uri('/')[:-1].strip("/")
+    return (url + '/b/' + build_id)
+
+def generate_qrcode(request, build, build_id):
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=5,
+        border=2,
+    )
+    qr.add_data(get_absolute_url(request, build_id))
+    qr.make(fit=True)
+    img = qr.make_image()
+    buffer = io.BytesIO()
+    img.save(buffer)
+    filename = '%s.png' % (build_id)
+    build.qrcode.save(filename, buffer, save=False)
+
 def new_build_content(request, exterior_category, engine_category,
                       running_category, interior_category):
     user = User.objects.get(id=request.user.id)
@@ -153,6 +174,7 @@ def new_build_content(request, exterior_category, engine_category,
         for item in interior:
             part = Interior.objects.get(id=item)
             build.interior_parts.add(part)
+    generate_qrcode(request, build, build.build_id)
     build.save()
     return build.build_id
 

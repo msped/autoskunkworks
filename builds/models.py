@@ -118,6 +118,7 @@ class Builds(models.Model):
     likes = models.ManyToManyField(User, related_name="%(class)s_likes", blank=True)
     dislike_count = models.IntegerField(default=0)
     dislikes = models.ManyToManyField(User, related_name="%(class)s_dislikes", blank=True)
+    qrcode = models.ImageField(upload_to='qr_codes', null=True, blank=True)
 
     def __str__(self):
         return self.name
