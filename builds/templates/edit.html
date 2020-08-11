@@ -391,12 +391,16 @@ Edit {{ build.name }}
         </div>
     </div>
     
-    <!--Build Total-->
-    <div class="col-md-12">
-        Total Price: <strong><span id="build-total" name="total" >{{ build.total }}</span></strong>
-        <input type="hidden" name="total" value="{{ build.total }}" id="build-total">
+    <div class="row">
+        <!--Build Total-->
+        <div class="col-7">
+            Total Price: <strong><span id="build-total" name="total" >{{ build.total }}</span></strong>
+            <input type="hidden" name="total" value="{{ build.total }}" id="build-total">
+        </div>
+        <div class="col-5">
+            <a class="btn btn-sm btn-primary float-right" href="{% url 'download_qrcode' build.build_id %}"><i class="fas fa-download mr-2"></i>QR Code</a>
+        </div>
     </div>
-
     
     <!--Submit-->
     <div class="text-center submit-buttons">
