@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.urls import path
 from .views import (
     create_build,
     view_build,
@@ -8,7 +9,8 @@ from .views import (
     edit_build,
     delete_row,
     delete_build,
-    get_web_price
+    get_web_price,
+    download_qrcode
 )
 
 urlpatterns = [
@@ -20,5 +22,6 @@ urlpatterns = [
     url(r'^delete_row/(?P<row_id>\d+)/(?P<table>[\w-]+)/(?P<build_id>\d+)', delete_row, name="delete_row"),
     url(r'^delete/(?P<build_id>\d+)', delete_build, name="delete_build"),
     url(r'^get_web_price', get_web_price, name="get_web_price"),
+    path(r'qr_code/<str:build_id>', download_qrcode, name="download_qrcode"),
     url(r'^(?P<build_id>\w+)', view_build, name="view_build"),
 ]
