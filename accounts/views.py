@@ -99,6 +99,21 @@ def settings(request):
 
     return render(request, "settings.html", context)
 
+@login_required
+def delete_account(request):
+    try:
+        user = User.objects.get(id=request.user.id)
+        user.delete()
+        messages.success(request, 'Account Deactivated. If you wish to create new builds you will have to re-register.')
+    except User.DoesNotExist:
+        messages.error(request, 'User does not exist.')
+        return redirect('settings')
+    except Exception as e:
+        messages.error(request, message=e)
+        return redirect('settings')
+    return redirect('home')
+
+
 def users_builds(request, username):
     """All of a users build"""
     sort_options = request.GET.get('sort_options')
