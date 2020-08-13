@@ -156,6 +156,19 @@ class AccountViewsTest(TestCase):
         )
         self.assertIn(b'Profile Updated', response.content)
 
+    def test_deactivate_user(self):
+        """Test deactivation of a users account"""
+        self.client.post(
+            '/u/login/',
+            self.user2,
+            follow=True
+        )
+        response = self.client.get(
+            '/u/delete_account/',
+            follow=True
+        )
+        self.assertIn(b'Account Deactivated. If you wish to create new builds you will have to re-register.', response.content)
+
     # def test_users_builds_successful(self):
     #     """Test response of a users build"""
     #     response = self.client.get('/u/test/')
