@@ -27,6 +27,11 @@ Settings
                     Change Password
                 </a>
             </li>
+            <li class="nav-item">
+                <a data-toggle="tab" class="nav-link" role="tab" aria-controls="deactivate-account " href="#deactivate-account" aria-selected="false">
+                    Deactivate Account
+                </a>
+            </li>
           </ul>
 
         <div class="tab-content mt-3">
@@ -53,9 +58,38 @@ Settings
                         </div>
                     </form>
                 </div>
-               
+            </div>
+            <div class="tab-pane fade" id="deactivate-account">
+                <h2 class="text-center">Deactivate your account</h2>
+                <div class="m-4">
+                     <div class="offset-lg-3 col-lg-6 offset-md-3 col-md-6 col-sm-12 col-12">
+                        <div class="alert alert-danger text-center">This action is <strong>irreversible</strong> and cannot be undone. Only deactivate your account if you are sure.</div>
+                        <p class="text-center">We're sorry to see you go :(<br>Please confirm your username in-order to deactivate your account.</p>
+                        <div class="text-center">
+                            <input type="text" id="delete-account-confirmation" class="form-control" placeholder="{{ request.user.username }}">
+                            <a href="{% url 'delete_account' %}" class="btn btn-danger disabled my-3" id="delete_button">Deactivate Account</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>    
 </div> 
 {% endblock content %}
+
+{% block js %}
+    <script>
+        $(document).ready(function(){
+            const delete_button = $('#delete_button');
+            const delete_input = $('#delete-account-confirmation');
+            const delete_confirm = '{{ request.user.username }}';
+            delete_input.on('change input', function(){
+                if (delete_input.val() === delete_confirm) {
+                    delete_button.removeClass('disabled');
+                } else {
+                    delete_button.addClass('disabled');
+                }
+            });
+        });
+    </script>
+{% endblock js %}
