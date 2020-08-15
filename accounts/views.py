@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from builds.utils import sort_builds_users, sort_builds_users_public
+from builds.models import Builds
 from .forms import UserLoginForm, UserRegisterForm, Profile
 
 def login(request):
@@ -103,6 +104,24 @@ def settings(request):
 def delete_account(request):
     try:
         user = User.objects.get(id=request.user.id)
+        try:
+            builds = Builds.objects.filter(author=user)
+        except Builds.DoesNotExist:
+            builds = False
+        if builds:
+            for b in builds:
+                if b.exterior_parts.count() > 0:
+                    for item in b.exterior_parts.all():
+                        item.delete()
+                if b.engine_parts.count() > 0:        
+                    for item in b.engine_parts.all():
+                        item.delete()
+                if b.running_gear_parts.count() > 0:
+                    for item in b.running_gear_parts.all():
+                        item.delete()
+                if b.interior_parts.count() > 0:
+                    for item in b.interior_parts.all():
+                        item.delete()
         user.delete()
         messages.success(request, 'Account Deactivated. If you wish to create new builds you will have to re-register.')
     except User.DoesNotExist:
