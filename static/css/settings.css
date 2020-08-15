@@ -6,3 +6,8 @@ h1, h2 {
     color:rgba(0,0,0,.5);
     text-decoration: none;
 }
+
+#delete-account-confirmation {
+    width: 50%;
+    margin: 0 auto;
+}
