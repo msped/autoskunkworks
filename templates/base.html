@@ -59,6 +59,9 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{% url 'users_builds' request.user.username %}">My Builds</a>
+                                {% if request.user.is_staff %}
+                                <a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a>
+                                {% endif %}
                                 <a class="dropdown-item" href="{% url 'settings' %}">Settings</a>
                             </div>
                         </li>
