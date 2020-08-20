@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib import auth, messages
-from django.core.paginator import Paginator
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+from django.core.paginator import Paginator
 from builds.utils import sort_builds_users, sort_builds_users_public
 from builds.models import Builds
+from .utils import signup_email, deactivate_email
 from .forms import UserLoginForm, UserRegisterForm, Profile
 
 def login(request):
@@ -54,6 +55,7 @@ def register(request):
 
             if user:
                 auth.login(user=user, request=request)
+                signup_email(request)
                 messages.success(request, "You have successfully registered.")
                 return redirect('home')
             else:
@@ -124,14 +126,14 @@ def delete_account(request):
                         item.delete()
         user.delete()
         messages.success(request, 'Account Deactivated. If you wish to create new builds you will have to re-register.')
+        deactivate_email(request)
+        return redirect('home')
     except User.DoesNotExist:
         messages.error(request, 'User does not exist.')
         return redirect('settings')
     except Exception as e:
         messages.error(request, message=e)
         return redirect('settings')
-    return redirect('home')
-
 
 def users_builds(request, username):
     """All of a users build"""
