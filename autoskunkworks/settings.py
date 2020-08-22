@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from dotenv import load_dotenv
-
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -26,9 +27,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1:8000',]
+ALLOWED_HOSTS = ['127.0.0.1',]
 
 
 # Application definition
@@ -145,3 +146,13 @@ LOGIN_URL = '/u/login/'
 # EMAIL_HOST = 'smtp.sendgrid.net'
 # EMAIL_HOST_USER = os.environ.get('EMAIL_USERNAME')
 # EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+
+# sentry_sdk.init(
+#     dsn=os.environ.get('sentry_dns'),
+#     integrations=[DjangoIntegration()],
+#     traces_sample_rate = 1.0,
+
+#     # If you wish to associate users to errors (assuming you are using
+#     # django.contrib.auth) you may enable sending PII data.
+#     send_default_pii=True
+# )
