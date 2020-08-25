@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.views.generic.detail import DetailView
 from django.contrib import messages
 from sentry_sdk import last_event_id
-from .models import Issue
-from .forms import NewTicket
+from .models import Issue, Comments
+from .forms import NewTicket, NewComment
 
 # Create your views here.
 
@@ -43,3 +44,38 @@ def issue_tracker(request):
         'newTicketForm': NewTicket
     }
     return render(request, "issue_tracker.html", context)
+
+def issue_detail(request, issue_id):
+    i = Issue.objects.get(id=issue_id)
+    c = Comments.objects.filter(issue=i)
+    return render(request, "issue_detail.html", {
+        'issue': i,
+        'comments': c,
+        'new_comment': NewComment()
+    })
+
+def add_comment(request, issue_id):
+    """Add a comment to database for issue"""
+    if request.method == "POST":
+        form = NewComment(request.POST)
+        if form.is_valid():
+            comment = form.cleaned_data['comment']
+            issue = Issue.objects.get(id=issue_id)
+            user = User.objects.get(id=request.user.id)
+            Comments.objects.create(
+                user=user,
+                issue=issue,
+                comment=comment
+            )
+            message.success(request, 'Comment has been added.')
+            return redirect('issue_detail', issue_id)
+    return redirect('issue_detail', issue_id)
+
+def delete_comment(request, comment_id):
+    c = Comments.objects.get(id=comment_id)
+    i = c.issue.id
+    if request.user.id == c.user.id:
+        c.delete()
+        messages.success(request, 'Comment has been deleted.')
+        return redirect('issue_detail', i)
+        
