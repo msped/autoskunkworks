@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap_tags %}
+{% block title %}
+Issue Tracker
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/tracker.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="header text-center mb-3">
+    <h1>Issue Tracker</h1>
+    <p class="text-muted">See all open and closed issues relating to AutoSkunkWorks</p>
+</div>
+<div class="issues">
+    <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" href="#open" data-toggle="pill" role="tab" aria-controls="open">Open</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#closed" data-toggle="pill" role="tab" aria-controls="closed">Closed</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#my-tickets" data-toggle="pill" role="tab" aria-controls="my-tickets">My Tickets</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#new-ticket" data-toggle="pill" role="tab" aria-controls="new-ticket">New Ticket</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="open" role="tabpanel" aria-labelledby="open-tab">
+            {% if open_issues|length > 0 %}
+            <div class="open-issues my-4 table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>ID</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <th style="width: 15%;"></th>
+                    </tr>
+                    
+                    {% for i in open_issues %}
+                    {% if i.priority != 0 %}
+                    <tr>
+                        <td>{{ i.id }}</td>
+                        <td>{{ i.get_category_display }}</td>
+                        <td>{% if i.issue_open %}Open{% else %}Closed{% endif %}</td>
+                        <td>{{ i.get_priority_display }}</td>
+                        <td><a href="{% url 'issue_detail' issue_id=i.id %}" class="btn btn-outline-primary">View</a></td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center">
+                <p class="my-5 py-5">Woohoo! There's no open issues!</p>
+            </div>
+            {% endif %}
+        </div>
+        <div class="tab-pane fade" id="closed" role="tabpanel" aria-labelledby="closed-tab">
+            {% if closed_issues|length > 0 %}
+            <div class="open-issues my-4 table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>ID</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <th style="width: 15%;"></th>
+                    </tr>
+                    
+                    {% for i in closed_issues %}
+                    <tr>
+                        <td>{{ i.id }}</td>
+                        <td>{{ i.get_category_display }}</td>
+                        <td>{% if i.issue_open %}Open{% else %}Closed{% endif %}</td>
+                        <td>{{ i.get_priority_display }}</td>
+                        <td><a href="{% url 'issue_detail' issue_id=i.id %}" class="btn btn-outline-primary">View</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center">
+                <p class="my-5 py-5">No issues have been submitted.</p>
+            </div>
+            {% endif %}
+        </div>
+        <div class="tab-pane fade" id="my-tickets" role="tabpanel" aria-labelledby="my-tickets-tab">
+            {% if my_issues|length > 0 %}
+            <div class="open-issues my-4 table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>ID</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <th style="width: 15%;"></th>
+                    </tr>
+                    
+                    {% for i in open_issues %}
+                    {% if i.priority != 0 %}
+                    <tr>
+                        <td>{{ i.id }}</td>
+                        <td>{{ i.get_category_display }}</td>
+                        <td>{% if i.issue_open %}Open{% else %}Closed{% endif %}</td>
+                        <td>{{ i.get_priority_display }}</td>
+                        <td><a href="{% url 'issue_detail' issue_id=i.id %}" class="btn btn-outline-primary">View</a></td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center">
+                <p class="my-5 py-5">You haven't submitted any issues yet (That's a good thing!)</p>
+            </div>
+            {% endif %}
+        </div>
+        <div class="tab-pane fade" id="new-ticket" role="tabpanel" aria-labelledby="new-tab">
+            <form action="{% url 'issue_tracker' %}" method="post" class="offset-lg-3 col-lg-6 offset-md-3 col-md-6 col-sm-12 col-12 my-3">
+                {% csrf_token %}
+                {{ newTicketForm|as_bootstrap }}
+                <div class="text-center">
+                    <button type="submit" class="btn btn-outline-success">Submit</button>
+                </div>
+            </form>
+        </div>
+      </div>
+</div>
+{% endblock content %}
