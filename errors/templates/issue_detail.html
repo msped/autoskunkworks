@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap_tags %}
+{% block title %}
+Issue Tracker
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/tracker.css' %}">
+{% endblock css %}
+
+{% block content %}
+<a class="btn btn-outline-dark" href="{% url 'issue_tracker' %}">Back to Issues</a>
+<div class="header text-center mb-3">
+    <h1>Issue {{ issue.id }}</h1>
+</div>
+<div class="issues">
+    <div class="issues offset-lg-2 col-lg-8 offset-md-2 col-md-8 col-sm-12 col-12">
+        <div id="div_id_category" class="form-group row">
+            <label for="id_category" class="control-label col-sm-2 col-form-label font-weight-bold">
+                Category:
+            </label>
+            <div class="col-sm-10">
+                <input type="text" readonly class="form-control-plaintext" id="id_category" value="{{ issue.get_category_display }}">
+            </div>
+        </div>
+        <hr>
+        <div id="div_id_issue_open" class="form-group row">
+            <label for="id_issue_open" class="col-sm-2 col-form-label font-weight-bold">
+                Status:
+            </label>
+            <div class="col-sm-10">
+                <input type="text" readonly class="form-control-plaintext" id="id_category" value="{% if issue.issue_open %}Open{% else %}Closed{% endif %}">
+            </div>
+        </div>
+        <hr>
+        <div id="div_id_issue_location" class="form-group row">
+            <label for="id_issue_location" class="control-label col-sm-2 col-form-label font-weight-bold">
+                Issue location:
+            </label>
+            <div class="col-sm-10">
+                <input type="text" readonly class="form-control-plaintext" id="id_issue_location" value="{{ issue.get_issue_location_display}}">
+            </div>
+        </div>
+        <hr>
+        <div id="div_id_priority" class="form-group row">
+            <label for="id_priority" class="control-label col-sm-2 col-form-label font-weight-bold">
+                Priority:
+            </label>
+            <div class="col-sm-10">
+                <input type="text" readonly class="form-control-plaintext" id="id_priority" value="{{ issue.get_priority_display}}">
+            </div>
+        </div>
+        <hr>
+        <div id="div_id_description" class="form-group row">
+            <label for="id_description" class="control-label col-sm-2 col-form-label font-weight-bold">
+                Description:
+            </label>
+            <div class="col-sm-10">
+                <textarea name="description" cols="40" rows="5" readonly class="form-control-plaintext"
+                    required="" id="id_description">{{ issue.description }}</textarea>
+            </div>
+        </div>
+        <div class="comments my-4">
+            <div class="accordion" id="accordionExample">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                                aria-expanded="true" aria-controls="collapseOne">
+                                View Comments
+                            </button>
+                            <div class="float-right mr-4">
+                                {% if issue.issue_open %}
+                                <a class="btn btn-outline-success" data-toggle="modal" data-target="#add_comment">Add Comment</a>
+                                {% else %}
+                                <p>This thread is locked.</p>
+                                {% endif %}      
+                            </div>          
+                        </h2>
+                    </div>
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">
+                            {% for c in comments %}
+                            <div class="card comment-card">
+                                <div class="card-body">
+                                    <div class="header">
+                                        <h6 class="card-subtitle mb-2 text-muted d-inline">{% if c.user.is_staff or c.user.is_admin %}<b>Staff:</b>{% endif %} {{ c.user.username }}</h6>
+                                        {% if c.user.id == request.user.id and issue.issue_open %}
+                                        <a href="{% url 'delete_comment' comment_id=c.id%}" class="card-link d-inline float-right">Delete</a>
+                                        {% endif %}
+                                    </div>
+                                    <p class="card-text">{{ c.comment }}</p>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <div class="text-center">
+                                <p>No comments have been submitted.</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add_comment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add a new comment to Issue {{ issue.id }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{% url 'add_comment' issue_id=issue.id %}" method="POST">
+                <div class="modal-body row">
+                    <label for="username" class="col-2 col-form-label font-weight-bold">User:</label>
+                    <input type="text" readonly class="form-control-plaintext col-10" id="username" value="{{ request.user.username }}">
+                    <div class="offset-1 col-10">
+                        {% csrf_token %}
+                        {{new_comment|as_bootstrap}}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                    <button class="btn btn-outline-success" id="add_button" type="submit">Add Comment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
