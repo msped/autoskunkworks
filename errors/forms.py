@@ -1,5 +1,5 @@
 from django import forms
-from .models import Issue
+from .models import Issue, Comments
 
 class NewTicket(forms.ModelForm):
     """Form for new ticket from model"""
@@ -12,4 +12,12 @@ class NewTicket(forms.ModelForm):
         fields = [
             'issue_location',
             'description'
+        ]
+
+class NewComment(forms.ModelForm):
+    """Add a new comment"""
+    class Meta:
+        model = Comments
+        fields = [
+            'comment'
         ]
