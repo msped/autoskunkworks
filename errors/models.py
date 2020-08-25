@@ -42,3 +42,12 @@ class Issue(models.Model):
         else:
             r = f'{self.id} - {self.priority} | Closed'
         return r
+
+class Comments(models.Model):
+    """Comments for an issue"""
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE)
+    comment = models.TextField()
+
+    def __str__(self):
+        return f"Issue {self.issue.id} comment by {self.user.username}"
