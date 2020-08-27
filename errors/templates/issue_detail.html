@@ -71,7 +71,7 @@ Issue Tracker
                                 View Comments
                             </button>
                             <div class="float-right mr-4">
-                                {% if issue.issue_open %}
+                                {% if issue.issue_open and user.is_authenticated %}
                                 <a class="btn btn-outline-success" data-toggle="modal" data-target="#add_comment">Add Comment</a>
                                 {% else %}
                                 <p>This thread is locked.</p>
@@ -116,6 +116,7 @@ Issue Tracker
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            {% if user.is_authenticated %}
             <form action="{% url 'add_comment' issue_id=issue.id %}" method="POST">
                 <div class="modal-body row">
                     <label for="username" class="col-2 col-form-label font-weight-bold">User:</label>
@@ -130,6 +131,11 @@ Issue Tracker
                     <button class="btn btn-outline-success" id="add_button" type="submit">Add Comment</button>
                 </div>
             </form>
+            {% else %}
+            <div class="text-center">
+                <p><a href="{% url 'login' %}">Login</a> to add a comment.</p>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
