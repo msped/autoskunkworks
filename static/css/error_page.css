@@ -1,0 +1,12 @@
+.jumbotron {
+    background-color: #fff;
+    padding: 0;
+}
+
+.display-4 {
+    font-family: 'PM', sans-serif;
+}
+
+.jumbotron div p {
+    font-family: 'Oswald', sans-serif;
+}

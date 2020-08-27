@@ -1,0 +1,35 @@
+.header h1 {
+    font-family: 'PM', sans-serif;
+}
+
+#open div.text-center p, #closed div.text-center p, #my-tickets div.text-center p, #new-ticket div.text-center p, #new-ticket div.text-center a {
+    font-family: 'PM', Arial, Helvetica, sans-serif;
+}
+
+.card {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    margin-bottom: 20px; 
+    border: 0px solid rgba(0,0,0,.125);
+}
+
+.card-header {
+    padding: .25rem 0rem;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    cursor: pointer;
+}
+
+.comment-card {
+    border: 1px solid rgba(0,0,0,.125)
+}
+
+.float-right.mr-4 p {
+    padding: .375rem .75rem;
+    font-size: 1rem;
+}

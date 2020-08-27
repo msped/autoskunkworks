@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+404 Not Found
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/error_page.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4 text-center p-3">404 Page Not Found</h1>
+    <div class="p-5">
+        <p class="lead">The page you're looking for doesn't exist or has been moved.</p>
+        <hr class="my-4">
+        <p>Oh, I've dropped it. Know anyone with a 10mm socket?</p>
+        <a class="btn btn-outline-primary my-5" href="{% url 'home' %}" role="button">Return to Homepage.</a>
+    </div>
+</div>
+{% endblock content %}

@@ -26,5 +26,9 @@ urlpatterns = [
     url(r'^u/', include('accounts.urls')),
     url(r'^b/', include('builds.urls')),
     url(r'^s/', include('support.urls')),
-    url(r'^media/(?P<path>.*)$', static.serve, {'document_root': MEDIA_ROOT})
-]    
+    url(r'^i/', include('errors.urls')),
+    url(r'^media/(?P<path>.*)$', static.serve, {'document_root': MEDIA_ROOT}),
+]
+
+handler404 = 'errors.views.handler404'
+handler500 = 'errors.views.handler500'
