@@ -66,8 +66,20 @@ class TestModels(TestCase):
         )
         self.assertEqual(str(response), '1 - New | Open')
 
+    def __str__issue_closed(self):
+        """Test creation of issues object closed"""
+        user = User.objects.get(username="mspe")
+        response = Issue.objects.create(
+            user=user,
+            category='3',
+            issue_open=False,
+            issue_location='10',
+            description='Test 3'
+        )
+        self.assertEqual(str(response), '2 - New | Closed')
+
     def create_issue(self):
-        """Test creation of issues object"""
+        """Test creation of issues object open"""
         user = User.objects.get(username="mspe")
         response = Issue.objects.create(
             user=user,
@@ -109,6 +121,7 @@ class TestModels(TestCase):
 
     def test_models_in_order(self):
         self.__str__issue_model()
+        self.__str__issue_closed()
         self.__str__comment_model()
         self.create_issue()
         self.create_comment()
@@ -131,6 +144,7 @@ class TestPageRespones(TestCase):
         self.assertIn(b'<h1>Issue Tracker</h1>', response.content)
 
     def issue_tracker_response_post(self):
+        """Test post to create new ticket"""
         self.client.post(
             '/u/login/',
             self.user,
@@ -145,21 +159,23 @@ class TestPageRespones(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'<td>3</td>', response.content)
+        self.assertIn(b'<td>4</td>', response.content)
 
     def issue_detail_get(self):
-        response = self.client.get('/i/3')
+        """Test response of issue detail"""
+        response = self.client.get('/i/4')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'<h1>Issue 3</h1>', response.content)
+        self.assertIn(b'<h1>Issue 4</h1>', response.content)
 
     def add_comment_post(self):
+        """Test adding a comment to an issue"""
         self.client.post(
             '/u/login/',
             self.user,
             follow=True
         )
         response = self.client.post(
-            '/i/comment/add/3',
+            '/i/comment/add/4',
             {
                 'comment': 'Test comment for issue'
             },
@@ -168,8 +184,21 @@ class TestPageRespones(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertIn(b'Comment has been added.', response.content)
         self.assertIn(b'Test comment for issue', response.content)
+
+    def test_add_comment_get_should_redirect(self):
+        """test the add comment get response, should be a redirect"""
+        self.client.post(
+            '/u/login/',
+            self.user,
+            follow=True
+        )
+        response = self.client.get(
+            '/i/comment/add/4'
+        )
+        self.assertEquals(response.status_code, 302)
     
     def delete_comment(self):
+        """Test deleting a comment"""
         self.client.post(
             '/u/login/',
             self.user,
