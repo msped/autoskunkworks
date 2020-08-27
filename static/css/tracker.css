@@ -2,7 +2,7 @@
     font-family: 'PM', sans-serif;
 }
 
-#open div.text-center p, #closed div.text-center p, #my-tickets div.text-center p {
+#open div.text-center p, #closed div.text-center p, #my-tickets div.text-center p, #new-ticket div.text-center p, #new-ticket div.text-center a {
     font-family: 'PM', Arial, Helvetica, sans-serif;
 }
 
