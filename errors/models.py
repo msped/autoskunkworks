@@ -38,9 +38,9 @@ class Issue(models.Model):
 
     def __str__(self):
         if self.issue_open:
-            r = f'{self.id} - {self.priority} | Open'
+            r = f'{self.id} - {self.get_priority_display()} | Open'
         else:
-            r = f'{self.id} - {self.priority} | Closed'
+            r = f'{self.id} - {self.get_priority_display()} | Closed'
         return r
 
 class Comments(models.Model):
