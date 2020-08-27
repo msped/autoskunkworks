@@ -240,9 +240,6 @@ def get_web_price(request):
             price = price_site.strip()
         new_price = re.sub(r'[^\w^.]','', price)
         return HttpResponse(new_price)
-    
-    price = '0'
-    return HttpResponse(price)
 
 def download_qrcode(request, build_id):
     """For a user to download the QR Code file for display"""
