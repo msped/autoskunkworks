@@ -18,7 +18,11 @@ def handler500(request, *args, **argv):
 
 def issue_tracker(request):
     """Show issue tracker"""
-    user = User.objects.get(id=request.user.id)
+    if request.user.is_authenticated:
+        user = User.objects.get(id=request.user.id)
+        my_issues = Issue.objects.filter(user=user).order_by('-id')
+    else: 
+        my_issues = None
     if request.method == "POST":
         form = NewTicket(request.POST)
         if form.is_valid():
@@ -36,7 +40,6 @@ def issue_tracker(request):
             return redirect('issue_tracker')
     open_issues = Issue.objects.filter(issue_open=True).order_by('-id')
     closed_issues = Issue.objects.filter(issue_open=False).order_by('-id')
-    my_issues = Issue.objects.filter(user=user).order_by('-id')
     context = {
         'open_issues': open_issues,
         'closed_issues': closed_issues,
@@ -67,7 +70,7 @@ def add_comment(request, issue_id):
                 issue=issue,
                 comment=comment
             )
-            message.success(request, 'Comment has been added.')
+            messages.success(request, 'Comment has been added.')
             return redirect('issue_detail', issue_id)
     return redirect('issue_detail', issue_id)
 
