@@ -35,4 +35,4 @@ def support(request):
         content = {
             'form': form,
         }
-    return render(request, "support.html", {'form': ContactForm})
+    return render(request, "support.html", {'form': form})
