@@ -91,6 +91,7 @@ Issue Tracker
             {% endif %}
         </div>
         <div class="tab-pane fade" id="my-tickets" role="tabpanel" aria-labelledby="my-tickets-tab">
+            {% if user.is_authenticated %}
             {% if my_issues|length > 0 %}
             <div class="open-issues my-4 table-responsive">
                 <table class="table">
@@ -120,8 +121,14 @@ Issue Tracker
                 <p class="my-5 py-5">You haven't submitted any issues yet (That's a good thing!)</p>
             </div>
             {% endif %}
+            {% else %}
+            <div class="text-center">
+                <p class="my-5 py-5"><a href="{% url 'login' %}">login</a> to view your tickets.</p>
+            </div>
+            {% endif %}
         </div>
         <div class="tab-pane fade" id="new-ticket" role="tabpanel" aria-labelledby="new-tab">
+            {% if user.is_authenticated %}
             <form action="{% url 'issue_tracker' %}" method="post" class="offset-lg-3 col-lg-6 offset-md-3 col-md-6 col-sm-12 col-12 my-3">
                 {% csrf_token %}
                 {{ newTicketForm|as_bootstrap }}
@@ -129,6 +136,11 @@ Issue Tracker
                     <button type="submit" class="btn btn-outline-success">Submit</button>
                 </div>
             </form>
+            {% else %}
+            <div class="text-center">
+                <p class="my-5 py-5"><a href="{% url 'login' %}">Login</a> to raise a new ticket.</p>
+            </div>
+            {% endif %}
         </div>
       </div>
 </div>
