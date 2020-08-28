@@ -611,15 +611,50 @@ class BuildTests(TestCase):
         self.delete_build_logged_in()
 
     # Get Web Price
-    # def test_get_web_price(self):
-    #     """Test Get Web Price, correct domain"""
-    #     response = self.client.post(
-    #         '/b/get_web_price/',
-    #         {
-    #             'url': 'https://www.ebay.co.uk/itm/GENUINE-A45-AMG-Rear-Diffuser-Sport-Edition-Mercedes-Benz-W176-A-Class-NEW/132794845019?epid=23008548439&hash=item1eeb30875b:g:D1MAAOSwx-9WvwlE'
-    #         }
-    #     )
-    #     print(response.content)
+    def test_get_web_price_id(self):
+        """Test Get Web Price by id"""
+        Domains.objects.create(
+            domain='ebay',
+            price_element='prcIsum',
+            attr='1'
+        )
+        response = self.client.post(
+            '/b/get_web_price/',
+            {
+                'url': 'https://www.ebay.co.uk/itm/GENUINE-A45-AMG-Rear-Diffuser-Sport-Edition-Mercedes-Benz-W176-A-Class-NEW/132794845019?epid=23008548439&hash=item1eeb30875b:g:D1MAAOSwx-9WvwlE'
+            }
+        )
+        self.assertIn(b'201.99', response.content)
+
+    def test_get_web_price_class(self):
+        """Test Get Web Price by class"""
+        Domains.objects.create(
+            domain='carid',
+            price_element='prod-price',
+            attr='2'
+        )
+        response = self.client.post(
+            '/b/get_web_price/',
+            {
+                'url': 'https://www.carid.com/yellow-speed-racing/2-4-x-2-4-dynamic-pro-sport-front-and-rear-lowering-coilover-kit-mpn-ys01-mb-dps026.html?singleid=2409751552&url=90603970'
+            }
+        )
+        self.assertIn(b'1100.00', response.content)
+
+    def test_get_web_price_no_domain(self):
+        """Test Get Web Price no domain stored"""
+        Domains.objects.create(
+            domain='carid',
+            price_element='prod-price',
+            attr='2'
+        )
+        response = self.client.post(
+            '/b/get_web_price/',
+            {
+                'url': 'https://carbonwurks.com/shop/exterior/a-class-front-spoiler-extension/'
+            }
+        )
+        self.assertIn(b'0', response.content)
 
     # Check Visibility Public 
     def test_check_visibility_public(self):
