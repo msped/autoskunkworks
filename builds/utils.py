@@ -182,8 +182,8 @@ def update_heading_contents_exterior(request, heading):
     new_heading_ids = []
     for item in heading:
         link = request.POST.get('exterior_' + str(item.id) + '_link')
-        price = request.POST.get('exterior_' + str(item.id) + '_price')
         if link is not None:
+            price = request.POST.get('exterior_' + str(item.id) + '_price')
             purchased = convert_purchased(request.POST.get('exterior_' + str(item.id) + '_purchased'))
             part, created = Exterior.objects.get_or_create(
                 exterior_category=item,
@@ -201,14 +201,19 @@ def update_heading_contents_exterior(request, heading):
                 part.price = float(price)
                 part.purchased = purchased
                 part.save()
+        else:
+            deletion = request.POST.get('exterior_' + str(item.id) + '_delete')
+            if deletion is not None:
+                part = Exterior.objects.get(id=int(deletion))
+                part.delete()
     return new_heading_ids
 
 def update_heading_contents_engine(request, heading):
     new_heading_ids = []
     for item in heading:
         link = request.POST.get('engine_' + str(item.id) + '_link')
-        price = request.POST.get('engine_' + str(item.id) + '_price')
         if link is not None:
+            price = request.POST.get('engine_' + str(item.id) + '_price')
             purchased = convert_purchased(request.POST.get('engine_' + str(item.id) + '_purchased'))
             part, created = Engine.objects.get_or_create(
                 engine_category=item,
@@ -226,14 +231,19 @@ def update_heading_contents_engine(request, heading):
                 part.price = float(price)
                 part.purchased = purchased
                 part.save()
+        else:
+            deletion = request.POST.get('engine_' + str(item.id) + '_delete')
+            if deletion is not None:
+                part = Engine.objects.get(id=int(deletion))
+                part.delete()
     return new_heading_ids
 
 def update_heading_contents_running(request, heading):
     new_heading_ids = []
     for item in heading:
         link = request.POST.get('running_' + str(item.id) + '_link')
-        price = request.POST.get('running_' + str(item.id) + '_price')
         if link is not None:
+            price = request.POST.get('running_' + str(item.id) + '_price')
             purchased = convert_purchased(request.POST.get('running_' + str(item.id) + '_purchased'))
             part, created = Running.objects.get_or_create(
                 running_category=item,
@@ -251,14 +261,19 @@ def update_heading_contents_running(request, heading):
                 part.price = float(price)
                 part.purchased = purchased
                 part.save()
+        else:
+            deletion = request.POST.get('running_' + str(item.id) + '_delete')
+            if deletion is not None:
+                part = Ruuning.objects.get(id=int(deletion))
+                part.delete()
     return new_heading_ids
 
 def update_heading_contents_interior(request, heading):
     new_heading_ids = []
     for item in heading:
         link = request.POST.get('interior_' + str(item.id) + '_link')
-        price = request.POST.get('interior_' + str(item.id) + '_price')
         if link is not None:
+            price = request.POST.get('interior_' + str(item.id) + '_price')
             purchased = convert_purchased(request.POST.get('interior_' + str(item.id) + '_purchased'))
             part, created = Interior.objects.get_or_create(
                 interior_category=item,
@@ -276,6 +291,11 @@ def update_heading_contents_interior(request, heading):
                 part.price = float(price)
                 part.purchased = purchased
                 part.save()
+        else:
+            deletion = request.POST.get('interior_' + str(item.id) + '_delete')
+            if deletion is not None:
+                part = Interior.objects.get(id=int(deletion))
+                part.delete()
     return new_heading_ids
 
 def update_car(request, build):
