@@ -158,7 +158,7 @@ Edit {{ build.name }}
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="exterior-table">                   
+                    <tbody id="exterior" class="exterior-table">                   
                         {% for item in build.exterior_parts.all %}
                         <tr>
                             <td>
@@ -177,7 +177,8 @@ Edit {{ build.name }}
                             </td>
                             <td>
                                 <i class="far fa-times-circle" id="delete-row"></i>
-                                <input type="hidden" name="part-id" value="{{ item.id }}">
+                                <input type="hidden" name="part-id" value="{{ item.exterior_category.id }}">
+                                <input type="hidden" name="model-id" value="{{ item.id }}">
                             </td>
                         </tr>
                         {% endfor %}
@@ -226,7 +227,7 @@ Edit {{ build.name }}
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="engine-table">
+                    <tbody id="engine" class="engine-table">
                         {% for item in build.engine_parts.all %}
                         <tr>
                             <td>
@@ -294,7 +295,7 @@ Edit {{ build.name }}
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="running-gear-table">
+                    <tbody id="running" class="running-table">
                         {% for item in build.running_gear_parts.all %}
                         <tr>
                             <td>
@@ -362,7 +363,7 @@ Edit {{ build.name }}
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="interior-table">
+                    <tbody id="interior" class="interior-table">
                         {% for item in build.interior_parts.all %}
                         <tr>
                             <td>
