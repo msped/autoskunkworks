@@ -2,6 +2,8 @@ from datetime import datetime
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django import forms
+from builds.models import *
+from builds.utils import create_build_id
 from .forms import UserLoginForm, UserRegisterForm
 from .apps import AccountsConfig
 
@@ -168,6 +170,87 @@ class AccountViewsTest(TestCase):
             follow=True
         )
         self.assertIn(b'Account Deactivated. If you wish to create new builds you will have to re-register.', response.content)
+
+    def test_deactivate_user_with_builds(self):
+        """Test deletion of users builds when user deactivates account"""
+        self.client.post(
+            '/u/login/',
+            self.user,
+            follow=True
+        )
+        ex_cat = ExteriorCategory.objects.create(
+            title="Front Splitter",
+            name="front_splitter"
+        )
+        en_cat = EngineCategory.objects.create(
+            title="Remap",
+            name="remap"
+        )
+        ru_cat = RunningCategory.objects.create(
+            title="Suspension",
+            name="suspension"
+        )
+        in_cat = InteriorCategory.objects.create(
+            title="Harness",
+            name="harness"
+        )
+        Exterior.objects.create(
+            exterior_category=ex_cat,
+            link='https://carbonwurks.com/shop/exterior/a-class-front-spoiler-extension/',
+            price=595.00,
+            purchased=True
+        )
+        Engine.objects.create(
+            engine_category=en_cat,
+            link='https://www.ebay.co.uk/p/552299957?iid=123190033794&chn=ps&norover=1&mkevt=1&mkrid=710-134428-41853-0&mkcid=2&itemid=123190033794&targetid=909243431449&device=c&mktype=pla&googleloc=1007242&poi=&campaignid=10195651607&mkgroupid=107296279612&rlsatarget=aud-629407027585:pla-909243431449&abcId=1145985&merchantid=7398324&gclid=Cj0KCQjwpZT5BRCdARIsAGEX0zkvDbECip8gnYYYB0idBJnMMNWsLkAU-YrzfCv_4uYdH7rJC-snPUYaAplZEALw_wcB',
+            price=849.99,
+            purchased=False
+        )
+        Running.objects.create(
+            running_category=ru_cat,
+            link='https://www.ebay.co.uk/itm/48-230971-Bilstein-B16-PSS-Coilover-Kit-For-Mercedes-A-Class-12-W176/362936026458?fits=Plat_Gen%3AW176&epid=5013641733&hash=item5480ac455a:g:fWwAAOSwbHpdzQto',
+            price=1374.37,
+            purchased=False
+        )
+        Interior.objects.create(
+            interior_category=in_cat,
+            link='https://www.nickygrist.com/turn-one-6-point-harness?gclid=Cj0KCQjwpZT5BRCdARIsAGEX0zk1hYxZwwU5cFC6Y8EC1L4wJU1uvVCXhhcJ9gFRMdp48FqC7kWGOtAaAiRxEALw_wcB',
+            price=119.94,
+            purchased=False
+        )
+        Cars.objects.create(
+            make='Mercedes',
+            model='A Class',
+            trim='A250',
+            year='2013',
+            price=12500,
+            purchased=True
+        )
+        # create build
+        user = User.objects.get(username="test")
+        ex = Exterior.objects.all().first()
+        en = Engine.objects.all().first()
+        ru = Running.objects.all().first()
+        inte = Interior.objects.all().first()
+        car = Cars.objects.all().first()
+        build = Builds.objects.create(
+            build_id=create_build_id(),
+            author=user,
+            name="Test deletion",
+            price_hidden=False,
+            total=1000,
+            private=False,
+            car=car
+        )
+        build.exterior_parts.add(ex)
+        build.engine_parts.add(en)
+        build.running_gear_parts.add(ru)
+        build.interior_parts.add(inte)
+        build.likes.add(user)
+        response = self.client.get(
+            '/u/delete_account/'
+        )
+        self.assertFalse( Builds.objects.filter(author=user).exists())
 
     # def test_users_builds_successful(self):
     #     """Test response of a users build"""
