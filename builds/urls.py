@@ -7,7 +7,6 @@ from .views import (
     like_build, 
     dislike_build,
     edit_build,
-    delete_row,
     delete_build,
     get_web_price,
     download_qrcode
@@ -19,7 +18,6 @@ urlpatterns = [
     url(r'^$', builds, name="builds"),
     url(r'^like/(?P<build_id>\d+)', like_build, name="like_build"),
     url(r'^dislike/(?P<build_id>\d+)', dislike_build, name="dislike_build"),
-    url(r'^delete_row/(?P<row_id>\d+)/(?P<table>[\w-]+)/(?P<build_id>\d+)', delete_row, name="delete_row"),
     url(r'^delete/(?P<build_id>\d+)', delete_build, name="delete_build"),
     url(r'^get_web_price', get_web_price, name="get_web_price"),
     path(r'qr_code/<str:build_id>', download_qrcode, name="download_qrcode"),
