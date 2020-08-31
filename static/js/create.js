@@ -43,7 +43,7 @@ $(document).ready(function () {
                                     '<i class="far fa-times-circle" id="delete-row"></i>' +
                                 '</td>' +
                             '</tr>';
-            $('#exterior-table').append(template);
+            $('.exterior-table').append(template);
         }
         
     });
@@ -69,7 +69,7 @@ $(document).ready(function () {
                                 '<i class="far fa-times-circle" id="delete-row"></i>' +
                             '</td>' +
                         '</tr>';
-            $('#engine-table').append(template); 
+            $('.engine-table').append(template); 
         }
         
     });
@@ -95,7 +95,7 @@ $(document).ready(function () {
                                 '<i class="far fa-times-circle" id="delete-row"></i>' +
                             '</td>' +
                         '</tr>';
-            $('#running-gear-table').append(template); 
+            $('.running-gear-table').append(template); 
         }
         
     });
@@ -121,32 +121,21 @@ $(document).ready(function () {
                                 '<i class="far fa-times-circle" id="delete-row"></i>' +
                             '</td>' +
                         '</tr>';
-            $('#interior-table').append(template); 
+            $('.interior-table').append(template); 
         }
         
     });
 
     $('tbody').on('click', '#delete-row', function(){
-        const model_id = $(this).next().val();
+        const model_id = $(this).next().next().val();
+        const part_id = $(this).next().val();
         const row = $(this).closest('tr');
-        let build = $('#build_id').val();
-        if (model_id == null){
-            row.remove();
-        } else {
-            let table = $(this).closest('tbody').attr('id');
-            $.ajax({
-                url: '/b/delete_row/' + model_id + '/' + table + '/' + build,
-                type: 'POST',
-                success: function(data){
-                    if (data.result){
-                        row.remove();
-                        $('#build-total').html(data.total);
-                    } else {
-                        alert("There was an error processing this request.");
-                    }
-                }
-            });
-        }        
+        const table = $(this).closest('tbody').attr('id');
+        template = `<input type="hidden" name="` + table + `_` + part_id + `_delete" value="` + model_id +`">`;
+        console.log(template + " Model: " + model_id);
+        $('form').append(template);
+        row.remove();
+        get_total();
     });
 
     $('tbody').on('change paste', 'input[type=url]', function(){
