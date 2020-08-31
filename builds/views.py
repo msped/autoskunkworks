@@ -165,47 +165,6 @@ def edit_build(request, build_id):
     }
     return render(request, "edit.html", context)
 
-@csrf_exempt
-@login_required
-def delete_row(request, row_id, table, build_id):
-    """Delete row from a build when editing"""
-    build = Builds.objects.get(id=build_id)
-    if request.method == "POST":
-        if table == "exterior-table":
-            row = Exterior.objects.get(id=row_id)
-            part_price = row.price
-            row.delete()
-            result = True
-        elif table == "engine-table":
-            row = Engine.objects.get(id=row_id)
-            part_price = row.price
-            row.delete()
-            result = True
-        elif table == "running-gear-table":
-            row = Running.objects.get(id=row_id)
-            part_price = row.price
-            row.delete()
-            result = True
-        elif table == "interior-table":
-            row = Interior.objects.get(id=row_id)
-            part_price = row.price
-            row.delete()
-            result = True
-        else:
-            result = False
-            new_total = build.total
-        if result:
-            old_total = build.total
-            new_total = old_total - part_price
-            build.total = new_total
-            build.save()
-
-    deleted = {
-        'result': result,
-        'total': new_total
-    }
-    return JsonResponse(deleted)
-
 @login_required
 def delete_build(request, build_id):
     """Delete a Build"""
