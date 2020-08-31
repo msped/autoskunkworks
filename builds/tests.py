@@ -21,6 +21,22 @@ class BuildTests(TestCase):
             'password': 'testpassword'
         }
         User.objects.create_user(**self.user)
+        ExteriorCategory.objects.create(
+            title="Sideskirts",
+            name="sideskirts"
+        )
+        EngineCategory.objects.create(
+            title="Exhaust",
+            name="exhuast"
+        )
+        RunningCategory.objects.create(
+            title="Wheels",
+            name="wheels"
+        )
+        InteriorCategory.objects.create(
+            title="Steering Wheel",
+            name="steering_wheel"
+        )
         ex_cat = ExteriorCategory.objects.create(
             title="Front Splitter",
             name="front_splitter"
@@ -356,6 +372,107 @@ class BuildTests(TestCase):
         self.assertEqual(response.status_code, 302)
 
     # Edit Build Post
+    def test_update_build_post(self):
+        """Test Post data for updating a build"""
+        build = Builds.objects.get(name='Test')
+        interior = Interior.objects.get(
+            link='https://www.nickygrist.com/turn-one-6-point-harness?gclid=Cj0KCQjwpZT5BRCdARIsAGEX0zk1hYxZwwU5cFC6Y8EC1L4wJU1uvVCXhhcJ9gFRMdp48FqC7kWGOtAaAiRxEALw_wcB',
+            price=119.94,
+        )
+        self.client.post(
+            '/u/login/',
+            self.user,
+            follow=True
+        )
+        response = self.client.post(
+            '/b/edit/' + build.build_id,
+            {
+                'total': 750.00, # changed
+                'private': "off",
+                'price_hidden': "off",
+                'make': 'Mercedes',
+                'model': 'B Class',
+                'trim': 'A250',
+                'year': '2013',
+                'price': 12500,
+                'car_purchased': "on",
+                'exterior_1_link': 'https://carbonwurks.com/shop/exterior/a-class-front-spoiler-extension/',
+                'exterior_1_price': 595.00,
+                'exterior_1_purchased': "off",
+                'engine_1_link': 'https://www.ebay.co.uk/p/552299957?iid=123190033794&chn=ps&norover=1&mkevt=1&mkrid=710-134428-41853-0&mkcid=2&itemid=123190033794&targetid=909243431449&device=c&mktype=pla&googleloc=1007242&poi=&campaignid=10195651607&mkgroupid=107296279612&rlsatarget=aud-629407027585:pla-909243431449&abcId=1145985&merchantid=7398324&gclid=Cj0KCQjwpZT5BRCdARIsAGEX0zkvDbECip8gnYYYB0idBJnMMNWsLkAU-YrzfCv_4uYdH7rJC-snPUYaAplZEALw_wcB',
+                'engine_1_price': '1000',
+                'engine_1_purchased': "on",
+                'running_1_link': 'https://www.ebay.co.uk/itm/48-230971-Bilstein-B16-PSS-Coilover-Kit-For-Mercedes-A-Class-12-W176/362936026458?fits=Plat_Gen%3AW176&epid=5013641733&hash=item5480ac455a:g:fWwAAOSwbHpdzQto',
+                'running_1_price': 295.00,
+                'running_1_purchased': "off",
+                'interior_1_link': 'https://www.nickygrist.com/turn-one-6-point-harness?gclid=Cj0KCQjwpZT5BRCdARIsAGEX0zk1hYxZwwU5cFC6Y8EC1L4wJU1uvVCXhhcJ9gFRMdp48FqC7kWGOtAaAiRxEALw_wcB',
+                'interior_1_price': 500.00,
+                'interior_1_purchased': "off"
+            },
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'<td>\n                            B Class\n', response.content)
+        self.assertIn(b'Total Price: <strong>750.0</strong>', response.content)
+
+    def test_update_build_new_headings(self):
+        """Test Post data for updating a build with new headings"""
+        build = Builds.objects.get(name='Test')
+        new_ex = ExteriorCategory.objects.get(title='Sideskirts')
+        new_en = EngineCategory.objects.get(title='Exhaust')
+        new_ru = RunningCategory.objects.get(title='Wheels')
+        new_in = InteriorCategory.objects.get(title='Steering Wheel')
+        self.client.post(
+            '/u/login/',
+            self.user,
+            follow=True
+        )
+        response = self.client.post(
+            '/b/edit/' + build.build_id,
+            {
+                'total': 750.00,
+                'private': "off",
+                'price_hidden': "off",
+                'make': 'Mercedes',
+                'model': 'B Class',
+                'trim': 'A250',
+                'year': '2013',
+                'price': 12500,
+                'car_purchased': "on",
+                'exterior_1_link': 'https://carbonwurks.com/shop/exterior/a-class-front-spoiler-extension/',
+                'exterior_1_price': 595.00,
+                'exterior_1_purchased': "off",
+                'engine_1_link': 'https://www.ebay.co.uk/p/552299957?iid=123190033794&chn=ps&norover=1&mkevt=1&mkrid=710-134428-41853-0&mkcid=2&itemid=123190033794&targetid=909243431449&device=c&mktype=pla&googleloc=1007242&poi=&campaignid=10195651607&mkgroupid=107296279612&rlsatarget=aud-629407027585:pla-909243431449&abcId=1145985&merchantid=7398324&gclid=Cj0KCQjwpZT5BRCdARIsAGEX0zkvDbECip8gnYYYB0idBJnMMNWsLkAU-YrzfCv_4uYdH7rJC-snPUYaAplZEALw_wcB',
+                'engine_1_price': 1000,
+                'engine_1_purchased': "on",
+                'running_1_link': 'https://www.ebay.co.uk/itm/48-230971-Bilstein-B16-PSS-Coilover-Kit-For-Mercedes-A-Class-12-W176/362936026458?fits=Plat_Gen%3AW176&epid=5013641733&hash=item5480ac455a:g:fWwAAOSwbHpdzQto',
+                'running_1_price': 295.00,
+                'running_1_purchased': "off",
+                'interior_1_link': 'https://www.nickygrist.com/turn-one-6-point-harness?gclid=Cj0KCQjwpZT5BRCdARIsAGEX0zk1hYxZwwU5cFC6Y8EC1L4wJU1uvVCXhhcJ9gFRMdp48FqC7kWGOtAaAiRxEALw_wcB',
+                'interior_1_price': 500.00,
+                'interior_1_purchased': "off",
+
+                'exterior_'+ str(new_ex.id) +'_link': 'https://carbonwurks.com/shop/exterior/acla-class-carbon-fibre-side-skirt-extensions/',
+                'exterior_'+ str(new_ex.id) +'_price': 100.00,
+                'exterior_'+ str(new_ex.id) +'_purchased': "off",
+                'engine_'+ str(new_en.id) +'_link': 'https://clptuning.co.uk/product/remus-cat-back-exhaust-mercedes-a45cla45-amg/',
+                'engine_'+ str(new_en.id) +'_price': 1000,
+                'engine_'+ str(new_en.id) +'_purchased': "on",
+                'running_'+ str(new_ru.id) +'_link': 'https://www.wheelbasealloys.com/alloy-wheels/ava/hsf-013/gun-metal/20-inch-wider-rear/mercedes/c-class-amg/c63s',
+                'running_'+ str(new_ru.id) +'_price': 100.00,
+                'running_'+ str(new_ru.id) +'_purchased': "off",
+                'interior_'+ str(new_in.id) +'_link': 'https://carbonwurks.com/shop/interior/audi-r8-carbon-fibre-steering-wheel/',
+                'interior_'+ str(new_in.id) +'_price': 100.00,
+                'interior_'+ str(new_in.id) +'_purchased': "off"
+
+            },
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'https://carbonwurks.com/shop/exterior/acla-class-carbon-fibre-side-skirt-extensions/', response.content)
+        self.assertIn(b'https://clptuning.co.uk/product/remus-cat-back-exhaust-mercedes-a45cla45-amg/', response.content)
+        self.assertIn(b'https://www.wheelbasealloys.com/alloy-wheels/ava/hsf-013/gun-metal/20-inch-wider-rear/mercedes/c-class-amg/c63s', response.content)
+        self.assertIn(b'https://carbonwurks.com/shop/interior/audi-r8-carbon-fibre-steering-wheel/', response.content)
 
     # View Build Get
     def test_view_page_response(self):
@@ -500,87 +617,6 @@ class BuildTests(TestCase):
         self.dislike_a_build_not_disliked()
         self.like_a_build_already_disliked()
 
-    # Delete Row
-    def test_delete_exterior_row(self):
-        """Delete an exterior row from a build"""
-        self.client.post(
-            '/u/login/',
-            self.user,
-            follow=True
-        )
-        build = Builds.objects.get(name="Test")
-        item = build.exterior_parts.first()
-        response = self.client.post(
-            '/b/delete_row/'+ str(item.id) + '/exterior-table/' + str(build.id) + '/'
-        )
-        self.assertJSONEqual(
-            str(response.content, encoding="utf8"),
-            {
-                'total': 405.0,
-                'result': True
-            }
-        )
-    
-    def test_delete_engine_row(self):
-        """Delete an engine row from a build"""
-        self.client.post(
-            '/u/login/',
-            self.user,
-            follow=True
-        )
-        build = Builds.objects.get(name="Test")
-        item = build.engine_parts.first()
-        response = self.client.post(
-            '/b/delete_row/'+ str(item.id) + '/engine-table/' + str(build.id) + '/'
-        )
-        self.assertJSONEqual(
-            str(response.content, encoding="utf8"),
-            {
-                'total': 150.01,
-                'result': True
-            }
-        )
-
-    def test_delete_running_row(self):
-        """Delete an running row from a build"""
-        self.client.post(
-            '/u/login/',
-            self.user,
-            follow=True
-        )
-        build = Builds.objects.get(name="Test")
-        item = build.running_gear_parts.first()
-        response = self.client.post(
-            '/b/delete_row/'+ str(item.id) + '/running-table/' + str(build.id) + '/'
-        )
-        self.assertJSONEqual(
-            str(response.content, encoding="utf8"),
-            {
-                'total': 1000.0,
-                'result': False
-            }
-        )
-
-    def test_delete_interior_row(self):
-        """Delete an interior row from a build"""
-        self.client.post(
-            '/u/login/',
-            self.user,
-            follow=True
-        )
-        build = Builds.objects.get(name="Test")
-        item = build.interior_parts.first()
-        response = self.client.post(
-            '/b/delete_row/'+ str(item.id) + '/interior-table/' + str(build.id) + '/'
-        )
-        self.assertJSONEqual(
-            str(response.content, encoding="utf8"),
-            {
-                'total': 880.06,
-                'result': True
-            }
-        )
-
     # Delete Build
     def delete_build_not_logged_in(self):
         """Test delete a build while not logged in, should return 302"""
@@ -629,17 +665,17 @@ class BuildTests(TestCase):
     def test_get_web_price_class(self):
         """Test Get Web Price by class"""
         Domains.objects.create(
-            domain='carid',
-            price_element='prod-price',
+            domain='throtl',
+            price_element='price-item--regular',
             attr='2'
         )
         response = self.client.post(
             '/b/get_web_price/',
             {
-                'url': 'https://www.carid.com/yellow-speed-racing/2-4-x-2-4-dynamic-pro-sport-front-and-rear-lowering-coilover-kit-mpn-ys01-mb-dps026.html?singleid=2409751552&url=90603970'
+                'url': 'https://throtl.com/products/air-lift-performance-15-20-mercedes-c-class-w205-c63-a-78580'
             }
         )
-        self.assertIn(b'1100.00', response.content)
+        self.assertIn(b'1075.63', response.content)
 
     def test_get_web_price_no_domain(self):
         """Test Get Web Price no domain stored"""
