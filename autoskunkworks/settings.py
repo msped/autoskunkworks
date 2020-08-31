@@ -144,7 +144,7 @@ LOGIN_URL = '/u/login/'
 # EMAIL_SUBJECT_PREFIX = ''
 # EMAIL_USE_TLS = True
 # EMAIL_HOST = 'smtp.sendgrid.net'
-# EMAIL_HOST_USER = os.environ.get('EMAIL_USERNAME')
+EMAIL_HOST_USER = os.environ.get('EMAIL_USERNAME')
 # EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 
 # sentry_sdk.init(
