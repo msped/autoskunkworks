@@ -65,7 +65,6 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -73,6 +72,12 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'loaders': [
+            ('django.template.loaders.cached.Loader', [
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+            ]),
+        ],
         },
     },
 ]
@@ -140,19 +145,22 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_URL = '/u/login/'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# DEFAULT_FROM_EMAIL = 'noreply@autoskunk.works'
+DEFAULT_FROM_EMAIL = 'noreply@autoskunk.works'
 # EMAIL_SUBJECT_PREFIX = ''
 # EMAIL_USE_TLS = True
 # EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = os.environ.get('EMAIL_USERNAME')
 # EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 
-# sentry_sdk.init(
-#     dsn=os.environ.get('sentry_dns'),
-#     integrations=[DjangoIntegration()],
-#     traces_sample_rate = 1.0,
+sentry_sdk.init(
+    dsn=os.environ.get('sentry_dns'),
+    integrations=[DjangoIntegration()],
+    traces_sample_rate = 1.0,
 
-#     # If you wish to associate users to errors (assuming you are using
-#     # django.contrib.auth) you may enable sending PII data.
-#     send_default_pii=True
-# )
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
