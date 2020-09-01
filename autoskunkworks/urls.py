@@ -30,5 +30,7 @@ urlpatterns = [
     url(r'^media/(?P<path>.*)$', static.serve, {'document_root': MEDIA_ROOT}),
 ]
 
+handler400 = 'errors.views.handler400'
+handler403 = 'errors.views.handler403'
 handler404 = 'errors.views.handler404'
 handler500 = 'errors.views.handler500'
