@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+400 Bad Request
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/error_page.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4 text-center p-3">400 Bad Request</h1>
+    <div class="p-5">
+        <p class="lead">Seems we can't get what you want.</p>
+        <hr class="my-4">
+        <p>- Telsa, to RichRebuilds</p>
+        <a class="btn btn-outline-primary my-5" href="{% url 'home' %}" role="button">Return to Homepage.</a>
+    </div>
+</div>
+{% endblock content %}
