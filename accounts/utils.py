@@ -1,6 +1,8 @@
-from django.core.mail import send_mail
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+from django.conf import settings
 from django.template import loader
-from django.utils.html import strip_tags
 
 
 def signup_email(request):
@@ -8,30 +10,30 @@ def signup_email(request):
     html_email = loader.render_to_string(
         'emails/signup.html',
     )
-    message = strip_tags(html_email)
-    send_mail(
-        'Welcome to AutoSkunkWorks',
-        message=message,
-        from_email='autoskunkworks@gmail.com',
-        fail_silently=False,
-        connection=None,
-        recipient_list=[str(request.user.email)],
-        html_message=html_email
-    )
+    message = Mail(
+    from_email=settings.DEFAULT_FROM_EMAIL,
+    to_emails=request.user.email,
+    subject='You have signed up for AutoSkunkWorks',
+    html_content=html_email)
+    try:
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        response = sg.send(message)
+    except Exception as e:
+        print(e)
 
 def deactivate_email(request):
     """Send out email to confirm signup"""
     html_email = loader.render_to_string(
         'emails/deactivate_account.html',
     )
-    message = strip_tags(html_email)
-    send_mail(
-        'Your AutoSkunkWorks Account has been deactivated.',
-        message=message,
-        from_email='autoskunkworks@gmail.com',
-        fail_silently=False,
-        connection=None,
-        recipient_list=[str(request.user.email)],
-        html_message=html_email
-    )
+    message = Mail(
+    from_email=settings.DEFAULT_FROM_EMAIL,
+    to_emails=request.user.email,
+    subject='Your AutoSkunkWorks Account has been deactivated.',
+    html_content=html_email)
+    try:
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        response = sg.send(message)
+    except Exception as e:
+        print(e)
 
