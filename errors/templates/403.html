@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+403 Permission Denied
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/error_page.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4 text-center p-3">403 Permission Denied</h1>
+    <div class="p-5">
+        <p class="lead">Your access to this page has been denied.</p>
+        <hr class="my-4">
+        <p><strong><i>*looking through car window*</i></strong> Oh, there's the keys.</p>
+        <a class="btn btn-outline-primary my-5" href="{% url 'home' %}" role="button">Return to Homepage.</a>
+    </div>
+</div>
+{% endblock content %}
