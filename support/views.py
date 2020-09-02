@@ -13,10 +13,18 @@ def support(request):
         if form.is_valid():
             email = form.cleaned_data['email']
             subject = form.cleaned_data['subject']
-            message = form.cleaned_data['message']
-            message += f' \n from: {email}'
-            send_mail(subject, message, email, [EMAIL_HOST_USER])
-
+            message_form = form.cleaned_data['message']
+            message_form += f' \n from: {email}'
+            message = Mail(
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to_emails='autoskunkworks@gmail.com',
+            subject=f'Contact Form Submission - {subject}',
+            html_content=f'<p>New form submission</p> {message_form}')
+            try:
+                sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+                response = sg.send(message)
+            except Exception as e:
+                print(e)
             data = {
                 'sent': True
             }
