@@ -12,8 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from dotenv import load_dotenv
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
+#import sentry_sdk
+#from sentry_sdk.integrations.django import DjangoIntegration
 load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -88,21 +88,17 @@ WSGI_APPLICATION = 'autoskunkworks.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-if DEBUG and 'DATABASE_URL' not in os.environ:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'autoskunkworks',
-            'USER': os.environ.get('DB_USER'),
-            'PASSWORD': os.environ.get('DB_PASSWORD'),
-            'HOST': 'localhost',
-            'PORT': '',
-        }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'autoskunkworks',
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': 'localhost',
+        'PORT': '',
     }
-else:
-    DATABASES = {
-        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
-    }
+}
 
 
 # Password validation
@@ -157,15 +153,15 @@ DEFAULT_FROM_EMAIL = 'noreply@autoskunk.works'
 EMAIL_HOST_USER = os.environ.get('EMAIL_USERNAME')
 # EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 
-sentry_sdk.init(
-    dsn=os.environ.get('sentry_dns'),
-    integrations=[DjangoIntegration()],
-    traces_sample_rate = 1.0,
+# sentry_sdk.init(
+#     dsn=os.environ.get('sentry_dns'),
+#     integrations=[DjangoIntegration()],
+#     traces_sample_rate = 1.0,
 
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True
-)
+#     # If you wish to associate users to errors (assuming you are using
+#     # django.contrib.auth) you may enable sending PII data.
+#     send_default_pii=True
+# )
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
