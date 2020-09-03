@@ -1,7 +1,9 @@
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 from django.shortcuts import render
+from django.conf import settings
 from django.http import JsonResponse
-from django.core.mail import send_mail
-from autoskunkworks.settings import EMAIL_HOST_USER
 from .forms import ContactForm
 
 # Create your views here.
