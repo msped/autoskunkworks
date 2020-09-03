@@ -145,13 +145,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_URL = '/u/login/'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = 'noreply@autoskunk.works'
-# EMAIL_SUBJECT_PREFIX = ''
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = os.environ.get('EMAIL_USERNAME')
-# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 
 # sentry_sdk.init(
 #     dsn=os.environ.get('sentry_dns'),
@@ -163,5 +158,5 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_USERNAME')
 #     send_default_pii=True
 # )
 
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
