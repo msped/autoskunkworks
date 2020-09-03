@@ -203,7 +203,7 @@ def get_web_price(request):
 def download_qrcode(request, build_id):
     """For a user to download the QR Code file for display"""
     filename = build_id + '.png'
-    path = settings.MEDIA_ROOT + '\qr_codes\\' + filename
+    path = settings.MEDIA_ROOT + '/qr_codes/' + filename
     response = FileResponse(open(path, 'rb'), as_attachment=True)
     return response
 
