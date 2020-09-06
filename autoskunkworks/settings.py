@@ -165,15 +165,16 @@ LOGIN_URL = '/u/login/'
 DEFAULT_FROM_EMAIL = 'noreply@autoskunk.works'
 EMAIL_HOST_USER = os.environ.get('EMAIL_USERNAME')
 
-# sentry_sdk.init(
-#     dsn=os.environ.get('sentry_dns'),
-#     integrations=[DjangoIntegration()],
-#     traces_sample_rate = 1.0,
+if not DEBUG:
+    sentry_sdk.init(
+        dsn=os.environ.get('sentry_dns'),
+        integrations=[DjangoIntegration()],
+        traces_sample_rate = 1.0,
 
-#     # If you wish to associate users to errors (assuming you are using
-#     # django.contrib.auth) you may enable sending PII data.
-#     send_default_pii=True
-# )
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True
+    )
 
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
