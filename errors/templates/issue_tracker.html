@@ -34,25 +34,28 @@ Issue Tracker
             {% if open_issues|length > 0 %}
             <div class="open-issues my-4 table-responsive">
                 <table class="table">
-                    <tr>
-                        <th>ID</th>
-                        <th>Category</th>
-                        <th>Status</th>
-                        <th>Priority</th>
-                        <th style="width: 15%;"></th>
-                    </tr>
-                    
-                    {% for i in open_issues %}
-                    {% if i.priority != 0 %}
-                    <tr>
-                        <td>{{ i.id }}</td>
-                        <td>{{ i.get_category_display }}</td>
-                        <td>{% if i.issue_open %}Open{% else %}Closed{% endif %}</td>
-                        <td>{{ i.get_priority_display }}</td>
-                        <td><a href="{% url 'issue_detail' issue_id=i.id %}" class="btn btn-outline-primary">View</a></td>
-                    </tr>
-                    {% endif %}
-                    {% endfor %}
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Priority</th>
+                            <th style="width: 15%;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in open_issues %}
+                        {% if i.priority != 0 %}
+                        <tr>
+                            <td>{{ i.id }}</td>
+                            <td>{{ i.get_category_display }}</td>
+                            <td>{% if i.issue_open %}Open{% else %}Closed{% endif %}</td>
+                            <td>{{ i.get_priority_display }}</td>
+                            <td style="width: 15%;"><a href="{% url 'issue_detail' issue_id=i.id %}" class="btn btn-outline-primary">View</a></td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
             {% else %}
@@ -65,23 +68,26 @@ Issue Tracker
             {% if closed_issues|length > 0 %}
             <div class="open-issues my-4 table-responsive">
                 <table class="table">
-                    <tr>
-                        <th>ID</th>
-                        <th>Category</th>
-                        <th>Status</th>
-                        <th>Priority</th>
-                        <th style="width: 15%;"></th>
-                    </tr>
-                    
-                    {% for i in closed_issues %}
-                    <tr>
-                        <td>{{ i.id }}</td>
-                        <td>{{ i.get_category_display }}</td>
-                        <td>{% if i.issue_open %}Open{% else %}Closed{% endif %}</td>
-                        <td>{{ i.get_priority_display }}</td>
-                        <td><a href="{% url 'issue_detail' issue_id=i.id %}" class="btn btn-outline-primary">View</a></td>
-                    </tr>
-                    {% endfor %}
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Priority</th>
+                            <th style="width: 15%;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in closed_issues %}
+                        <tr>
+                            <td>{{ i.id }}</td>
+                            <td>{{ i.get_category_display }}</td>
+                            <td>{% if i.issue_open %}Open{% else %}Closed{% endif %}</td>
+                            <td>{{ i.get_priority_display }}</td>
+                            <td style="width: 15%;"><a href="{% url 'issue_detail' issue_id=i.id %}" class="btn btn-outline-primary">View</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
             {% else %}
@@ -95,25 +101,26 @@ Issue Tracker
             {% if my_issues|length > 0 %}
             <div class="open-issues my-4 table-responsive">
                 <table class="table">
-                    <tr>
-                        <th>ID</th>
-                        <th>Category</th>
-                        <th>Status</th>
-                        <th>Priority</th>
-                        <th style="width: 15%;"></th>
-                    </tr>
-                    
-                    {% for i in open_issues %}
-                    {% if i.priority != 0 %}
-                    <tr>
-                        <td>{{ i.id }}</td>
-                        <td>{{ i.get_category_display }}</td>
-                        <td>{% if i.issue_open %}Open{% else %}Closed{% endif %}</td>
-                        <td>{{ i.get_priority_display }}</td>
-                        <td><a href="{% url 'issue_detail' issue_id=i.id %}" class="btn btn-outline-primary">View</a></td>
-                    </tr>
-                    {% endif %}
-                    {% endfor %}
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Priority</th>
+                            <th style="width: 15%;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in my_issues %}
+                        <tr>
+                            <td>{{ i.id }}</td>
+                            <td>{{ i.get_category_display }}</td>
+                            <td>{% if i.issue_open %}Open{% else %}Closed{% endif %}</td>
+                            <td>{{ i.get_priority_display }}</td>
+                            <td style="width: 15%;"><a href="{% url 'issue_detail' issue_id=i.id %}" class="btn btn-outline-primary">View</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
             {% else %}
