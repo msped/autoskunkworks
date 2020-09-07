@@ -1,3 +1,5 @@
+import os
+from django.conf import settings
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 from .models import Builds
@@ -16,3 +18,4 @@ def delete_assoc_cateogries(sender, instance, **kwargs):
     if instance.interior_parts.count() > 0:
         for item in instance.interior_parts.all():
             item.delete()
+    os.remove(os.path.join(settings.MEDIA_ROOT, instance.qrcode.name))
