@@ -165,6 +165,7 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_USERNAME')
 if not DEBUG:
     import sentry_sdk
     from sentry_sdk.integrations.django import DjangoIntegration
+    STATIC_ROOT = os.path.join(BASE_DIR, "static/")
     sentry_sdk.init(
         dsn=os.environ.get('sentry_dns'),
         integrations=[DjangoIntegration()],
