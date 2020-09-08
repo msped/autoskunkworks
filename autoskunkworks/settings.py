@@ -102,11 +102,14 @@ WSGI_APPLICATION = 'autoskunkworks.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
- 
+if DEBUG:
+    db_name = 'autoskunkworks'
+else:
+    db_name = 'asw'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DB_NAME'),
+        'NAME': db_name,
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASSWORD'),
         'HOST': 'localhost',
