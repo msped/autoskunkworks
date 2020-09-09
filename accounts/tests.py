@@ -43,7 +43,7 @@ class AccountViewsTest(TestCase):
         )
         response = self.client.get('/u/login/', follow=True)
         self.assertIn(
-            b'<p>Plan your builds with AutoSkunkWorks.</p> ',
+            b'<h1>Plan your builds with AutoSkunkWorks.</h1> ',
             response.content
         )
 
@@ -91,7 +91,7 @@ class AccountViewsTest(TestCase):
         )
         response = self.client.get('/u/register/', follow=True)
         self.assertIn(
-            b'<p>Plan your builds with AutoSkunkWorks.</p>',
+            b'<h1>Plan your builds with AutoSkunkWorks.</h1>',
             response.content
         )
 
