@@ -4,6 +4,10 @@
 {{ build.name }}
 {% endblock title %}
 
+{% block meta %}
+<meta name="description" content="View {{ build.name }} by {{ build.author.username }} consisting of {{ part_count }} products and a build total of {{ build.total }}.">
+{% endblock meta%}
+
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/view.css' %}">
 {% endblock css %}
