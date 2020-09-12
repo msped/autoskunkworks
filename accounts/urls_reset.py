@@ -1,11 +1,11 @@
 from django.conf.urls import url
 from django.urls import reverse_lazy
 from django.contrib.auth.views import (
-    PasswordResetView,
     PasswordResetDoneView,
     PasswordResetConfirmView,
     PasswordResetCompleteView
 )
+from .views import PasswordResetView
 
 urlpatterns = [
     url(
