@@ -14,7 +14,7 @@
     <!--My Files-->
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
     {% block css %}{% endblock css %}
-    <title>AutoSkunkWorks | {% block title %}{% endblock title %}</title>
+    <title>{% block title %}{% endblock title %} | AutoSkunkWorks</title>
 </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light">
