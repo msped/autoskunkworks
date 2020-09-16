@@ -3,6 +3,7 @@ from django.shortcuts import reverse
 from .models import Issue
 
 class StaticIssueSitemap(Sitemap):
+    priorty = 0.3
     
     def items(self):
         return ['issue_tracker']
@@ -11,6 +12,7 @@ class StaticIssueSitemap(Sitemap):
         return reverse(item)
 
 class IssuesSitemap(Sitemap):
+    priorty = 0.3
 
     def items(self):
         return Issue.objects.all()
