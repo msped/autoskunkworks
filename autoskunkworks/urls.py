@@ -20,12 +20,14 @@ from django.views import static
 from django.contrib.sitemaps.views import sitemap
 from home.views import home
 from .settings import MEDIA_ROOT
+from accounts.sitemaps import AccountsStaticSitemap
 from home.sitemaps import HomeStaticSitemap
 from builds.sitemaps import BuildsSitemap
 from support.sitemaps import SupportStaticSitemap
 from errors.sitemaps import IssuesSitemap, StaticIssueSitemap
 
 sitemaps = {
+    'accountStatic': AccountsStaticSitemap,
     'homeStatic': HomeStaticSitemap,
     'builds': BuildsSitemap,
     'supportStatic': SupportStaticSitemap,
