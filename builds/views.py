@@ -219,7 +219,7 @@ def view_build(request, build_id):
     user_liked = False
     user_disliked = False
 
-    part_count = part_count(build)
+    category_part_count = part_count(build)
 
     if request.user.is_authenticated:
         if build.likes.filter(id=request.user.id).exists():
@@ -231,6 +231,6 @@ def view_build(request, build_id):
         'build': build,
         'user_liked': user_liked,
         'user_disliked': user_disliked,
-        'part_count': part_count
+        'part_count': category_part_count
     }
     return render(request, "view.html", context)
