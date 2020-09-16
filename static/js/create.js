@@ -142,7 +142,7 @@ $(document).ready(function () {
         url_box = $(this);
         url = $(this).val();
         $.ajax({
-            url: "/b/get_web_price",
+            url: "/b/get-web-price",
             type: 'POST',
             data: {
                 'url': url
