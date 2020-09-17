@@ -139,19 +139,19 @@ class TestPageRespones(TestCase):
         User.objects.create_user(**self.user)
 
     def test_issue_tracker_response_get(self):
-        response = self.client.get('/i/')
+        response = self.client.get('/issues/')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'<h1>Issue Tracker</h1>', response.content)
 
     def issue_tracker_response_post(self):
         """Test post to create new ticket"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
         response = self.client.post(
-            '/i/',
+            '/issues/',
             {
                 'issue_location': '1',
                 'description': 'Test post description'
@@ -163,19 +163,19 @@ class TestPageRespones(TestCase):
 
     def issue_detail_get(self):
         """Test response of issue detail"""
-        response = self.client.get('/i/4')
+        response = self.client.get('/issues/4')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'<h1>Issue 4</h1>', response.content)
 
     def add_comment_post(self):
         """Test adding a comment to an issue"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
         response = self.client.post(
-            '/i/comment/add/4',
+            '/issues/comment/add/4',
             {
                 'comment': 'Test comment for issue'
             },
@@ -188,24 +188,24 @@ class TestPageRespones(TestCase):
     def test_add_comment_get_should_redirect(self):
         """test the add comment get response, should be a redirect"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
         response = self.client.get(
-            '/i/comment/add/4'
+            '/issues/comment/add/4'
         )
         self.assertEquals(response.status_code, 302)
     
     def delete_comment(self):
         """Test deleting a comment"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
         response = self.client.get(
-            '/i/comment/delete/3',
+            '/issues/comment/delete/3',
             follow=True
         )
         self.assertEqual(response.status_code, 200)
