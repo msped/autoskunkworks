@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-Home
+Welcome to AutoSkunkWorks, plan your project cars and share them to fellow enthusiast!
 {% endblock title %}
+
+{% block meta %}
+<meta name="description" content="AutoSkunkWorks is an modification planner for your vehicle. With access to public builds get inspiration needed to create your perfect car. Join for free!">
+{% endblock meta%}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">

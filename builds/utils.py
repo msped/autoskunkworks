@@ -372,3 +372,17 @@ def sort_builds_users_public(user, sort_options):
         builds = Builds.objects.filter(author=user, private=False)
 
     return builds
+
+def part_count(build):
+    """Count number of parts in a build"""
+    part_count = 0
+    if build.exterior_parts.count() > 0:
+        part_count =+ build.exterior_parts.count()
+    if build.engine_parts.count() > 0:
+        part_count =+ build.engine_parts.count()
+    if build.running_gear_parts.count() > 0:
+        part_count =+ build.running_gear_parts.count()
+    if build.interior_parts.count() > 0:
+        part_count =+ build.running_gear_parts.count()
+    
+    return part_count

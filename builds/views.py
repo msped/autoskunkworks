@@ -28,7 +28,8 @@ from .utils import (
     sort_builds_standard,
     sort_builds_users,
     sort_builds_users_public,
-    update_build_content
+    update_build_content,
+    part_count
 )
 
 # Create your views here.
@@ -218,6 +219,8 @@ def view_build(request, build_id):
     user_liked = False
     user_disliked = False
 
+    category_part_count = part_count(build)
+
     if request.user.is_authenticated:
         if build.likes.filter(id=request.user.id).exists():
             user_liked = True
@@ -227,6 +230,7 @@ def view_build(request, build_id):
     context = {
         'build': build,
         'user_liked': user_liked,
-        'user_disliked': user_disliked
+        'user_disliked': user_disliked,
+        'part_count': category_part_count
     }
     return render(request, "view.html", context)

@@ -291,17 +291,17 @@ class BuildTests(TestCase):
     # Create Build Get
     def test_create_page_response_not_logged_in(self):
         """Test create page response while not logged in, should be 302"""
-        response = self.client.get('/b/create/')
+        response = self.client.get('/builds/create/')
         self.assertEqual(response.status_code, 302)
 
     def test_create_page_response_logged_in(self):
         """Test create page response while logged in, should be 200"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
-        response = self.client.get('/b/create/')
+        response = self.client.get('/builds/create/')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'<h1>Create a new plan</h1>', response.content)
 
@@ -309,7 +309,7 @@ class BuildTests(TestCase):
     def test_create_build_post(self):
         """Test post of data through create page, should redirect to view page"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
@@ -338,7 +338,7 @@ class BuildTests(TestCase):
             'interior_1_purchased': "off"
         }
         result = self.client.post(
-            '/b/create',
+            '/builds/create',
             data=data,
             follow=True
         )
@@ -348,7 +348,7 @@ class BuildTests(TestCase):
     # Builds Get
     def test_builds_page_response(self):
         """Test builds page response, should be 200"""
-        response = self.client.get('/b/')
+        response = self.client.get('/builds/')
         self.assertEqual(response.status_code, 200)
 
     # Edit Build Get
@@ -356,18 +356,18 @@ class BuildTests(TestCase):
         """Test response of edit page while logged in, should return 200"""
         build = Builds.objects.all().first()
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
-        response = self.client.get('/b/edit/'+str(build.build_id) + '/')
+        response = self.client.get('/builds/edit/'+str(build.build_id) + '/')
         self.assertEqual(response.status_code, 200)
 
     def test_edit_page_response_not_logged_in(self):
         """Test response of edit page while not logged in, should return 302"""
         build = Builds.objects.all().first()
         response = self.client.get(
-            '/b/edit/'+str(build.build_id) + '/'
+            '/builds/edit/'+str(build.build_id) + '/'
         )
         self.assertEqual(response.status_code, 302)
 
@@ -380,12 +380,12 @@ class BuildTests(TestCase):
             price=119.94,
         )
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
         response = self.client.post(
-            '/b/edit/' + build.build_id,
+            '/builds/edit/' + build.build_id,
             {
                 'total': 750.00, # changed
                 'private': "off",
@@ -423,12 +423,12 @@ class BuildTests(TestCase):
         new_ru = RunningCategory.objects.get(title='Wheels')
         new_in = InteriorCategory.objects.get(title='Steering Wheel')
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
         response = self.client.post(
-            '/b/edit/' + build.build_id,
+            '/builds/edit/' + build.build_id,
             {
                 'total': 750.00,
                 'private': "off",
@@ -478,19 +478,19 @@ class BuildTests(TestCase):
     def test_view_page_response(self):
         """Test response of view page"""
         build = Builds.objects.all().first()
-        response = self.client.get('/b/'+ str(build.build_id) + '/')
+        response = self.client.get('/builds/'+ str(build.build_id) + '/')
         self.assertEqual(response.status_code, 200)
 
     # Like a build liked before
     def like_a_build_liked_already(self):
         """Liking a build already liked should remove the like"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
         build = Builds.objects.get(name="Test")
-        response = self.client.get('/b/like/' + str(build.id) + '/')
+        response = self.client.get('/builds/like/' + str(build.id) + '/')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             str(response.content, encoding="utf8"),
@@ -506,12 +506,12 @@ class BuildTests(TestCase):
     def like_build_not_liked(self):
         """Test reponse on liking a build not liked before"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
         build = Builds.objects.get(name="Test")
-        response = self.client.get('/b/like/' + str(build.id) + '/')
+        response = self.client.get('/builds/like/' + str(build.id) + '/')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             str(response.content, encoding="utf8"),
@@ -527,13 +527,13 @@ class BuildTests(TestCase):
     def dislike_a_build_where_already_liked(self):
         """Dislike a build where already liked"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
         build = Builds.objects.get(name="Test")
         build.like_count = 1
-        response = self.client.get('/b/dislike/' + str(build.id) + '/')
+        response = self.client.get('/builds/dislike/' + str(build.id) + '/')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             str(response.content, encoding="utf8"),
@@ -549,12 +549,12 @@ class BuildTests(TestCase):
     def dislike_build_disliked_before(self):
         """Dislike a build already disliked"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
         build = Builds.objects.get(name="Test")
-        response = self.client.get('/b/dislike/' + str(build.id) + '/')
+        response = self.client.get('/builds/dislike/' + str(build.id) + '/')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             str(response.content, encoding="utf8"),
@@ -570,12 +570,12 @@ class BuildTests(TestCase):
     def dislike_a_build_not_disliked(self):
         """dislike a build not disliked before"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
         build = Builds.objects.get(name="Test")
-        response = self.client.get('/b/dislike/' + str(build.id) + '/')
+        response = self.client.get('/builds/dislike/' + str(build.id) + '/')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             str(response.content, encoding="utf8"),
@@ -591,12 +591,12 @@ class BuildTests(TestCase):
     def like_a_build_already_disliked(self):
         """like a build already disliked"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
         build = Builds.objects.get(name="Test")
-        response = self.client.get('/b/like/' + str(build.id) + '/')
+        response = self.client.get('/builds/like/' + str(build.id) + '/')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             str(response.content, encoding="utf8"),
@@ -621,19 +621,19 @@ class BuildTests(TestCase):
     def delete_build_not_logged_in(self):
         """Test delete a build while not logged in, should return 302"""
         build = Builds.objects.get(name="Test")
-        response = self.client.get('/b/delete/'+ str(build.id) + '/')
+        response = self.client.get('/builds/delete/'+ str(build.id) + '/')
         self.assertEqual(response.status_code, 302)
 
     def delete_build_logged_in(self):
         """Test delete a build while not logged in, should return 200"""
         build = Builds.objects.get(name="Test")
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
         response = self.client.get(
-            '/b/delete/'+ str(build.id) + '/',
+            '/builds/delete/'+ str(build.id) + '/',
             follow=True
         )
         self.assertEqual(response.status_code, 200)
@@ -655,7 +655,7 @@ class BuildTests(TestCase):
             attr='1'
         )
         response = self.client.post(
-            '/b/get_web_price/',
+            '/builds/get-web-price/',
             {
                 'url': 'https://www.ebay.co.uk/itm/GENUINE-A45-AMG-Rear-Diffuser-Sport-Edition-Mercedes-Benz-W176-A-Class-NEW/132794845019?epid=23008548439&hash=item1eeb30875b:g:D1MAAOSwx-9WvwlE'
             }
@@ -670,7 +670,7 @@ class BuildTests(TestCase):
             attr='2'
         )
         response = self.client.post(
-            '/b/get_web_price/',
+            '/builds/get-web-price/',
             {
                 'url': 'https://throtl.com/products/air-lift-performance-15-20-mercedes-c-class-w205-c63-a-78580'
             }
@@ -685,7 +685,7 @@ class BuildTests(TestCase):
             attr='2'
         )
         response = self.client.post(
-            '/b/get_web_price/',
+            '/builds/get-web-price/',
             {
                 'url': 'https://carbonwurks.com/shop/exterior/a-class-front-spoiler-extension/'
             }

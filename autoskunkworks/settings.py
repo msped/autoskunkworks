@@ -29,6 +29,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', 'autoskunk.works', 'www.autoskunk.works', '165.232.107.91', '127.0.0.1']
 
+SITE_ID = 2
 
 # Application definition
 
@@ -39,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
     'django_forms_bootstrap',
     'home',
     'accounts',
@@ -160,7 +163,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-LOGIN_URL = '/u/login/'
+LOGIN_URL = '/user/login/'
 
 DEFAULT_FROM_EMAIL = 'noreply@autoskunk.works'
 EMAIL_HOST_USER = os.environ.get('EMAIL_USERNAME')
