@@ -30,18 +30,18 @@ class AccountViewsTest(TestCase):
 
     def test_login_page_response(self):
         """Test response of login page when not logged in"""
-        response = self.client.get('/u/login/')
+        response = self.client.get('/user/login/')
         self.assertEqual(response.status_code, 200)
 
     def test_login_page_response_logged_in(self):
         """test response of the login age if the user is logged in
         should redirect (302 response)"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
-        response = self.client.get('/u/login/', follow=True)
+        response = self.client.get('/user/login/', follow=True)
         self.assertIn(
             b'<h1>Plan your builds with AutoSkunkWorks.</h1> ',
             response.content
@@ -50,7 +50,7 @@ class AccountViewsTest(TestCase):
     def test_login_with_inccorect_details(self):
         """Test login with incorrect details"""
         response = self.client.post(
-            '/u/login/',
+            '/user/login/',
             {
                 'username': 'notauser',
                 'password': 'examplepassword'
@@ -62,34 +62,34 @@ class AccountViewsTest(TestCase):
     def test_logout_when_user_logged_in(self):
         """Test logout function"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
-        response = self.client.get('/u/logout/', follow=True)
+        response = self.client.get('/user/logout/', follow=True)
         self.assertIn(b'<h1 class="login-header text-center">Login</h1>', response.content)
 
     def test_logout_when_logged_out(self):
         """Test where the logout view should return to login page if
         no user logged in"""
-        response = self.client.get('/u/logout/', follow=True)
+        response = self.client.get('/user/logout/', follow=True)
         self.assertIn(b'<h1 class="login-header text-center">Login</h1>', response.content)
 
 
     def test_register_when_not_logged_in(self):
         """Test register page when a user isnt logged in"""
-        response = self.client.get('/u/register/')
+        response = self.client.get('/user/register/')
         self.assertIn(b'<h1 class="register-header text-center">Register</h1>', response.content)
 
     def test_register_when_logged_in(self):
         """Test register page when a user is logged in
         should redirect (302 response)"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
-        response = self.client.get('/u/register/', follow=True)
+        response = self.client.get('/user/register/', follow=True)
         self.assertIn(
             b'<h1>Plan your builds with AutoSkunkWorks.</h1>',
             response.content
@@ -99,7 +99,7 @@ class AccountViewsTest(TestCase):
         """Test registration of a user (successful)
         should redirect"""
         response = self.client.post(
-            '/u/register/',
+            '/user/register/',
             {
                 'first_name': 'John',
                 'last_name': 'Doe',
@@ -115,12 +115,12 @@ class AccountViewsTest(TestCase):
     def test_change_password_post(self):
         """Test change password post successful"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
         response = self.client.post(
-            '/u/change_password/',
+            '/user/change-password/',
             {
                 'old_password': 'testpassword',
                 'new_password1': 'newtestpassword',
@@ -133,22 +133,22 @@ class AccountViewsTest(TestCase):
     def test_settings_logged_in(self):
         """Test settings page response when a user is logged in, should return settings page"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
-        response = self.client.get('/u/settings/')
+        response = self.client.get('/user/settings/')
         self.assertIn(b'<h1 class="text-center mb-3">\n    Settings\n</h1>', response.content)
 
     def test_profile_update(self):
         """test post to update profile items"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
         response = self.client.post(
-            '/u/update_profile/',
+            '/user/update-profile/',
             {
                 'first_name': 'Matt',
                 'last_name': 'Edwards',
@@ -161,12 +161,12 @@ class AccountViewsTest(TestCase):
     def test_deactivate_user(self):
         """Test deactivation of a users account"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user2,
             follow=True
         )
         response = self.client.get(
-            '/u/delete_account/',
+            '/user/delete-account/',
             follow=True
         )
         self.assertIn(b'Account Deactivated. If you wish to create new builds you will have to re-register.', response.content)
@@ -174,7 +174,7 @@ class AccountViewsTest(TestCase):
     def test_deactivate_user_with_builds(self):
         """Test deletion of users builds when user deactivates account"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
@@ -248,19 +248,19 @@ class AccountViewsTest(TestCase):
         build.interior_parts.add(inte)
         build.likes.add(user)
         response = self.client.get(
-            '/u/delete_account/'
+            '/user/delete-account/'
         )
         self.assertFalse( Builds.objects.filter(author=user).exists())
 
     # def test_users_builds_successful(self):
     #     """Test response of a users build"""
-    #     response = self.client.get('/u/test/')
+    #     response = self.client.get('/user/test/')
     #     self.assertEqual(response.status_code, 200)
     #     self.assertIn(b"<h1>test's Builds</h1>", response.content)
 
     def test_users_build_user_doesnt_exists(self):
         """Test invalid user, should redirect"""
-        response = self.client.get('/u/doesntexist')
+        response = self.client.get('/user/doesntexist')
         self.assertEqual(response.status_code, 302)
 
 class AccountFormsTests(TestCase):
