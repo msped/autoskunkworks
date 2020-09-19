@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^like/(?P<build_id>\d+)', like_build, name="like_build"),
     url(r'^dislike/(?P<build_id>\d+)', dislike_build, name="dislike_build"),
     url(r'^delete/(?P<build_id>\d+)', delete_build, name="delete_build"),
-    url(r'^get_web_price', get_web_price, name="get_web_price"),
-    path(r'qr_code/<str:build_id>', download_qrcode, name="download_qrcode"),
+    url(r'^get-web-price', get_web_price, name="get_web_price"),
+    path(r'qr-code/<str:build_id>', download_qrcode, name="download_qrcode"),
     url(r'^(?P<build_id>\w+)', view_build, name="view_build"),
 ]

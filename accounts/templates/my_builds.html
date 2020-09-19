@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block meta %}
+<meta name="description" content="See all of {{ user.username }} public builds and tll that what you think by voting.">
+{% endblock meta %}
+
 {% block title %}
 {{ user.username }}'s Builds
 {% endblock title %}

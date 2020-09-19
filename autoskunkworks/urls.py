@@ -17,17 +17,33 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
 from django.views import static
+from django.contrib.sitemaps.views import sitemap
 from home.views import home
 from .settings import MEDIA_ROOT
+from accounts.sitemaps import AccountsStaticSitemap
+from home.sitemaps import HomeStaticSitemap
+from builds.sitemaps import BuildsSitemap
+from support.sitemaps import SupportStaticSitemap
+from errors.sitemaps import IssuesSitemap, StaticIssueSitemap
+
+sitemaps = {
+    'accountStatic': AccountsStaticSitemap,
+    'homeStatic': HomeStaticSitemap,
+    'builds': BuildsSitemap,
+    'supportStatic': SupportStaticSitemap,
+    'issuesStatic': StaticIssueSitemap,
+    'issues': IssuesSitemap
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', home, name="home"),
-    url(r'^u/', include('accounts.urls')),
-    url(r'^b/', include('builds.urls')),
-    url(r'^s/', include('support.urls')),
-    url(r'^i/', include('errors.urls')),
+    url(r'^user/', include('accounts.urls')),
+    url(r'^builds/', include('builds.urls')),
+    url(r'^support/', include('support.urls')),
+    url(r'^issues/', include('errors.urls')),
     url(r'^media/(?P<path>.*)$', static.serve, {'document_root': MEDIA_ROOT}),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}),
 ]
 
 handler400 = 'errors.views.handler400'

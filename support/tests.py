@@ -19,7 +19,7 @@ class TestSupportApp(TestCase):
     def test_support_page_response(self):
         """Test page responpse"""
         response = self.client.get(
-            '/s/'
+            '/support/'
         )
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'<h1>Support</h1>', response.content)
@@ -31,7 +31,7 @@ class TestSupportApp(TestCase):
     def test_contact_post(self):
         """Test post for contact page"""
         response = self.client.post(
-            '/s/',
+            '/support/',
             data={
                 'email': "test@google.com",
                 'subject': "Test Subject",
@@ -40,21 +40,21 @@ class TestSupportApp(TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-    def test_initail_in_contact_form(self):
+    def test_initial_in_contact_form(self):
         """Test that when a user is logged in their email
         is displayed automatically in the contact form"""
         self.client.post(
-            '/u/login/',
+            '/user/login/',
             self.user,
             follow=True
         )
-        response = self.client.get('/s/')
+        response = self.client.get('/support/')
         self.assertIn(b'<input type="email" name="email" value="test@gmail.com" class=" form-control" required id="id_email">', response.content)
 
     def test_invalid_form_in_post(self):
         """Test invalid for data and return variables"""
         response = self.client.post(
-            '/s/',
+            '/support/',
             {
                 'email': "",
                 'subject': "Test Subject",

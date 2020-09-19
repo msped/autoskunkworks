@@ -29,6 +29,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', 'autoskunk.works', 'www.autoskunk.works', '165.232.107.91', '127.0.0.1']
 
+SITE_ID = 2
 
 # Application definition
 
@@ -39,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
     'django_forms_bootstrap',
     'home',
     'accounts',
@@ -102,12 +105,14 @@ WSGI_APPLICATION = 'autoskunkworks.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-
+if DEBUG:
+    db_name = 'autoskunkworks'
+else:
+    db_name = 'asw'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'autoskunkworks',
+        'NAME': db_name,
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASSWORD'),
         'HOST': 'localhost',
@@ -153,12 +158,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-LOGIN_URL = '/u/login/'
+LOGIN_URL = '/user/login/'
 
 DEFAULT_FROM_EMAIL = 'noreply@autoskunk.works'
 EMAIL_HOST_USER = os.environ.get('EMAIL_USERNAME')
@@ -166,6 +171,7 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_USERNAME')
 if not DEBUG:
     import sentry_sdk
     from sentry_sdk.integrations.django import DjangoIntegration
+    STATIC_ROOT = os.path.join(BASE_DIR, "static/")
     sentry_sdk.init(
         dsn=os.environ.get('sentry_dns'),
         integrations=[DjangoIntegration()],
@@ -178,3 +184,5 @@ if not DEBUG:
 
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+else:
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
