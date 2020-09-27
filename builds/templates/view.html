@@ -443,7 +443,6 @@
                 $.ajax({
                     url: "{% url 'like_build' build.id %}",
                     success: function(data){
-                        console.log(data)
                         var like_count = data.like_count;
                         var dislike_count = data.dislike_count;
                         $('#like-count').html(like_count); 
@@ -476,7 +475,6 @@
                     url: "{% url 'dislike_build' build.id %}",
                     type: 'POST',
                     success: function(data){
-                        console.log(data)
                         var like_count = data.like_count;
                         var dislike_count = data.dislike_count;
                         $('#like-count').html(like_count); 
@@ -489,7 +487,6 @@
                             dislike_button.addClass("dislike-button-hover");
                             $('.fa-thumbs-down').css('opacity', '1');
                         }
-                        console.log(data)
                         if (data.liked && data.dislike == false) {
                             like_button.removeClass('liked');
                             like_button.addClass("like-button-hover");
