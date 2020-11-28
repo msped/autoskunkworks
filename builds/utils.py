@@ -349,7 +349,7 @@ def update_build_content(build, exterior, engine, running, interior, request):
     build.save()
 
 def sort_builds_standard(sort_options):
-    if sort_options is not None:
+    if sort_options is not None and sort_options is not "":
         builds = Builds.objects.filter(private=False).order_by(sort_options)
     else:
         builds = Builds.objects.filter(private=False)
@@ -357,7 +357,7 @@ def sort_builds_standard(sort_options):
     return builds
 
 def sort_builds_users(user, sort_options):
-    if sort_options is not None:
+    if sort_options is not None and sort_options is not "":
         builds = Builds.objects.filter(author=user).order_by(sort_options)
     else:
         builds = Builds.objects.filter(author=user)
@@ -366,7 +366,7 @@ def sort_builds_users(user, sort_options):
 
 def sort_builds_users_public(user, sort_options):
 
-    if sort_options is not None:
+    if sort_options is not None and sort_options is not "":
         builds = Builds.objects.filter(author=user, private=False).order_by(sort_options)
     else:
         builds = Builds.objects.filter(author=user, private=False)

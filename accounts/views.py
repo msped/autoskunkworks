@@ -141,26 +141,6 @@ def delete_account(request):
         messages.error(request, message=e)
         return redirect('settings')
 
-def users_builds(request, username):
-    """All of a users build"""
-    sort_options = request.GET.get('sort_options')
-    try:
-        user = User.objects.get(username=username)
-    except User.DoesNotExist:
-        messages.error(request, "That user doesn't exist.")
-        return redirect('builds')
-    if request.user.id == user.id:
-        builds = sort_builds_users(user, sort_options)
-    else:
-        builds = sort_builds_users_public(user, sort_options)
-
-    paginator = Paginator(builds, 15)
-    page = request.GET.get('page')
-    builds_paginator = paginator.get_page(page)
-
-    return render(request, "my_builds.html", {"builds": builds_paginator,
-                                              'user': user})
-
 class PasswordContextMixin:
     extra_context = None
 
@@ -204,3 +184,23 @@ class PasswordResetView(PasswordContextMixin, FormView):
 
 
 INTERNAL_RESET_SESSION_TOKEN = '_password_reset_token'
+
+def users_builds(request, username):
+    """All of a users build"""
+    sort_options = request.GET.get('sort_options')
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        messages.error(request, "That user doesn't exist.")
+        return redirect('builds')
+    if request.user.id == user.id:
+        builds = sort_builds_users(user, sort_options)
+    else:
+        builds = sort_builds_users_public(user, sort_options)
+
+    paginator = Paginator(builds, 15)
+    page = request.GET.get('page')
+    builds_paginator = paginator.get_page(page)
+
+    return render(request, "my_builds.html", {"builds": builds_paginator,
+                                              'user': user})
