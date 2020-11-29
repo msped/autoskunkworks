@@ -161,9 +161,7 @@ Edit {{ build.name }}
                     <tbody id="exterior" class="exterior-table">                   
                         {% for item in build.exterior_parts.all %}
                         <tr>
-                            <td>
-                                {{ item.exterior_category.title   }}
-                            </td>
+                            <td>{{ item.exterior_category.title }}</td>
                             <td>
                                 <input type="url" class="form-control input-sm" value="{{ item.link }}" name="exterior_{{ item.exterior_category.id }}_link" required>
                             </td>
@@ -230,9 +228,7 @@ Edit {{ build.name }}
                     <tbody id="engine" class="engine-table">
                         {% for item in build.engine_parts.all %}
                         <tr>
-                            <td>
-                                {{ item.engine_category.title  }}
-                            </td>
+                            <td>{{ item.engine_category.title }}</td>
                             <td>
                                 <input type="url" class="form-control input-sm" value="{{ item.link }}" name="engine_{{ item.engine_category.id }}_link" required>
                             </td>
@@ -298,9 +294,7 @@ Edit {{ build.name }}
                     <tbody id="running" class="running-gear-table">
                         {% for item in build.running_gear_parts.all %}
                         <tr>
-                            <td>
-                                {{ item.running_category.title  }}
-                            </td>
+                            <td>{{ item.running_category.title }}</td>
                             <td>
                                 <input type="url" class="form-control input-sm" value="{{ item.link }}" name="running_{{ item.running_category.id }}_link" required>
                             </td>
@@ -366,9 +360,7 @@ Edit {{ build.name }}
                     <tbody id="interior" class="interior-table">
                         {% for item in build.interior_parts.all %}
                         <tr>
-                            <td>
-                                {{ item.interior_category.title  }}
-                            </td>
+                            <td>{{ item.interior_category.title }}</td>
                             <td>
                                 <input type="url" class="form-control input-sm" value="{{ item.link }}" name="interior_{{ item.interior_category.id }}_link" required>
                             </td>
