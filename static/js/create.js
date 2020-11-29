@@ -158,7 +158,6 @@ $(document).ready(function () {
         const row = $(this).closest('tr');
         const table = $(this).closest('tbody').attr('id');
         template = `<input type="hidden" name="` + table + `_` + part_id + `_delete" value="` + model_id +`">`;
-        console.log(template + " Model: " + model_id);
         $('form').append(template);
         row.remove();
         get_total();
