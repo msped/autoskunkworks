@@ -8,7 +8,17 @@ function get_total(){
     });
     $('#build-total').html(buildPrice.toFixed(2));
     $('input[name="total"]').val(buildPrice.toFixed(2));
-};
+}
+
+function check_if_part_is_selected(table, part) {
+    let check = false;
+    $(table).find('tr td:first-child').each(function(){
+        if ($(this).html() == part){
+            check = true;
+        }        
+    });
+    return check;
+}
 
 $(document).ready(function () {
     $('tbody').on('change input', '.part-price, input[type=checkbox]', function () {
@@ -25,105 +35,121 @@ $(document).ready(function () {
     $('#add-exterior').on('click', function(){
         part_id = $('#exterior-categories').find(":selected").val();
         title = $('#exterior-categories').find(":selected").text();
-        if (part_id != 'Choose an option'){
+        part_check = check_if_part_is_selected('.exterior-table', title);
+        if (part_check) {
+            alert("You can't add two of the same options!");
+        } else {
+            if (part_id != 'Choose an option'){
+                var template = '<tr>' +
+                                    '<td scope="row">' + title + '</td>' +
+                                    '<td>' +
+                                        '<input type="url" class="form-control input-sm" name="exterior_'+ part_id +'_link" required>' +
+                                    '</td>' +
+                                    '<td class="url-price">' +
+                                        '<input type="number" class="form-control input-sm part-price" name="exterior_'+ part_id +'_price" step="any" required>' +
+                                    '</td>' +
+                                    '<td>' +
+                                        '<div class="text-center">' +
+                                            '<input type="checkbox" name="exterior_'+ part_id +'_purchased">' +
+                                        '</div>'+
+                                    '</td>' +
+                                    '<td>' +
+                                        '<i class="far fa-times-circle" id="delete-row"></i>' +
+                                    '</td>' +
+                                '</tr>';
+                $('.exterior-table').append(template);
+            }
+        }        
+    });
+
+    $('#add-engine').on('click', function(){
+        part_id = $('#engine-categories').find(":selected").val();
+        title = $('#engine-categories').find(":selected").text();
+        part_check = check_if_part_is_selected('.engine-table', title);
+        if (part_check) {
+            alert("You can't add two of the same options!");
+        } else {
+            if (part_id != 'Choose an option') {
             var template = '<tr>' +
                                 '<td scope="row">' + title + '</td>' +
                                 '<td>' +
-                                    '<input type="url" class="form-control input-sm" name="exterior_'+ part_id +'_link" required>' +
+                                    '<input type="url" class="form-control input-sm" name="engine_'+ part_id +'_link" required>' +
                                 '</td>' +
                                 '<td class="url-price">' +
-                                    '<input type="number" class="form-control input-sm part-price" name="exterior_'+ part_id +'_price" step="any" required>' +
+                                    '<input type="number" class="form-control input-sm part-price" name="engine_'+ part_id +'_price" step="any" required>' +
                                 '</td>' +
                                 '<td>' +
                                     '<div class="text-center">' +
-                                        '<input type="checkbox" name="exterior_'+ part_id +'_purchased">' +
+                                        '<input type="checkbox" name="engine_'+ part_id +'_purchased">' +
                                     '</div>'+
                                 '</td>' +
                                 '<td>' +
                                     '<i class="far fa-times-circle" id="delete-row"></i>' +
                                 '</td>' +
                             '</tr>';
-            $('.exterior-table').append(template);
+                $('.engine-table').append(template); 
+            }
         }
-        
-    });
-
-    $('#add-engine').on('click', function(){
-        part_id = $('#engine-categories').find(":selected").val();
-        title = $('#engine-categories').find(":selected").text();
-        if (part_id != 'Choose an option') {
-           var template = '<tr>' +
-                            '<td scope="row">' + title + '</td>' +
-                            '<td>' +
-                                '<input type="url" class="form-control input-sm" name="engine_'+ part_id +'_link" required>' +
-                            '</td>' +
-                            '<td class="url-price">' +
-                                '<input type="number" class="form-control input-sm part-price" name="engine_'+ part_id +'_price" step="any" required>' +
-                            '</td>' +
-                            '<td>' +
-                                '<div class="text-center">' +
-                                    '<input type="checkbox" name="engine_'+ part_id +'_purchased">' +
-                                '</div>'+
-                            '</td>' +
-                            '<td>' +
-                                '<i class="far fa-times-circle" id="delete-row"></i>' +
-                            '</td>' +
-                        '</tr>';
-            $('.engine-table').append(template); 
-        }
-        
     });
 
     $('#add-running-gear').on('click', function(){
         part_id = $('#running-gear-categories').find(":selected").val();
         title = $('#running-gear-categories').find(":selected").text();
-        if (part_id != 'Choose an option') {
-           var template = '<tr>' +
-                            '<td scope="row">' + title + '</td>' +
-                            '<td>' +
-                                '<input type="url" class="form-control input-sm" name="running_'+ part_id +'_link" required>' +
-                            '</td>' +
-                            '<td class="url-price">' +
-                                '<input type="number" class="form-control input-sm part-price" name="running_'+ part_id +'_price" step="any" required>' +
-                            '</td>' +
-                            '<td>' +
-                                '<div class="text-center">' +
-                                    '<input type="checkbox" name="running_'+ part_id +'_purchased">' +
-                                '</div>'+
-                            '</td>' +
-                            '<td>' +
-                                '<i class="far fa-times-circle" id="delete-row"></i>' +
-                            '</td>' +
-                        '</tr>';
-            $('.running-gear-table').append(template); 
+        part_check = check_if_part_is_selected('.running-gear-table', title);
+        if (part_check) {
+            alert("You can't add two of the same options!");
+        } else {
+            if (part_id != 'Choose an option') {
+            var template = '<tr>' +
+                                '<td scope="row">' + title + '</td>' +
+                                '<td>' +
+                                    '<input type="url" class="form-control input-sm" name="running_'+ part_id +'_link" required>' +
+                                '</td>' +
+                                '<td class="url-price">' +
+                                    '<input type="number" class="form-control input-sm part-price" name="running_'+ part_id +'_price" step="any" required>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<div class="text-center">' +
+                                        '<input type="checkbox" name="running_'+ part_id +'_purchased">' +
+                                    '</div>'+
+                                '</td>' +
+                                '<td>' +
+                                    '<i class="far fa-times-circle" id="delete-row"></i>' +
+                                '</td>' +
+                            '</tr>';
+                $('.running-gear-table').append(template); 
+            }
         }
-        
     });
 
     $('#add-interior').on('click', function(){
         part_id = $('#interior-categories').find(":selected").val();
         title = $('#interior-categories').find(":selected").text();
-        if (part_id != 'Choose an option') {
-           var template = '<tr>' +
-                            '<td scope="row">' + title + '</td>' +
-                            '<td>' +
-                                '<input type="url" class="form-control input-sm" name="interior_'+ part_id +'_link" required>' +
-                            '</td>' +
-                            '<td class="url-price">' +
-                                '<input type="number" class="form-control input-sm part-price" name="interior_'+ part_id +'_price" step="any" required>' +
-                            '</td>' +
-                            '<td>' +
-                                '<div class="text-center">' +
-                                    '<input type="checkbox" name="interior_'+ part_id +'_purchased">' +
-                                '</div>'+
-                            '</td>' +
-                            '<td>' +
-                                '<i class="far fa-times-circle" id="delete-row"></i>' +
-                            '</td>' +
-                        '</tr>';
-            $('.interior-table').append(template); 
+        part_check = check_if_part_is_selected('.interior-table', title);
+        if (part_check) {
+            alert("You can't add two of the same options!");
+        } else {
+            if (part_id != 'Choose an option') {
+            var template = '<tr>' +
+                                '<td scope="row">' + title + '</td>' +
+                                '<td>' +
+                                    '<input type="url" class="form-control input-sm" name="interior_'+ part_id +'_link" required>' +
+                                '</td>' +
+                                '<td class="url-price">' +
+                                    '<input type="number" class="form-control input-sm part-price" name="interior_'+ part_id +'_price" step="any" required>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<div class="text-center">' +
+                                        '<input type="checkbox" name="interior_'+ part_id +'_purchased">' +
+                                    '</div>'+
+                                '</td>' +
+                                '<td>' +
+                                    '<i class="far fa-times-circle" id="delete-row"></i>' +
+                                '</td>' +
+                            '</tr>';
+                $('.interior-table').append(template); 
+            }
         }
-        
     });
 
     $('tbody').on('click', '#delete-row', function(){
