@@ -21,7 +21,7 @@ Edit {{ build.name }}
     <!--Make/Model/Trim/Year-->
     <div class="card">
             <div class="card-header" id="headingTwo">
-                <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#vehicle" aria-expanded="false"
+                <h6 class="collapsed mb-0" data-bs-toggle="collapse" data-bs-target="#vehicle" aria-expanded="false"
                     aria-controls="vehicle">
                     Car
                 </h6>
@@ -91,30 +91,32 @@ Edit {{ build.name }}
                         </tbody>
                     </table>
                     <br>
-                    <table class="table table-sm col-md-6 col-12">
-                        <thead>
-                            <tr>
-                                <th>Visibility</th>
-                                <th>Price Visibility</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <select name="visibility" class="form-control" id="visibility">
-                                        <option value="Private" {% if build.private %}selected{% endif %}>Private</option>
-                                        <option value="Public" {% if build.private == False %}selected{% endif %}>Public</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <select name="price-visibility" id="price-visibility" class="form-control">
-                                        <option value="Private" {% if build.price_hidden %}selected{% endif %}>Private</option>
-                                        <option value="Public" {% if build.price_hidden == False %}selected{% endif %}>Public</option>
-                                    </select>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="col-md-6 col-12">
+                        <table class="table table-sm ">
+                            <thead>
+                                <tr>
+                                    <th>Visibility</th>
+                                    <th>Price Visibility</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <select name="visibility" class="form-control" id="visibility">
+                                            <option value="Private" {% if build.private %}selected{% endif %}>Private</option>
+                                            <option value="Public" {% if build.private == False %}selected{% endif %}>Public</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="price-visibility" id="price-visibility" class="form-control">
+                                            <option value="Private" {% if build.price_hidden %}selected{% endif %}>Private</option>
+                                            <option value="Public" {% if build.price_hidden == False %}selected{% endif %}>Public</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
     </div>
@@ -122,7 +124,7 @@ Edit {{ build.name }}
     <!--Exterior-->
     <div class="card">
         <div class="card-header" id="headingTwo">
-            <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#exterior" aria-expanded="false"
+            <h6 class="collapsed mb-0" data-bs-toggle="collapse" data-bs-target="#exterior" aria-expanded="false"
                 aria-controls="exterior">
                 Exterior
             </h6>
@@ -189,7 +191,7 @@ Edit {{ build.name }}
     <!--Engine-->
     <div class="card">
         <div class="card-header" id="headingTwo">
-            <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#engine" aria-expanded="false"
+            <h6 class="collapsed mb-0" data-bs-toggle="collapse" data-bs-target="#engine" aria-expanded="false"
                 aria-controls="engine">
                 Engine
             </h6>
@@ -255,7 +257,7 @@ Edit {{ build.name }}
     <!--Running Gear-->
     <div class="card">
         <div class="card-header" id="headingTwo">
-            <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#running-gear" aria-expanded="false"
+            <h6 class="collapsed mb-0" data-bs-toggle="collapse" data-bs-target="#running-gear" aria-expanded="false"
                 aria-controls="running-gear">
                 Running Gear
             </h6>
@@ -321,7 +323,7 @@ Edit {{ build.name }}
     <!--Interior-->
     <div class="card">
         <div class="card-header" id="headingTwo">
-            <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#interior" aria-expanded="false"
+            <h6 class="collapsed mb-0" data-bs-toggle="collapse" data-bs-target="#interior" aria-expanded="false"
                 aria-controls="interior">
                 Interior
             </h6>
@@ -391,7 +393,7 @@ Edit {{ build.name }}
             <input type="hidden" name="total" value="{{ build.total }}" id="build-total">
         </div>
         <div class="col-5">
-            <a class="btn btn-sm btn-primary float-right" href="{% url 'download_qrcode' build.build_id %}"><i class="fas fa-download mr-2"></i>QR Code</a>
+            <a class="btn btn-sm btn-primary float-end" href="{% url 'download_qrcode' build.build_id %}"><i class="fas fa-download me-2"></i>QR Code</a>
         </div>
     </div>
     
@@ -399,7 +401,7 @@ Edit {{ build.name }}
     <div class="text-center submit-buttons">
         <a class="btn btn-outline-dark" href="{% url 'view_build' build.build_id %}">Back to View</a>
         <button type="submit" class="btn btn-outline-warning">Update</button>
-        <button type="button" class="btn btn-outline-danger float-right" data-toggle="modal" data-target="#delete_build_confirm">
+        <button type="button" class="btn btn-outline-danger float-end" data-bs-toggle="modal" data-bs-target="#delete_build_confirm">
             Delete Build
         </button>
     </div>
