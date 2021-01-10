@@ -39,18 +39,20 @@
                                 {% endif %}
                             </div>
                             {% endif %}
-                            <select class="form-control col-8" name="sort_options" id="sort_options">
-                                <option value="" disabled {% ifequal request.GET.sort_options|length 0 %}selected {% endifequal %}>Select a Filter Option</option>
-                                <option value="" disabled>Filter By Price:</option>
-                                <option value="-total" {% ifequal request.GET.sort_options "-total" %}selected {% endifequal %}>&#160;&#160;&#160;&#160;High to Low</option>
-                                <option value="total" {% ifequal request.GET.sort_options "total" %}selected {% endifequal %}>&#160;&#160;&#160;&#160;Low to High</option>
-                                <option value="" disabled>Filter By Likes:</option>
-                                <option value="-like_count" {% ifequal request.GET.sort_options "-like_count" %}selected {% endifequal %}>&#160;&#160;&#160;&#160;High to Low</option>
-                                <option value="-dislike_count" {% ifequal request.GET.sort_options "-dislike_count" %}selected {% endifequal %}>&#160;&#160;&#160;&#160;Low to High</option>
-                                <option value="" disabled>Filter By Views:</option>
-                                <option value="-views" {% ifequal request.GET.sort_options "-views" %}selected {% endifequal %}>&#160;&#160;&#160;&#160;High to Low</option>
-                                <option value="views" {% ifequal request.GET.sort_options "views" %}selected {% endifequal %}>&#160;&#160;&#160;&#160;Low to High</option>
-                            </select>
+                            <div class="col-8">
+                                <select class="form-control" name="sort_options" id="sort_options">
+                                    <option value="" disabled {% ifequal request.GET.sort_options|length 0 %}selected {% endifequal %}>Select a Filter Option</option>
+                                    <option value="" disabled>Filter By Price:</option>
+                                    <option value="-total" {% ifequal request.GET.sort_options "-total" %}selected {% endifequal %}>&#160;&#160;&#160;&#160;High to Low</option>
+                                    <option value="total" {% ifequal request.GET.sort_options "total" %}selected {% endifequal %}>&#160;&#160;&#160;&#160;Low to High</option>
+                                    <option value="" disabled>Filter By Likes:</option>
+                                    <option value="-like_count" {% ifequal request.GET.sort_options "-like_count" %}selected {% endifequal %}>&#160;&#160;&#160;&#160;High to Low</option>
+                                    <option value="-dislike_count" {% ifequal request.GET.sort_options "-dislike_count" %}selected {% endifequal %}>&#160;&#160;&#160;&#160;Low to High</option>
+                                    <option value="" disabled>Filter By Views:</option>
+                                    <option value="-views" {% ifequal request.GET.sort_options "-views" %}selected {% endifequal %}>&#160;&#160;&#160;&#160;High to Low</option>
+                                    <option value="views" {% ifequal request.GET.sort_options "views" %}selected {% endifequal %}>&#160;&#160;&#160;&#160;Low to High</option>
+                                </select>
+                            </div>
                             <div class="col-2">
                                 <button type="submit" class="btn btn-outline-dark d-inline-block"><i class="fas fa-search"></i></button>
                             </div>
@@ -65,47 +67,49 @@
     </div>
 
     <div class="builds">
-        <div class="row">
+        <div class="row justify-content-center">
             {% if builds|length > 0 %}
             {% for item in builds %}
-            <div class="card col-lg-5 col-md-5 col-sm-12 col-xs-6">
-                <div class="card-body">
-                    <div class="card-title row">
-                        <p class="col-9 build-title">{{ item.name }}</p>
-                        {% if item.author.id == request.user.id %}
-                        <p class="col-3">
-                            {% if item.private %}
-                            <i class="fas fa-lock float-right"></i>
-                            {% else %}
-                            <i class="fas fa-lock-open float-right"></i>
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title row">
+                            <p class="col-9 build-title">{{ item.name }}</p>
+                            {% if item.author.id == request.user.id %}
+                            <p class="col-3">
+                                {% if item.private %}
+                                <i class="fas fa-lock float-right"></i>
+                                {% else %}
+                                <i class="fas fa-lock-open float-right"></i>
+                                {% endif %}
+                            </p>
                             {% endif %}
-                        </p>
-                        {% endif %}
-                    </div>
-                    <hr>
-                    <p class="card-subtitle mb-2 text-muted">{{ item.car.make }} {{ item.car.model }} {{ item.car.trim }}
-                    </p>
-                    <p class="card-subtitle mb-2 text-muted"> Car Price: {{ item.car.price }}</p>
-                    <p class="card-text">The build will cost you {{ item.total }}.</p>
-                    <div class="row">
-                        <div class="col">
-                            <a class="btn btn-sm btn-outline-dark" href="{% url 'view_build' item.build_id %}">View Build</a>
                         </div>
-                        <div class="col">
-                            <div class="voting-content">
-                                <div class="like">
-                                    <div class="like-button">
-                                        <i class="far fa-thumbs-up"></i>
+                        <hr>
+                        <p class="card-subtitle mb-2 text-muted">{{ item.car.make }} {{ item.car.model }} {{ item.car.trim }}
+                        </p>
+                        <p class="card-subtitle mb-2 text-muted"> Car Price: {{ item.car.price }}</p>
+                        <p class="card-text">The build will cost you {{ item.total }}.</p>
+                        <div class="row">
+                            <div class="col">
+                                <a class="btn btn-sm btn-outline-dark" href="{% url 'view_build' item.build_id %}">View Build</a>
+                            </div>
+                            <div class="col">
+                                <div class="voting-content">
+                                    <div class="like">
+                                        <div class="like-button">
+                                            <i class="far fa-thumbs-up"></i>
+                                        </div>
+                                        <span id="like-count">
+                                            {{ item.like_count }}</span>
                                     </div>
-                                    <span id="like-count">
-                                        {{ item.like_count }}</span>
-                                </div>
-                                <div class="dislike">
-                                    <div class="dislike-button">
-                                        <i class="far fa-thumbs-down"></i>
+                                    <div class="dislike">
+                                        <div class="dislike-button">
+                                            <i class="far fa-thumbs-down"></i>
+                                        </div>
+                                        <span id="dislike-count">
+                                            {{ item.dislike_count }}</span>
                                     </div>
-                                    <span id="dislike-count">
-                                        {{ item.dislike_count }}</span>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +125,7 @@
         </div>
     </div>
     {% if builds|length > 0 %}
-    <div class="text-center">
+    <div class="text-center mt-5">
         <span class="step-links">
             {% if builds.has_previous %}
                 <a href="?page=1{% if request.GET|length > 0 %}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}{% endif %}"><i class="fas fa-angle-double-left"></i></a>
