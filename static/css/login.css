@@ -17,8 +17,10 @@ div.container {
 
 #forgot-password a {
     font-family: 'Oswald', sans-serif;
+    text-decoration: none;
 }
 
 .register p, .register p a {
     font-family: 'Oswald', sans-serif;
+    text-decoration: none;
 }
