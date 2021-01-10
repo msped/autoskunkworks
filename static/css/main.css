@@ -75,7 +75,7 @@ footer {
     font-family: 'Oswald', serif;
     font-size: 14pt;
     color: rgba(0,0,0,.5);
-    
+    text-decoration: none;    
 }
 
 .footer-text:hover {
