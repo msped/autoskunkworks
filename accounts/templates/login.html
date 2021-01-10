@@ -17,7 +17,7 @@ Login
 {% block content %}
 <div>
     <h1 class="login-header text-center">Login</h1>
-    <div class="offset-lg-4 col-lg-4 offset-md-3 col-md-6 col-sm-12 col-xs-12">
+    <div class="offset-lg-4 col-lg-4 offset-md-3 col-md-6 col-sm-12 col-12">
         <form action="{% url 'login' %}" method="POST">
             {% csrf_token %}
             {{ login_form | as_bootstrap }}
