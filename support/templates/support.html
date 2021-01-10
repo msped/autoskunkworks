@@ -26,8 +26,8 @@ Contact Us For Support
             <form action="{% url 'support' %}" method="POST" id="contact-form">
                 {% csrf_token %}
                 {{ form|as_bootstrap }}
-                <div class="text-center">
-                    <button type="submit" class="btn btn-outline-light">Send</button>
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-outline-dark">Send</button>
                 </div>
                 <p id="form-errors"></p>
             </form>
