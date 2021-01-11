@@ -39,7 +39,7 @@ View Public Builds
                             </div>
                             {% endif %}
                             <div class="col-8">
-                                <select class="form-control" name="sort_options" id="sort_options">
+                                <select class="form-control" name="sort_options" id="sort_options" aria-label="Sort Options">
                                     <option value="" disabled {% ifequal request.GET.sort_options|length 0 %}selected {% endifequal %}>Select a Filter Option</option>
                                     <option value="" disabled>Filter By Price:</option>
                                     <option value="-total" {% ifequal request.GET.sort_options "-total" %}selected {% endifequal %}>&#160;&#160;&#160;&#160;High to Low</option>
@@ -53,12 +53,12 @@ View Public Builds
                                 </select>
                             </div>
                             <div class="col-2">
-                                <button type="submit" class="btn btn-outline-dark d-inline-block"><i class="fas fa-search"></i></button>
+                                <button type="submit" class="btn btn-outline-dark d-inline-block" aria-label="Search"><i class="fas fa-search"></i></button>
                             </div>
                         </div>
                     </div>
                     <div class="text-center col-2">
-                        <a class="btn btn-outline-danger d-inline-block" href="{% url 'builds' %}"><i class="fas fa-sync-alt"></i></a>
+                        <a class="btn btn-outline-danger d-inline-block" href="{% url 'builds' %}" aria-label="Reset"><i class="fas fa-sync-alt"></i></a>
                     </div>
                 </form>
             </div>
