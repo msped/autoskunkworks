@@ -25,9 +25,11 @@
     cursor: pointer;
 }
 
-.card-header h6 {
-    font-family: 'Roboto', sans-serif;
+.card-header div {
+    font-family: 'Roboto';
     margin: 5px 0px 5px 15px;
+    font-size: 1rem;
+    font-weight: 400;
 }
 
 .add-category {
