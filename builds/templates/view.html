@@ -420,7 +420,7 @@
     </div>
     <div class="col-md-5 col-sm-4 col-3">
         <div class="mt-5 float-end">
-            <button class="btn btn-outline-dark d-inline-block mb-1" id="copy-to-clipboard-btn" data-text="{% if request.is_secure %}https{% else %}http{% endif %}://{{ request.get_host }}{% url 'view_build' build.build_id %}">
+            <button class="btn btn-outline-dark d-inline-block mb-1" aria-label="Copy link to clipboard" id="copy-to-clipboard-btn" data-text="{% if request.is_secure %}https{% else %}http{% endif %}://{{ request.get_host }}{% url 'view_build' build.build_id %}">
                 <div class="show" title="Copy link to Clipboard">
                     <i class="far fa-copy"></i>
                 </div>
