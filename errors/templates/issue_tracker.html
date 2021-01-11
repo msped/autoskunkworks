@@ -34,7 +34,7 @@ Issue Tracker
         </li>
     </ul>
     <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="open" role="tabpanel" aria-labelledby="open-tab">
+        <div class="tab-pane fade show active" id="open" role="tabpanel" aria-labelledby="open">
             {% if open_issues|length > 0 %}
             <div class="open-issues my-4 table-responsive">
                 <table class="table">
@@ -68,7 +68,7 @@ Issue Tracker
             </div>
             {% endif %}
         </div>
-        <div class="tab-pane fade" id="closed" role="tabpanel" aria-labelledby="closed-tab">
+        <div class="tab-pane fade" id="closed" role="tabpanel" aria-labelledby="closed">
             {% if closed_issues|length > 0 %}
             <div class="open-issues my-4 table-responsive">
                 <table class="table">
@@ -100,7 +100,7 @@ Issue Tracker
             </div>
             {% endif %}
         </div>
-        <div class="tab-pane fade" id="my-tickets" role="tabpanel" aria-labelledby="my-tickets-tab">
+        <div class="tab-pane fade" id="my-tickets" role="tabpanel" aria-labelledby="my-tickets">
             {% if user.is_authenticated %}
             {% if my_issues|length > 0 %}
             <div class="open-issues my-4 table-responsive">
@@ -138,7 +138,7 @@ Issue Tracker
             </div>
             {% endif %}
         </div>
-        <div class="tab-pane fade" id="new-ticket" role="tabpanel" aria-labelledby="new-tab">
+        <div class="tab-pane fade" id="new-ticket" role="tabpanel" aria-labelledby="new-ticket">
             {% if user.is_authenticated %}
             <form action="{% url 'issue_tracker' %}" method="post" class="offset-lg-3 col-lg-6 offset-md-3 col-md-6 col-sm-12 col-12 my-3">
                 {% csrf_token %}
