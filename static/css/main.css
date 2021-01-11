@@ -83,8 +83,9 @@ footer {
     text-decoration: none;
 }
 
-.social-links h5 {
+.social-links div {
     font-family: 'PM', monospace;
+    font-size: 1.25rem;
 }
 
 .social-links ul li {
