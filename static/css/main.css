@@ -133,3 +133,7 @@ footer {
 .loading img {
     height: 40px;
 }
+
+hr.clearfix {
+    background-color: #fff;
+}
