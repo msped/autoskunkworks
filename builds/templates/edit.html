@@ -81,8 +81,7 @@ Edit {{ build.name }}
                                         </td>
                                         <td>
                                             <div class="text-center">
-                                                <input type="checkbox" name="car_purchased" {% if build.car.purchased
-                                                    %}checked{% endif %}>
+                                                <input type="checkbox" name="car_purchased" {% if build.car.purchased %}checked{% endif %}>
                                             </div>
                                         </td>
                                     </tr>
@@ -105,7 +104,7 @@ Edit {{ build.name }}
                                 <td>
                                     <select name="visibility" class="form-control" aria-label="Select Visibility" id="visibility">
                                         <option value="Private" {% if build.private %}selected{% endif %}>Private</option>
-                                        <option value="Public" {% if build.private==False %}selected{% endif %}>Public
+                                        <option value="Public" {% if not build.private %}selected{% endif %}>Public
                                         </option>
                                     </select>
                                 </td>
@@ -113,7 +112,7 @@ Edit {{ build.name }}
                                     <select name="price-visibility" id="price-visibility" aria-label="Select Price Visibility" class="form-control">
                                         <option value="Private" {% if build.price_hidden %}selected{% endif %}>Private
                                         </option>
-                                        <option value="Public" {% if build.price_hidden==False %}selected{% endif %}>Public
+                                        <option value="Public" {% if not build.price_hidden %}selected{% endif %}>Public
                                         </option>
                                     </select>
                                 </td>
