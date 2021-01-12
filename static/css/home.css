@@ -7,10 +7,6 @@
   }
 
 .homepage-button {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   text-align: center;
 }
 
@@ -39,7 +35,7 @@ a.homepage-banner-button {
   margin-top: 15px;
 }
 
-.what-is-autolog h3 {
+.what-is-autolog div {
   font-family: 'PM', monospace;
   margin-bottom: 20px;
 }

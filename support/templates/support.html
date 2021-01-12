@@ -26,8 +26,8 @@ Contact Us For Support
             <form action="{% url 'support' %}" method="POST" id="contact-form">
                 {% csrf_token %}
                 {{ form|as_bootstrap }}
-                <div class="text-center">
-                    <button type="submit" class="btn btn-outline-light">Send</button>
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-outline-dark">Send</button>
                 </div>
                 <p id="form-errors"></p>
             </form>
@@ -52,6 +52,7 @@ Contact Us For Support
 {% endblock content %}
 
 {% block js %}
-<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="{% static 'js/contact.js' %}"></script>
 {% endblock js %}

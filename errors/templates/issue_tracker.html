@@ -21,20 +21,20 @@ Issue Tracker
 <div class="issues">
     <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" href="#open" data-toggle="pill" role="tab" aria-controls="open">Open</a>
+            <a class="nav-link active" href="#open" data-bs-toggle="pill" role="tab" aria-controls="open">Open</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#closed" data-toggle="pill" role="tab" aria-controls="closed">Closed</a>
+            <a class="nav-link" href="#closed" data-bs-toggle="pill" role="tab" aria-controls="closed">Closed</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#my-tickets" data-toggle="pill" role="tab" aria-controls="my-tickets">My Tickets</a>
+            <a class="nav-link" href="#my-tickets" data-bs-toggle="pill" role="tab" aria-controls="my-tickets">My Tickets</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#new-ticket" data-toggle="pill" role="tab" aria-controls="new-ticket">New Ticket</a>
+            <a class="nav-link" href="#new-ticket" data-bs-toggle="pill" role="tab" aria-controls="new-ticket">New Ticket</a>
         </li>
     </ul>
     <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="open" role="tabpanel" aria-labelledby="open-tab">
+        <div class="tab-pane fade show active" id="open" role="tabpanel" aria-labelledby="open">
             {% if open_issues|length > 0 %}
             <div class="open-issues my-4 table-responsive">
                 <table class="table">
@@ -68,7 +68,7 @@ Issue Tracker
             </div>
             {% endif %}
         </div>
-        <div class="tab-pane fade" id="closed" role="tabpanel" aria-labelledby="closed-tab">
+        <div class="tab-pane fade" id="closed" role="tabpanel" aria-labelledby="closed">
             {% if closed_issues|length > 0 %}
             <div class="open-issues my-4 table-responsive">
                 <table class="table">
@@ -100,7 +100,7 @@ Issue Tracker
             </div>
             {% endif %}
         </div>
-        <div class="tab-pane fade" id="my-tickets" role="tabpanel" aria-labelledby="my-tickets-tab">
+        <div class="tab-pane fade" id="my-tickets" role="tabpanel" aria-labelledby="my-tickets">
             {% if user.is_authenticated %}
             {% if my_issues|length > 0 %}
             <div class="open-issues my-4 table-responsive">
@@ -138,12 +138,12 @@ Issue Tracker
             </div>
             {% endif %}
         </div>
-        <div class="tab-pane fade" id="new-ticket" role="tabpanel" aria-labelledby="new-tab">
+        <div class="tab-pane fade" id="new-ticket" role="tabpanel" aria-labelledby="new-ticket">
             {% if user.is_authenticated %}
             <form action="{% url 'issue_tracker' %}" method="post" class="offset-lg-3 col-lg-6 offset-md-3 col-md-6 col-sm-12 col-12 my-3">
                 {% csrf_token %}
                 {{ newTicketForm|as_bootstrap }}
-                <div class="text-center">
+                <div class="text-center mt-4">
                     <button type="submit" class="btn btn-outline-success">Submit</button>
                 </div>
             </form>

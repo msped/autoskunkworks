@@ -20,78 +20,79 @@ Edit {{ build.name }}
     {% csrf_token %}
     <!--Make/Model/Trim/Year-->
     <div class="card">
-            <div class="card-header" id="headingTwo">
-                <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#vehicle" aria-expanded="false"
-                    aria-controls="vehicle">
-                    Car
-                </h6>
+        <div class="card-header" id="build-details">
+            <div class="collapsed mb-0" data-bs-toggle="collapse" data-bs-target="#build-details" aria-expanded="false"
+                aria-controls="build-details">
+                Build Details
             </div>
-            <div id="vehicle" class="collapse" aria-labelledby="headingTwo" data-parent="#vehicle">
-                <div class="card-body">
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <th scope="col">
-                                    Make
-                                </th>
-                                <th scope="col">
-                                    Model
-                                </th>
-                                <th scope="col">
-                                    Trim
-                                </th>
-                                <th scope="col">
-                                    Year
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!--Car-->
-                            <tr>
-                                <th scope="row">
-                                    <input type="text" class="form-control input-sm" name="make" value="{{ build.car.make }}">
-                                </th>
-                                <td>
-                                    <input type="text" class="form-control input-sm" name="model" value="{{ build.car.model }}">
-                                </td>
-                                <td>
-                                    <input type="text" class="form-control input-sm" name="trim" value="{{ build.car.trim }}">
-                                </td>
-                                <td>
-                                    <input type="number" class="form-control input-sm" name="year" value="{{ build.car.year }}">
-                                </td>
-                            </tr>
-                            <tr>
-                                <table class="table table-sm col-md-6 col-12">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">
-                                                Price
-                                            </th>
-                                            <th scope="col" class="text-center">
-                                                Do you own this car?
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <input type="text" class="form-control input-sm part-price" name="price"
-                                                    value="{{ build.car.price }}">
-                                            </td>
-                                            <td>
-                                                <div class="text-center">
-                                                    <input type="checkbox" name="car_purchased" {% if build.car.purchased %}checked{% endif %}>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <br>
-                    <table class="table table-sm col-md-6 col-12">
+        </div>
+        <div id="build-details" class="collapse" aria-labelledby="build-details" data-parent="#build-details">
+            <div class="card-body">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                Make
+                            </th>
+                            <th scope="col">
+                                Model
+                            </th>
+                            <th scope="col">
+                                Trim
+                            </th>
+                            <th scope="col">
+                                Year
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--Car-->
+                        <tr>
+                            <th scope="row">
+                                <input type="text" class="form-control input-sm" name="make" value="{{ build.car.make }}">
+                            </th>
+                            <td>
+                                <input type="text" class="form-control input-sm" name="model" value="{{ build.car.model }}">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control input-sm" name="trim" value="{{ build.car.trim }}">
+                            </td>
+                            <td>
+                                <input type="number" class="form-control input-sm" name="year" value="{{ build.car.year }}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <table class="table table-sm col-md-6 col-12">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">
+                                            Price
+                                        </th>
+                                        <th scope="col" class="text-center">
+                                            Do you own this car?
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <input type="text" class="form-control input-sm part-price" name="price"
+                                                value="{{ build.car.price }}">
+                                        </td>
+                                        <td>
+                                            <div class="text-center">
+                                                <input type="checkbox" name="car_purchased" {% if build.car.purchased %}checked{% endif %}>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <div class="col-md-6 col-12">
+                    <table class="table table-sm ">
                         <thead>
                             <tr>
                                 <th>Visibility</th>
@@ -101,15 +102,18 @@ Edit {{ build.name }}
                         <tbody>
                             <tr>
                                 <td>
-                                    <select name="visibility" class="form-control" id="visibility">
+                                    <select name="visibility" class="form-control" aria-label="Select Visibility" id="visibility">
                                         <option value="Private" {% if build.private %}selected{% endif %}>Private</option>
-                                        <option value="Public" {% if build.private == False %}selected{% endif %}>Public</option>
+                                        <option value="Public" {% if not build.private %}selected{% endif %}>Public
+                                        </option>
                                     </select>
                                 </td>
                                 <td>
-                                    <select name="price-visibility" id="price-visibility" class="form-control">
-                                        <option value="Private" {% if build.price_hidden %}selected{% endif %}>Private</option>
-                                        <option value="Public" {% if build.price_hidden == False %}selected{% endif %}>Public</option>
+                                    <select name="price-visibility" id="price-visibility" aria-label="Select Price Visibility" class="form-control">
+                                        <option value="Private" {% if build.price_hidden %}selected{% endif %}>Private
+                                        </option>
+                                        <option value="Public" {% if not build.price_hidden %}selected{% endif %}>Public
+                                        </option>
                                     </select>
                                 </td>
                             </tr>
@@ -117,20 +121,21 @@ Edit {{ build.name }}
                     </table>
                 </div>
             </div>
+        </div>
     </div>
 
     <!--Exterior-->
     <div class="card">
-        <div class="card-header" id="headingTwo">
-            <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#exterior" aria-expanded="false"
+        <div class="card-header" id="exterior">
+            <div class="collapsed mb-0" data-bs-toggle="collapse" aria-label="Exterior" data-bs-target="#exterior" aria-expanded="false"
                 aria-controls="exterior">
                 Exterior
-            </h6>
+            </div>
         </div>
-        <div id="exterior" class="collapse" aria-labelledby="headingTwo" data-parent="#exterior">
+        <div id="exterior" class="collapse" aria-labelledby="exterior" data-parent="#exterior">
             <div class="card-body">
                 <div class="add-category col-md-12">
-                    <select class="form-control" id="exterior-categories">
+                    <select class="form-control" aria-label="Add exterior options" id="exterior-categories">
                         <option value="Choose an option" disabled selected>Choose an option</option>
                         {% for item in exterior %}
                         <option value="{{ item.id }}">{{ item.title }}</option>
@@ -188,16 +193,16 @@ Edit {{ build.name }}
 
     <!--Engine-->
     <div class="card">
-        <div class="card-header" id="headingTwo">
-            <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#engine" aria-expanded="false"
+        <div class="card-header" id="engine">
+            <div class="collapsed mb-0" data-bs-toggle="collapse" aria-label="Engine" data-bs-target="#engine" aria-expanded="false"
                 aria-controls="engine">
                 Engine
-            </h6>
+            </div>
         </div>
-        <div id="engine" class="collapse" aria-labelledby="headingTwo" data-parent="#engine">
+        <div id="engine" class="collapse" aria-labelledby="engine" data-parent="#engine">
             <div class="card-body">
                     <div class="add-category col-md-12">
-                        <select class="form-control" id="engine-categories">
+                        <select class="form-control" aria-label="Add exterior options" aria-label="Add engine options" id="engine-categories">
                             <option value="Choose an option" disabled selected>Choose an option</option>
                             {% for item in engine %}
                             <option value="{{ item.id }}">{{ item.title }}</option>
@@ -254,16 +259,16 @@ Edit {{ build.name }}
 
     <!--Running Gear-->
     <div class="card">
-        <div class="card-header" id="headingTwo">
-            <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#running-gear" aria-expanded="false"
+        <div class="card-header" id="running-gear">
+            <div class="collapsed mb-0" data-bs-toggle="collapse" aria-label="Running Gear" data-bs-target="#running-gear" aria-expanded="false"
                 aria-controls="running-gear">
                 Running Gear
-            </h6>
+            </div>
         </div>
-        <div id="running-gear" class="collapse" aria-labelledby="headingTwo" data-parent="#running-gear">
+        <div id="running-gear" class="collapse" aria-labelledby="running-gear" data-parent="#running-gear">
             <div class="card-body">
                     <div class="add-category col-md-12">
-                        <select class="form-control" id="running-gear-categories">
+                        <select class="form-control" aria-label="Add running gear options" id="running-gear-categories">
                             <option value="Choose an option" disabled selected>Choose an option</option>
                             {% for item in running %}
                             <option value="{{ item.id }}">{{ item.title }}</option>
@@ -320,16 +325,16 @@ Edit {{ build.name }}
 
     <!--Interior-->
     <div class="card">
-        <div class="card-header" id="headingTwo">
-            <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#interior" aria-expanded="false"
+        <div class="card-header" id="interior">
+            <div class="collapsed mb-0" data-bs-toggle="collapse" data-bs-target="#interior" aria-label="Interior" aria-expanded="false"
                 aria-controls="interior">
                 Interior
-            </h6>
+            </div>
         </div>
-        <div id="interior" class="collapse" aria-labelledby="headingTwo" data-parent="#interior">
+        <div id="interior" class="collapse" aria-labelledby="interior" data-parent="#interior">
             <div class="card-body">
                 <div class="add-category col-md-12">
-                    <select class="form-control" id="interior-categories">
+                    <select class="form-control" aria-label="Add interior options" id="interior-categories">
                         <option value="Choose an option" disabled selected>Choose an option</option>
                         {% for item in interior %}
                         <option value="{{ item.id }}">{{ item.title }}</option>
@@ -391,7 +396,7 @@ Edit {{ build.name }}
             <input type="hidden" name="total" value="{{ build.total }}" id="build-total">
         </div>
         <div class="col-5">
-            <a class="btn btn-sm btn-primary float-right" href="{% url 'download_qrcode' build.build_id %}"><i class="fas fa-download mr-2"></i>QR Code</a>
+            <a class="btn btn-sm btn-primary float-end" href="{% url 'download_qrcode' build.build_id %}"><i class="fas fa-download me-2"></i>QR Code</a>
         </div>
     </div>
     
@@ -399,7 +404,7 @@ Edit {{ build.name }}
     <div class="text-center submit-buttons">
         <a class="btn btn-outline-dark" href="{% url 'view_build' build.build_id %}">Back to View</a>
         <button type="submit" class="btn btn-outline-warning">Update</button>
-        <button type="button" class="btn btn-outline-danger float-right" data-toggle="modal" data-target="#delete_build_confirm">
+        <button type="button" class="btn btn-outline-danger float-end" data-bs-toggle="modal" data-bs-target="#delete_build_confirm">
             Delete Build
         </button>
     </div>
@@ -438,6 +443,7 @@ Edit {{ build.name }}
 {% endblock content %}
 
 {% block js %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{% static 'js/create.js' %}"></script>
     <script>
         $(document).ready(function(){

@@ -660,7 +660,7 @@ class BuildTests(TestCase):
                 'url': 'https://www.ebay.co.uk/itm/GENUINE-A45-AMG-Rear-Diffuser-Sport-Edition-Mercedes-Benz-W176-A-Class-NEW/132794845019?epid=23008548439&hash=item1eeb30875b:g:D1MAAOSwx-9WvwlE'
             }
         )
-        self.assertIn(b'201.99', response.content)
+        self.assertIn(b'202.99', response.content)
 
     def test_get_web_price_class(self):
         """Test Get Web Price by class"""
@@ -675,7 +675,7 @@ class BuildTests(TestCase):
                 'url': 'https://throtl.com/products/air-lift-performance-15-20-mercedes-c-class-w205-c63-a-78580'
             }
         )
-        self.assertIn(b'1075.63', response.content)
+        self.assertIn(b'1060.69', response.content)
 
     def test_get_web_price_no_domain(self):
         """Test Get Web Price no domain stored"""

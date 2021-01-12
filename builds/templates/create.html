@@ -4,6 +4,10 @@
 Create a new build
 {% endblock title %}
 
+{% block meta %}
+<meta name="description" content="Create your own custom builds either for fun or a plan of action for your next pride and joy.">
+{% endblock meta %}
+
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/create.css' %}">
 {% endblock css %}
@@ -19,13 +23,13 @@ Create a new build
     {% csrf_token %}
     <!--Make/Model/Trim/Year-->
     <div class="card">
-        <div class="card-header" id="headingTwo">
-            <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#build-details" aria-expanded="false"
+        <div class="card-header" id="build-details">
+            <div class="collapsed mb-0" data-bs-toggle="collapse" data-bs-target="#build-details" aria-expanded="false"
                 aria-controls="build-details">
                 Build Details
-            </h6>
+            </div>
         </div>
-        <div id="build-details" class="collapse" aria-labelledby="headingTwo" data-parent="#build-details">
+        <div id="build-details" class="collapse" aria-labelledby="build-details" data-parent="#build-details">
             <div class="card-body">
                 <table class="table-sm col-md-6">
                     <thead>
@@ -102,46 +106,48 @@ Create a new build
                     </tbody>
                 </table>
                 <br>
-                <table class="table table-sm col-md-6 col-12">
-                    <thead>
-                        <tr>
-                            <th>Visibility</th>
-                            <th>Price Visibility</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <select name="visibility" class="form-control" id="visibility">
-                                    <option value="Public" selected>Public</option>
-                                    <option value="Private">Private</option>
-                                </select>
-                            </td>
-                            <td>
-                                <select name="price-visibility" id="price-visibility" class="form-control">
-                                    <option value="Public" selected>Public</option>
-                                    <option value="Private">Private</option>
-                                </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="col-md-6 col-12">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Visibility</th>
+                                <th>Price Visibility</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <select name="visibility" class="form-control" aria-label="Select Visibility" id="visibility">
+                                        <option value="Public" selected>Public</option>
+                                        <option value="Private">Private</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="price-visibility" id="price-visibility" aria-label="Select Price Visibility" class="form-control">
+                                        <option value="Public" selected>Public</option>
+                                        <option value="Private">Private</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 
     <!--Exterior-->
     <div class="card">
-        <div class="card-header" id="headingTwo">
-            <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#exterior" aria-expanded="false"
+        <div class="card-header" id="exterior">
+            <div class="collapsed mb-0" data-bs-toggle="collapse" aria-label="Exterior" data-bs-target="#exterior" aria-expanded="false"
                 aria-controls="exterior">
                 Exterior
-            </h6>
+            </div>
         </div>
-        <div id="exterior" class="collapse" aria-labelledby="headingTwo" data-parent="#exterior">
+        <div id="exterior" class="collapse" aria-labelledby="exterior" data-parent="#exterior">
             <div class="card-body">
                 <div class="add-category col-md-12">
-                    <select class="form-control" id="exterior-categories">
+                    <select class="form-control" aria-label="Add exterior options" id="exterior-categories">
                         <option value="Choose an option" disabled selected>Choose an option</option>
                         {% for item in exterior %}
                         <option value="{{ item.id }}">{{ item.title }}</option>
@@ -179,16 +185,16 @@ Create a new build
 
     <!--Engine-->
     <div class="card">
-        <div class="card-header" id="headingTwo">
-            <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#engine" aria-expanded="false"
+        <div class="card-header" id="engine">
+            <div class="collapsed mb-0" data-bs-toggle="collapse" aria-label="Engine" data-bs-target="#engine" aria-expanded="false"
                 aria-controls="engine">
                 Engine
-            </h6>
+            </div>
         </div>
-        <div id="engine" class="collapse" aria-labelledby="headingTwo" data-parent="#engine">
+        <div id="engine" class="collapse" aria-labelledby="engine" data-parent="#engine">
             <div class="card-body">
                     <div class="add-category col-md-12">
-                        <select class="form-control" id="engine-categories">
+                        <select class="form-control" aria-label="Add exterior options" aria-label="Add engine options" id="engine-categories">
                             <option value="Choose an option" disabled selected>Choose an option</option>
                             {% for item in engine %}
                             <option value="{{ item.id }}">{{ item.title }}</option>
@@ -226,16 +232,16 @@ Create a new build
 
     <!--Running Gear-->
     <div class="card">
-        <div class="card-header" id="headingTwo">
-            <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#running-gear" aria-expanded="false"
+        <div class="card-header" id="running-gear">
+            <div class="collapsed mb-0" data-bs-toggle="collapse" aria-label="Running Gear" data-bs-target="#running-gear" aria-expanded="false"
                 aria-controls="running-gear">
                 Running Gear
-            </h6>
+            </div>
         </div>
-        <div id="running-gear" class="collapse" aria-labelledby="headingTwo" data-parent="#running-gear">
+        <div id="running-gear" class="collapse" aria-labelledby="running-gear" data-parent="#running-gear">
             <div class="card-body">
                     <div class="add-category col-md-12">
-                        <select class="form-control" id="running-gear-categories">
+                        <select class="form-control" aria-label="Add running gear options" id="running-gear-categories">
                             <option value="Choose an option" disabled selected>Choose an option</option>
                             {% for item in running %}
                             <option value="{{ item.id }}">{{ item.title }}</option>
@@ -273,16 +279,16 @@ Create a new build
 
     <!--Interior-->
     <div class="card">
-        <div class="card-header" id="headingTwo">
-            <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#interior" aria-expanded="false"
+        <div class="card-header" id="interior">
+            <div class="collapsed mb-0" data-bs-toggle="collapse" data-bs-target="#interior" aria-label="Interior" aria-expanded="false"
                 aria-controls="interior">
                 Interior
-            </h6>
+            </div>
         </div>
-        <div id="interior" class="collapse" aria-labelledby="headingTwo" data-parent="#interior">
+        <div id="interior" class="collapse" aria-labelledby="interior" data-parent="#interior">
             <div class="card-body">
                 <div class="add-category col-md-12">
-                    <select class="form-control" id="interior-categories">
+                    <select class="form-control" aria-label="Add interior options" id="interior-categories">
                         <option value="Choose an option" disabled selected>Choose an option</option>
                         {% for item in interior %}
                         <option value="{{ item.id }}">{{ item.title }}</option>
@@ -334,5 +340,6 @@ Create a new build
 {% endblock content %}
 
 {% block js %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{% static 'js/create.js' %}"></script>
 {% endblock js %}

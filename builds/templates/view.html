@@ -15,7 +15,7 @@
 {% block content %}
 <div class="row">
     <div class="offset-8 col-4">
-        <a href="{% url 'users_builds' build.author.username %}" class="badge badge-light p-2 float-right">Author: {{ build.author.username }}</a>
+        <a href="{% url 'users_builds' build.author.username %}" class="badge badge-light p-2 float-end">Author: {{ build.author.username }}</a>
     </div>
 </div>
 
@@ -25,13 +25,13 @@
 </div>
 <!--Make/Model/Trim/Year-->
 <div class="card">
-    <div class="card-header" id="headingTwo">
-        <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#build-details" aria-expanded="false"
+    <div class="card-header" id="build-details">
+        <div class="collapsed mb-0" data-bs-toggle="collapse" data-bs-target="#build-details" aria-expanded="false"
             aria-controls="build-details">
-            Car
-        </h6>
+            Build Details
+        </div>
     </div>
-    <div id="build-details" class="collapse" aria-labelledby="headingTwo" data-parent="#build-details">
+    <div id="build-details" class="collapse" aria-labelledby="build-details" data-parent="#build-details">
         <div class="card-body">
             <table class="table table-sm">
                 <thead>
@@ -78,9 +78,9 @@
                         <td>
                             <div class="text-center">
                                 {% if build.car.purchased %} 
-                                <i class="far fa-check-circle purchased"></i>
+                                <i class="far fa-check-circle purchased" aria-label="Car Purchased"></i>
                                 {% else %}
-                                <i class="far fa-times-circle not-purchased"></i>
+                                <i class="far fa-times-circle not-purchased" aria-label="Car Not Purchased"></i>
                                 {% endif %}
                             </div>
                         </td>
@@ -94,13 +94,13 @@
 
 <!--Exterior-->
 <div class="card">
-    <div class="card-header" id="headingTwo">
-        <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#exterior" aria-expanded="false"
+    <div class="card-header" id="exterior">
+        <div class="collapsed mb-0" data-bs-toggle="collapse" aria-label="Exterior" data-bs-target="#exterior" aria-expanded="false"
             aria-controls="exterior">
             Exterior
-        </h6>
+        </div>
     </div>
-    <div id="exterior" class="collapse" aria-labelledby="headingTwo" data-parent="#exterior">
+    <div id="exterior" class="collapse" aria-labelledby="exterior" data-parent="#exterior">
         <div class="card-body">
             <table class="table table-sm">
                 <thead>
@@ -165,13 +165,13 @@
 
 <!--Engine-->
 <div class="card">
-    <div class="card-header" id="headingTwo">
-        <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#engine" aria-expanded="false"
+    <div class="card-header" id="engine">
+        <div class="collapsed mb-0" data-bs-toggle="collapse" aria-label="Engine" data-bs-target="#engine" aria-expanded="false"
             aria-controls="engine">
             Engine
-        </h6>
+        </div>
     </div>
-    <div id="engine" class="collapse" aria-labelledby="headingTwo" data-parent="#engine">
+    <div id="engine" class="collapse" aria-labelledby="engine" data-parent="#engine">
         <div class="card-body">
             <table class="table table-sm">
                 <thead>
@@ -236,13 +236,13 @@
 
 <!--Running Gear-->
 <div class="card">
-    <div class="card-header" id="headingTwo">
-        <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#running-gear" aria-expanded="false"
+    <div class="card-header" id="running-gear">
+        <div class="collapsed mb-0" data-bs-toggle="collapse" aria-label="Running Gear" data-bs-target="#running-gear" aria-expanded="false"
             aria-controls="running-gear">
             Running Gear
-        </h6>
+        </div>
     </div>
-    <div id="running-gear" class="collapse" aria-labelledby="headingTwo" data-parent="#running-gear">
+    <div id="running-gear" class="collapse" aria-labelledby="running-gear" data-parent="#running-gear">
         <div class="card-body">
             <table class="table table-sm">
                 <thead>
@@ -307,13 +307,13 @@
 
 <!--Interior-->
 <div class="card">
-    <div class="card-header" id="headingTwo">
-        <h6 class="collapsed mb-0" data-toggle="collapse" data-target="#interior" aria-expanded="false"
+    <div class="card-header" id="interior">
+        <div class="collapsed mb-0" data-bs-toggle="collapse" data-bs-target="#interior" aria-label="Interior" aria-expanded="false"
             aria-controls="interior">
             Interior
-        </h6>
+        </div>
     </div>
-    <div id="interior" class="collapse" aria-labelledby="headingTwo" data-parent="#interior">
+    <div id="interior" class="collapse" aria-labelledby="interior" data-parent="#interior">
         <div class="card-body">
             <table class="table table-sm">
                 <thead>
@@ -411,7 +411,7 @@
 <!--Submit-->
 <div class="row">
     <div class="col-md-7 col-sm-8 col-9">
-        <div class="float-right mt-5">
+        <div class="float-end mt-5">
             <a class="btn btn-outline-dark" href="{% url 'builds' %}">Back to Builds</a>
             {% if user.is_authenticated and user.id == build.author.id %}
             <a class="btn btn-outline-secondary" href="{% url 'edit_build' build.build_id %}">Edit</a>
@@ -419,8 +419,8 @@
         </div>
     </div>
     <div class="col-md-5 col-sm-4 col-3">
-        <div class="mt-5 float-right">
-            <button class="btn btn-outline-dark d-inline-block mb-1" id="copy-to-clipboard-btn" data-text="{% if request.is_secure %}https{% else %}http{% endif %}://{{ request.get_host }}{% url 'view_build' build.build_id %}">
+        <div class="mt-5 float-end">
+            <button class="btn btn-outline-dark d-inline-block mb-1" aria-label="Copy link to clipboard" id="copy-to-clipboard-btn" data-text="{% if request.is_secure %}https{% else %}http{% endif %}://{{ request.get_host }}{% url 'view_build' build.build_id %}">
                 <div class="show" title="Copy link to Clipboard">
                     <i class="far fa-copy"></i>
                 </div>
@@ -434,6 +434,7 @@
 {% endblock content %}
 
 {% block js %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function(){
             const like_button = $('.like-button');

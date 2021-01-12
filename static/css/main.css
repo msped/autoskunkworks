@@ -75,7 +75,7 @@ footer {
     font-family: 'Oswald', serif;
     font-size: 14pt;
     color: rgba(0,0,0,.5);
-    
+    text-decoration: none;    
 }
 
 .footer-text:hover {
@@ -83,8 +83,9 @@ footer {
     text-decoration: none;
 }
 
-.social-links h5 {
+.social-links div {
     font-family: 'PM', monospace;
+    font-size: 1.25rem;
 }
 
 .social-links ul li {
@@ -131,4 +132,8 @@ footer {
 
 .loading img {
     height: 40px;
+}
+
+hr.clearfix {
+    background-color: #fff;
 }
