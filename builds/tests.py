@@ -675,7 +675,7 @@ class BuildTests(TestCase):
                 'url': 'https://throtl.com/products/air-lift-performance-15-20-mercedes-c-class-w205-c63-a-78580'
             }
         )
-        self.assertIn(b'1060.69', response.content)
+        self.assertIn(b'995.95', response.content)
 
     def test_get_web_price_no_domain(self):
         """Test Get Web Price no domain stored"""
