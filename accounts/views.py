@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.views.generic.edit import FormView
 from django.contrib.auth.tokens import default_token_generator
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, templatize
 from django.urls import reverse_lazy
 from django.contrib import auth, messages
 from django.contrib.auth.models import User
@@ -11,17 +11,23 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.paginator import Paginator
+from django.views import View
 from builds.utils import sort_builds_users, sort_builds_users_public
 from builds.models import Builds
 from .utils import signup_email, deactivate_email
 from .forms import UserLoginForm, UserRegisterForm, Profile, PasswordResetForm
 
-def login(request):
-    """Logs a user in / display login page"""
-    if request.user.is_authenticated:
-        return redirect('home')
+class Login(View):
+    template_view = 'login.html'
 
-    if request.method == "POST":
+    def get(self, request):
+        if request.user.is_authenticated:
+            return redirect('home')
+        else:
+            login_form = UserLoginForm()
+        return render(request, self.template_view, {'login_form': login_form})
+
+    def post(self, request):
         login_form = UserLoginForm(request.POST)
         if login_form.is_valid():
             user = auth.authenticate(username=request.POST['username'],
@@ -35,9 +41,9 @@ def login(request):
                     None,
                     "Your username or password are incorrect"
                 )
-    else:
-        login_form = UserLoginForm()
-    return render(request, 'login.html', {'login_form': login_form})
+                login_form = UserLoginForm()
+        return render(request, self.template_view, {'login_form': login_form})
+
 
 @login_required
 def logout(request):
@@ -46,12 +52,17 @@ def logout(request):
     messages.success(request, "You have successfully been logged out.")
     return redirect(reverse('login'))
 
-def register(request):
-    """register user"""
-    if request.user.is_authenticated:
-        return redirect('home')
+class Register(View):
+    template_name = 'register.html'
 
-    if request.method == 'POST':
+    def get(self, request):
+        if request.user.is_authenticated:
+            return redirect('home')
+        else:
+            register_form = UserRegisterForm()
+        return render(request, self.template_name, {'register_form': register_form})
+    
+    def post(self, request):
         register_form = UserRegisterForm(request.POST)
         if register_form.is_valid():
             register_form.save()
@@ -66,10 +77,8 @@ def register(request):
                 return redirect('home')
             else:
                 messages.error(request, "Unable to register account.")
-    else:
-        register_form = UserRegisterForm()
+        return render(request, self.template_name, {'register_form': register_form})
 
-    return render(request, 'register.html', {'register_form': register_form})
 
 @login_required
 def change_password(request):
