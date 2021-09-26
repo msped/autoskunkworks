@@ -11,6 +11,7 @@ Contact Us For Support
 
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/support.css' %}">
+<script src="https://unpkg.com/htmx.org@1.3.3" defer></script>
 {% endblock css %}
 
 {% block content %}
@@ -23,21 +24,17 @@ Contact Us For Support
     <div class="col-lg-8 col-md-8 col-sm-12 col-12">
         <h2 class="text-center">Contact Us</h2>
         <div class="contact-form offset-lg-2 col-lg-8 offset-md-2 col-md-8 col-sm-12 col-12">
-            <form action="{% url 'support' %}" method="POST" id="contact-form">
+            <form hx-post="{% url 'support' %}" hx-swap="innerHTML"id="contact-form">
                 {% csrf_token %}
                 {{ form|as_bootstrap }}
+                <div class="text-muted font-size-8 mt-2">
+                    Click the captcha image to refresh
+                </div>
                 <div class="text-center mt-3">
                     <button type="submit" class="btn btn-outline-dark">Send</button>
                 </div>
                 <p id="form-errors"></p>
             </form>
-        </div>
-        <div class="contact-form-success offset-lg-2 col-lg-8 offset-md-2 col-md-8 col-sm-12 col-12">
-            <div class="text-center">
-                <i class="far fa-check-circle"></i>
-            </div>
-            <p class="text-center">We've received your message!</p>
-            <p class="text-center">We aim to respond to e-mail within 48 hours.</p>
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-12 col-12 text-center">
