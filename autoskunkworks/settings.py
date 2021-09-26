@@ -105,14 +105,10 @@ WSGI_APPLICATION = 'autoskunkworks.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-if DEBUG:
-    db_name = 'autoskunkworks'
-else:
-    db_name = 'asw'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': db_name,
+        'NAME': 'asw',
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASSWORD'),
         'HOST': 'localhost',
@@ -167,6 +163,8 @@ LOGIN_URL = '/user/login/'
 
 DEFAULT_FROM_EMAIL = 'noreply@autoskunk.works'
 EMAIL_HOST_USER = os.environ.get('EMAIL_USERNAME')
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 if not DEBUG:
     import sentry_sdk
