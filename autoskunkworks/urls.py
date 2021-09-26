@@ -38,11 +38,11 @@ sitemaps = {
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^$', home, name="home"),
-    url(r'^user/', include('accounts.urls')),
-    url(r'^builds/', include('builds.urls')),
-    url(r'^support/', include('support.urls')),
-    url(r'^issues/', include('errors.urls')),
+    path('', home, name="home"),
+    path('user/', include('accounts.urls')),
+    path('builds/', include('builds.urls')),
+    path('support/', include('support.urls')),
+    path('issues/', include('errors.urls')),
     url(r'^media/(?P<path>.*)$', static.serve, {'document_root': MEDIA_ROOT}),
     path('captcha/', include('captcha.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}),
