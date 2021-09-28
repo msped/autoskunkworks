@@ -47,7 +47,7 @@ class AccountViewsTest(TestCase):
             response.content
         )
 
-    def test_login_with_inccorect_details(self):
+    def test_login_with_incorrect_details(self):
         """Test login with incorrect details"""
         response = self.client.post(
             '/user/login/',
