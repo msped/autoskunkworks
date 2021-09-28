@@ -1,5 +1,5 @@
 from django import forms
-from captcha.fields import CaptchaField
+#from captcha.fields import CaptchaField
 
 class ContactForm(forms.Form):
     """Form to be displayed on contact page"""
@@ -7,4 +7,4 @@ class ContactForm(forms.Form):
     email = forms.EmailField(required=True)
     subject = forms.CharField(required=True)
     message = forms.CharField(widget=forms.Textarea, required=True)
-    captcha = CaptchaField()
+    #captcha = CaptchaField()
