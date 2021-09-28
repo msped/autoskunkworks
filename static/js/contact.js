@@ -1,20 +1,8 @@
 $(document).ready(function(){
-    const form = $('#contact-form');
-    form.submit(function(e){
-        e.preventDefault();
-        $.ajax({
-            data: $(this).serialize(),
-            type: $(this).attr('method'),
-            url: $(this).attr('action'),
-            success: function(response){
-                if(response.sent){
-                    $('.contact-form').css('display', 'none');
-                    $('.contact-form-success').css('display', 'initial');
-                } else {
-                    $('#form-errors').text(response);
-                }                
-            }
+    $('.captcha').click(function () {
+        $.getJSON("/captcha/refresh/", function (result) {
+            $('.captcha').attr('src', result['image_url']);
+            $('#id_captcha_0').val(result['key'])
         });
-        return false;
     });
 });

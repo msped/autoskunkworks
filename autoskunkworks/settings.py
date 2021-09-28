@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', 'autoskunk.works', 'www.autoskunk.works', '165.232.107.91', '127.0.0.1']
 
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'django_forms_bootstrap',
+    'captcha',
     'home',
     'accounts',
     'builds.apps.BuildsConfig',
@@ -105,14 +106,10 @@ WSGI_APPLICATION = 'autoskunkworks.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-if DEBUG:
-    db_name = 'autoskunkworks'
-else:
-    db_name = 'asw'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': db_name,
+        'NAME': 'asw',
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASSWORD'),
         'HOST': 'localhost',
@@ -167,6 +164,8 @@ LOGIN_URL = '/user/login/'
 
 DEFAULT_FROM_EMAIL = 'noreply@autoskunk.works'
 EMAIL_HOST_USER = os.environ.get('EMAIL_USERNAME')
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 if not DEBUG:
     import sentry_sdk
