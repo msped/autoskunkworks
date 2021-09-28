@@ -37,10 +37,7 @@ class Login(View):
                 messages.success(request, "You have successfully logged in.")
                 return redirect('home')
             else:
-                login_form.add_error(
-                    None,
-                    "Your username or password are incorrect"
-                )
+                messages.error(request, "Your username or password are incorrect")
                 login_form = UserLoginForm()
         return render(request, self.template_view, {'login_form': login_form})
 
