@@ -23,11 +23,11 @@ def support(request):
             to_emails='autoskunkworks@gmail.com',
             subject=f'Contact Form Submission - {subject}',
             html_content=f'<p>New form submission</p> {message_form} \n \n From: {name} ({email})')
-            # try:
-            #     sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-            #     response = sg.send(message)
-            # except Exception as e:
-            #     print(e)
+            try:
+                sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+                response = sg.send(message)
+            except Exception as e:
+                print(e)
             template = render_to_string('message_sent.html')
         else:
             name = form['name'].value()

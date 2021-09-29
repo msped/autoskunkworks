@@ -44,7 +44,7 @@ urlpatterns = [
     path('support/', include('support.urls')),
     path('issues/', include('errors.urls')),
     url(r'^media/(?P<path>.*)$', static.serve, {'document_root': MEDIA_ROOT}),
-    #path('captcha/', include('captcha.urls')),
+    path('captcha/', include('captcha.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}),
     path(
         "robots.txt",

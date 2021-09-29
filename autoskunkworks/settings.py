@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'django_forms_bootstrap',
-    #'captcha',
+    'captcha',
     'home',
     'accounts',
     'builds.apps.BuildsConfig',
