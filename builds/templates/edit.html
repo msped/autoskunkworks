@@ -396,7 +396,7 @@ Edit {{ build.name }}
             <input type="hidden" name="total" value="{{ build.total }}" id="build-total">
         </div>
         <div class="col-5">
-            <a class="btn btn-sm btn-primary float-end" href="{% url 'download_qrcode' build.build_id %}"><i class="fas fa-download me-2"></i>QR Code</a>
+            <a class="btn btn-sm btn-primary float-end" target="_blank" href="{% url 'download_qrcode' build.build_id %}"><i class="fas fa-download me-2"></i>QR Code</a>
         </div>
     </div>
     
