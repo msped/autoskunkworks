@@ -167,7 +167,7 @@ $(document).ready(function () {
         url_box = $(this);
         url = $(this).val();
         $.ajax({
-            url: "/b/get-web-price",
+            url: "/builds/get-web-price",
             type: 'POST',
             data: {
                 'url': url
