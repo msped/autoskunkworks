@@ -26,8 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = False
 ALLOWED_HOSTS = ['localhost', 'autoskunk.works', 'www.autoskunk.works', 'autoskunkworks.herukoapp.com', '127.0.0.1']
 
 SITE_ID = 2
@@ -43,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    'cloudinary_storage',
     'django_forms_bootstrap',
     'captcha',
     'home',
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'builds.apps.BuildsConfig',
     'support',
     'errors',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
@@ -164,7 +165,13 @@ STATIC_URL = '/static/'
 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+DEFAULT_FILE_STORAGE='cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get("CLOUD_NAME"), 
+    'API_KEY': os.environ.get("CLOUD_PUBLIC"),
+    'API_SECRET': os.environ.get("CLOUD_SECRET")
+}
 
 LOGIN_URL = '/user/login/'
 
