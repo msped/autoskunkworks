@@ -27,7 +27,15 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-ALLOWED_HOSTS = ['localhost', 'autoskunk.works', 'www.autoskunk.works', 'autoskunkworks.herokuapp.com', '127.0.0.1']
+
+ALLOWED_HOSTS = [
+    'localhost',
+    'autoskunk.works',
+    'www.autoskunk.works',
+    'autoskunkworks.herokuapp.com',
+    'https://autoskunkworks.herokuapp.com',
+    '127.0.0.1'
+]
 
 SITE_ID = 2
 
