@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'cloudinary_storage',
+    'cloudinary',
     'django_forms_bootstrap',
     'captcha',
     'home',
@@ -176,11 +177,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE='cloudinary_storage.storage.MediaCloudinaryStorage'
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get("CLOUD_NAME"), 
-    'API_KEY': os.environ.get("CLOUD_PUBLIC"),
-    'API_SECRET': os.environ.get("CLOUD_SECRET")
-}
+CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
 
 LOGIN_URL = '/user/login/'
 
