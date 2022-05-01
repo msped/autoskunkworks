@@ -196,7 +196,7 @@ def update_heading_contents_exterior(request, heading):
             if created:    
                 part.save()
                 new_heading_ids.append(part.id)
-            elif not created and part.link is not link or park.price is not price or part.purchased is not purchased:
+            elif not created and part.link is not link or part.price is not price or part.purchased is not purchased:
                 part.link = link
                 part.price = float(price)
                 part.purchased = purchased
@@ -226,7 +226,7 @@ def update_heading_contents_engine(request, heading):
             if created:    
                 part.save()
                 new_heading_ids.append(part.id)
-            elif not created and part.link is not link or park.price is not price or part.purchased is not purchased:
+            elif not created and part.link is not link or part.price is not price or part.purchased is not purchased:
                 part.link = link
                 part.price = float(price)
                 part.purchased = purchased
@@ -256,7 +256,7 @@ def update_heading_contents_running(request, heading):
             if created:    
                 part.save()
                 new_heading_ids.append(part.id)
-            elif not created and part.link is not link or park.price is not price or part.purchased is not purchased:
+            elif not created and part.link is not link or part.price is not price or part.purchased is not purchased:
                 part.link = link
                 part.price = float(price)
                 part.purchased = purchased
@@ -264,7 +264,7 @@ def update_heading_contents_running(request, heading):
         else:
             deletion = request.POST.get('running_' + str(item.id) + '_delete')
             if deletion is not None:
-                part = Ruuning.objects.get(id=int(deletion))
+                part = Running.objects.get(id=int(deletion))
                 part.delete()
     return new_heading_ids
 
@@ -286,7 +286,7 @@ def update_heading_contents_interior(request, heading):
             if created:    
                 part.save()
                 new_heading_ids.append(part.id)
-            elif not created and part.link is not link or park.price is not price or part.purchased is not purchased:
+            elif not created and part.link is not link or part.price is not price or part.purchased is not purchased:
                 part.link = link
                 part.price = float(price)
                 part.purchased = purchased
