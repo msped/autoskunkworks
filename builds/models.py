@@ -1,7 +1,11 @@
+import datetime
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
+
+now = datetime.datetime.now()
 
 class ExteriorCategory(models.Model):
     """Exterior Categories"""
@@ -93,7 +97,12 @@ class Cars(models.Model):
     make = models.CharField(max_length=30)
     model = models.CharField(max_length=30)
     trim = models.CharField(max_length=45)
-    year = models.CharField(max_length=4)
+    year = models.PositiveSmallIntegerField(
+        validators=[
+            MinValueValidator(1900),
+            MaxValueValidator(now.year)
+        ]
+    )
     price = models.FloatField(default=0)
     purchased = models.BooleanField(default=False)
 
