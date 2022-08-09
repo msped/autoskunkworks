@@ -1,9 +1,6 @@
-import unicodedata
 import os
 from django import forms
-from django.contrib.auth import (
-    authenticate, get_user_model, password_validation,
-)
+from django.contrib.auth import get_user_model
 from django.core.validators import ValidationError
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -12,7 +9,6 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template import loader
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
-from django.utils.text import capfirst
 from django.utils.translation import gettext, gettext_lazy as _
 from django.conf import settings
 from sendgrid import SendGridAPIClient
@@ -51,18 +47,18 @@ class UserRegisterForm(UserCreationForm):
         """Checks that username isn't already taken"""
         username = self.cleaned_data.get('username')
         if username == '':
-            raise forms.ValidationError(u'Username address is required')
+            raise forms.ValidationError(u'Username is required.')
         elif User.objects.filter(username=username):
-            raise forms.ValidationError(u'Username address must be unique')
+            raise forms.ValidationError(u'This username already exists.')
         return username
 
     def clean_email(self):
         """checks if email is already in use"""
         email = self.cleaned_data.get('email')
         if email == '':
-            raise forms.ValidationError(u'Email address is required')
+            raise forms.ValidationError(u'Email address is required.')
         elif User.objects.filter(email=email):
-            raise forms.ValidationError(u'Email address must be unique')
+            raise forms.ValidationError(u'Email address must be unique.')
         return email
 
     def clean_password2(self):
@@ -71,10 +67,10 @@ class UserRegisterForm(UserCreationForm):
         password2 = self.cleaned_data.get('password2')
 
         if not password1 or not password2:
-            raise ValidationError("Please confirm your password")
+            raise ValidationError("Please confirm your password.")
 
         if password1 != password2:
-            raise ValidationError("Passwords don't match")
+            raise ValidationError("Passwords don't match.")
 
         return password2
 
