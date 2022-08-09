@@ -1,6 +1,6 @@
-import os
 from django import forms
 from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
 from django.core.validators import ValidationError
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -9,10 +9,9 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template import loader
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from django.utils.html import strip_tags
 from django.utils.translation import gettext, gettext_lazy as _
 from django.conf import settings
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
 
 UserModel = get_user_model()
 
@@ -99,17 +98,14 @@ class PasswordResetForm(forms.Form):
         # Email subject *must not* contain newlines
         subject = ''.join(subject.splitlines())
         body = loader.render_to_string(email_template_name, context)
-        email_message = Mail(
-            from_email=from_email,
-            to_emails=to_email,
+        send_mail(
             subject=subject,
-            html_content=body
+            html_message=body,
+            message=strip_tags(body),
+            from_email= from_email,
+            recipient_list=[to_email,],
+            fail_silently=False
         )
-        try:
-            sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-            response = sg.send(email_message)
-        except Exception as e:
-            print(e)
 
     def get_users(self, email):
         """Given an email, return matching user(s) who should receive a reset.
