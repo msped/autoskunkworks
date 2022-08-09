@@ -1,9 +1,6 @@
-import unicodedata
-import os
 from django import forms
-from django.contrib.auth import (
-    authenticate, get_user_model, password_validation,
-)
+from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
 from django.core.validators import ValidationError
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -12,11 +9,9 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template import loader
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
-from django.utils.text import capfirst
+from django.utils.html import strip_tags
 from django.utils.translation import gettext, gettext_lazy as _
 from django.conf import settings
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
 
 UserModel = get_user_model()
 
@@ -51,18 +46,18 @@ class UserRegisterForm(UserCreationForm):
         """Checks that username isn't already taken"""
         username = self.cleaned_data.get('username')
         if username == '':
-            raise forms.ValidationError(u'Username address is required')
+            raise forms.ValidationError(u'Username is required.')
         elif User.objects.filter(username=username):
-            raise forms.ValidationError(u'Username address must be unique')
+            raise forms.ValidationError(u'This username already exists.')
         return username
 
     def clean_email(self):
         """checks if email is already in use"""
         email = self.cleaned_data.get('email')
         if email == '':
-            raise forms.ValidationError(u'Email address is required')
+            raise forms.ValidationError(u'Email address is required.')
         elif User.objects.filter(email=email):
-            raise forms.ValidationError(u'Email address must be unique')
+            raise forms.ValidationError(u'Email address must be unique.')
         return email
 
     def clean_password2(self):
@@ -71,10 +66,10 @@ class UserRegisterForm(UserCreationForm):
         password2 = self.cleaned_data.get('password2')
 
         if not password1 or not password2:
-            raise ValidationError("Please confirm your password")
+            raise ValidationError("Please confirm your password.")
 
         if password1 != password2:
-            raise ValidationError("Passwords don't match")
+            raise ValidationError("Passwords don't match.")
 
         return password2
 
@@ -103,17 +98,14 @@ class PasswordResetForm(forms.Form):
         # Email subject *must not* contain newlines
         subject = ''.join(subject.splitlines())
         body = loader.render_to_string(email_template_name, context)
-        email_message = Mail(
-            from_email=from_email,
-            to_emails=to_email,
+        send_mail(
             subject=subject,
-            html_content=body
+            html_message=body,
+            message=strip_tags(body),
+            from_email= from_email,
+            recipient_list=[to_email,],
+            fail_silently=False
         )
-        try:
-            sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-            response = sg.send(email_message)
-        except Exception as e:
-            print(e)
 
     def get_users(self, email):
         """Given an email, return matching user(s) who should receive a reset.

@@ -9,4 +9,4 @@ class BuildsSitemap(Sitemap):
         return Builds.objects.all()
 
     def location(self, item):
-        return f'/builds/{item.build_id}'
+        return reverse('view_build', build_id=item.id)

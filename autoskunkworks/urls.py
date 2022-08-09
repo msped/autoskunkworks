@@ -20,7 +20,6 @@ from django.views import static
 from django.contrib.sitemaps.views import sitemap
 from django.views.generic.base import TemplateView
 from home.views import home
-from .settings import MEDIA_ROOT
 from accounts.sitemaps import AccountsStaticSitemap
 from home.sitemaps import HomeStaticSitemap
 from builds.sitemaps import BuildsSitemap
@@ -43,7 +42,6 @@ urlpatterns = [
     path('builds/', include('builds.urls')),
     path('support/', include('support.urls')),
     path('issues/', include('errors.urls')),
-    url(r'^media/(?P<path>.*)$', static.serve, {'document_root': MEDIA_ROOT}),
     path('captcha/', include('captcha.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}),
     path(

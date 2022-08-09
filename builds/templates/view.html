@@ -97,7 +97,11 @@
     <div class="card-header" id="exterior-header">
         <div class="collapsed mb-0" data-bs-toggle="collapse" aria-label="Exterior" data-bs-target="#exterior" aria-expanded="false"
             aria-controls="exterior">
-            Exterior
+            Exterior 
+            <span 
+                class="badge text-bg-{% ifequal build.exterior_parts.count 0 %}danger{% else %}secondary{% endifequal %} ms-2">
+                {{ build.exterior_parts.count }}
+            </span>
         </div>
     </div>
     <div id="exterior" class="collapse" aria-labelledby="exterior" data-parent="#exterior-header">
@@ -169,6 +173,10 @@
         <div class="collapsed mb-0" data-bs-toggle="collapse" aria-label="Engine" data-bs-target="#engine" aria-expanded="false"
             aria-controls="engine">
             Engine
+            <span 
+                class="badge text-bg-{% ifequal build.engine_parts.count 0 %}danger{% else %}secondary{% endifequal %} ms-2">
+                {{ build.engine_parts.count }}
+            </span>
         </div>
     </div>
     <div id="engine" class="collapse" aria-labelledby="engine" data-parent="#engine-header">
@@ -240,6 +248,10 @@
         <div class="collapsed mb-0" data-bs-toggle="collapse" aria-label="Running Gear" data-bs-target="#running-gear" aria-expanded="false"
             aria-controls="running-gear">
             Running Gear
+            <span 
+                class="badge text-bg-{% ifequal build.running_gear_parts.count 0 %}danger{% else %}secondary{% endifequal %} ms-2">
+                {{ build.running_gear_parts.count }}
+            </span>
         </div>
     </div>
     <div id="running-gear" class="collapse" aria-labelledby="running-gear" data-parent="#running-gear-header">
@@ -311,6 +323,10 @@
         <div class="collapsed mb-0" data-bs-toggle="collapse" data-bs-target="#interior" aria-label="Interior" aria-expanded="false"
             aria-controls="interior">
             Interior
+            <span 
+                class="badge text-bg-{% ifequal build.interior_parts.count 0 %}danger{% else %}secondary{% endifequal %} ms-2">
+                {{ build.interior_parts.count }}
+            </span>
         </div>
     </div>
     <div id="interior" class="collapse" aria-labelledby="interior" data-parent="#interior-header">

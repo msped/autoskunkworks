@@ -109,7 +109,7 @@ def get_heading_contents_interior(request, heading):
 
 def get_absolute_url(request, build_id):
     url = request.build_absolute_uri('/')[:-1].strip("/")
-    return (url + '/b/' + build_id)
+    return (url + '/builds/' + build_id)
 
 def generate_qrcode(request, build, build_id):
     qr = qrcode.QRCode(
@@ -123,8 +123,9 @@ def generate_qrcode(request, build, build_id):
     img = qr.make_image()
     buffer = io.BytesIO()
     img.save(buffer)
+    buffer.seek(0)
     filename = '%s.png' % (build_id)
-    build.qrcode.save(filename, buffer, save=False)
+    build.qrcode.save(filename, buffer, save=True)
 
 def new_build_content(request, exterior_category, engine_category,
                       running_category, interior_category):
@@ -349,7 +350,7 @@ def update_build_content(build, exterior, engine, running, interior, request):
     build.save()
 
 def sort_builds_standard(sort_options):
-    if sort_options is not None and sort_options is not "":
+    if sort_options is not None and sort_options != "":
         builds = Builds.objects.filter(private=False).order_by(sort_options)
     else:
         builds = Builds.objects.filter(private=False)
@@ -357,7 +358,7 @@ def sort_builds_standard(sort_options):
     return builds
 
 def sort_builds_users(user, sort_options):
-    if sort_options is not None and sort_options is not "":
+    if sort_options is not None and sort_options != "":
         builds = Builds.objects.filter(author=user).order_by(sort_options)
     else:
         builds = Builds.objects.filter(author=user)
@@ -366,7 +367,7 @@ def sort_builds_users(user, sort_options):
 
 def sort_builds_users_public(user, sort_options):
 
-    if sort_options is not None and sort_options is not "":
+    if sort_options is not None and sort_options != "":
         builds = Builds.objects.filter(author=user, private=False).order_by(sort_options)
     else:
         builds = Builds.objects.filter(author=user, private=False)

@@ -277,7 +277,7 @@ class BuildTests(TestCase):
         self.assertEqual(build.car.make, 'Mercedes')
         self.assertEqual(build.car.model, 'A Class')
         self.assertEqual(build.car.trim, 'A250')
-        self.assertEqual(build.car.year, '2013')
+        self.assertEqual(build.car.year, 2013)
         self.assertEqual(build.car.price, 12500)
         self.assertTrue(build.car.purchased)
         self.assertTrue(build.exterior_parts.get(pk=ex.id), ex)
@@ -660,7 +660,7 @@ class BuildTests(TestCase):
                 'url': 'https://www.ebay.co.uk/itm/GENUINE-A45-AMG-Rear-Diffuser-Sport-Edition-Mercedes-Benz-W176-A-Class-NEW/132794845019?epid=23008548439&hash=item1eeb30875b:g:D1MAAOSwx-9WvwlE'
             }
         )
-        self.assertIn(b'202.99', response.content)
+        self.assertIn(b'214.96', response.content)
 
     def test_get_web_price_class(self):
         """Test Get Web Price by class"""
@@ -675,7 +675,7 @@ class BuildTests(TestCase):
                 'url': 'https://throtl.com/products/air-lift-performance-15-20-mercedes-c-class-w205-c63-a-78580'
             }
         )
-        self.assertIn(b'1079.95', response.content)
+        self.assertIn(b'1195.00', response.content)
 
     def test_get_web_price_no_domain(self):
         """Test Get Web Price no domain stored"""
