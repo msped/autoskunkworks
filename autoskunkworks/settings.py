@@ -187,7 +187,13 @@ CLOUDINARY_STORAGE = {
 LOGIN_URL = '/user/login/'
 
 DEFAULT_FROM_EMAIL = 'noreply@autoskunk.works'
-EMAIL_HOST_USER = os.environ.get('EMAIL_USERNAME')
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
