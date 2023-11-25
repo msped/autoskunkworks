@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from dotenv import load_dotenv
-import dj_database_url
 load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -26,14 +25,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
-    'autoskunk.works',
-    'www.autoskunk.works',
-    'autoskunkworks.herokuapp.com',
-    'https://autoskunkworks.herokuapp.com',
+    'autoskunkworks.mspe.me',
+    'https://autoskunkworks.mspe.me',
     '127.0.0.1'
 ]
 
@@ -50,8 +47,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
-    'cloudinary_storage',
-    'cloudinary',
     'django_forms_bootstrap',
     'captcha',
     'home',
@@ -77,20 +72,20 @@ ROOT_URLCONF = 'autoskunkworks.urls'
 
 if DEBUG:
     TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'DIRS': [os.path.join(BASE_DIR, 'templates')],
+            'APP_DIRS': True,
+            'OPTIONS': {
+                'context_processors': [
+                    'django.template.context_processors.debug',
+                    'django.template.context_processors.request',
+                    'django.contrib.auth.context_processors.auth',
+                    'django.contrib.messages.context_processors.messages',
+                ],
+            },
         },
-    },
-]
+    ]
 else:
     TEMPLATES = [
         {
@@ -104,11 +99,11 @@ else:
                     'django.contrib.messages.context_processors.messages',
                 ],
                 'loaders': [
-                ('django.template.loaders.cached.Loader', [
-                    'django.template.loaders.filesystem.Loader',
-                    'django.template.loaders.app_directories.Loader',
-                ]),
-            ],
+                    ('django.template.loaders.cached.Loader', [
+                        'django.template.loaders.filesystem.Loader',
+                        'django.template.loaders.app_directories.Loader',
+                    ]),
+                ],
             },
         },
     ]
@@ -118,21 +113,20 @@ WSGI_APPLICATION = 'autoskunkworks.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-if "DATABASE_URL" in os.environ:
-    DATABASES = {
-        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'asw',
-            'USER': os.environ.get('DB_USER'),
-            'PASSWORD': os.environ.get('DB_PASSWORD'),
-            'HOST': 'localhost',
-            'PORT': '',
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('POSTGRES_DB'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
+        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
+        'TEST': {
+            'NAME': 'testdatabase'
         }
     }
+}
 
 
 # Password validation
@@ -173,16 +167,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
 MEDIA_URL = '/media/'
-DEFAULT_FILE_STORAGE='cloudinary_storage.storage.MediaCloudinaryStorage'
-
-CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get("CLOUD_NAME"), 
-    'API_KEY': os.environ.get("CLOUD_PUBLIC"),
-    'API_SECRET': os.environ.get("CLOUD_SECRET")
-}
 
 LOGIN_URL = '/user/login/'
 
@@ -194,11 +179,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 if not DEBUG:
     import sentry_sdk
     from sentry_sdk.integrations.django import DjangoIntegration
-    STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+    STATIC_ROOT = '/static/'
+    MEDIA_ROOT = '/media/'
     sentry_sdk.init(
-        dsn=os.environ.get('sentry_dns'),
+        dsn=os.environ.get('SENTRY_DNS'),
         integrations=[DjangoIntegration()],
-        traces_sample_rate = 1.0,
+        traces_sample_rate=1.0,
 
         # If you wish to associate users to errors (assuming you are using
         # django.contrib.auth) you may enable sending PII data.
@@ -207,5 +193,3 @@ if not DEBUG:
 
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
-else:
-    STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
