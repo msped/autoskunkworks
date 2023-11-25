@@ -656,20 +656,20 @@ class BuildTests(TestCase):
         self.delete_build_logged_in()
 
     # Get Web Price
-    def test_get_web_price_id(self):
-        """Test Get Web Price by id"""
-        Domains.objects.create(
-            domain='ebay',
-            price_element='prcIsum',
-            attr='1'
-        )
-        response = self.client.post(
-            '/builds/get-web-price/',
-            {
-                'url': 'https://www.ebay.co.uk/itm/GENUINE-A45-AMG-Rear-Diffuser-Sport-Edition-Mercedes-Benz-W176-A-Class-NEW/132794845019?epid=23008548439&hash=item1eeb30875b:g:D1MAAOSwx-9WvwlE'
-            }
-        )
-        self.assertIn(b'202.99', response.content)
+    # def test_get_web_price_id(self):
+    #     """Test Get Web Price by id"""
+    #     Domains.objects.create(
+    #         domain='ebay',
+    #         price_element='prcIsum',
+    #         attr='1'
+    #     )
+    #     response = self.client.post(
+    #         '/builds/get-web-price/',
+    #         {
+    #             'url': 'https://www.ebay.co.uk/itm/GENUINE-A45-AMG-Rear-Diffuser-Sport-Edition-Mercedes-Benz-W176-A-Class-NEW/132794845019?epid=23008548439&hash=item1eeb30875b:g:D1MAAOSwx-9WvwlE'
+    #         }
+    #     )
+    #     self.assertIn(b'202.99', response.content)
 
     # As number keeps changing the website
     # is doesnt make sensse to keep changing this test.
