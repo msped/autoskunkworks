@@ -34,6 +34,7 @@ from .utils import (
 
 # Create your views here.
 
+
 @login_required
 def create_build(request):
     """Create a Build"""
@@ -58,11 +59,11 @@ def create_build(request):
         'running': running_category,
         'interior': interior_category
     }
-    
+
     return render(request, "create.html", context)
 
-def builds(request):
 
+def builds(request):
     """Show all builds that are public"""
     sort_options = request.GET.get('sort_options')
 
@@ -73,6 +74,7 @@ def builds(request):
     builds_paginator = paginator.get_page(page)
 
     return render(request, "builds.html", {"builds": builds_paginator})
+
 
 @csrf_exempt
 def like_build(request, build_id):
@@ -92,7 +94,7 @@ def like_build(request, build_id):
             if build.dislikes.filter(id=request.user.id).exists():
                 build.dislike_count -= 1
                 build.dislikes.remove(user)
-            build.like_count =+ 1
+            build.like_count = + 1
             like_count = build.like_count
             dislike_count = build.dislike_count
             liked = True
@@ -105,6 +107,7 @@ def like_build(request, build_id):
             'liked': liked,
             'disliked': disliked
         })
+
 
 @csrf_exempt
 def dislike_build(request, build_id):
@@ -124,7 +127,7 @@ def dislike_build(request, build_id):
             if build.likes.filter(id=request.user.id).exists():
                 build.like_count -= 1
                 build.likes.remove(user)
-            build.dislike_count =+ 1
+            build.dislike_count = + 1
             like_count = build.like_count
             dislike_count = build.dislike_count
             liked = False
@@ -137,6 +140,7 @@ def dislike_build(request, build_id):
             'liked': liked,
             'disliked': disliked
         })
+
 
 @login_required
 def edit_build(request, build_id):
@@ -166,14 +170,16 @@ def edit_build(request, build_id):
     }
     return render(request, "edit.html", context)
 
+
 @login_required
 def delete_build(request, build_id):
     """Delete a Build"""
     build = Builds.objects.get(id=build_id)
-    if request.user.is_authenticated and request.user.id is build.author.id:    
+    if request.user.is_authenticated and request.user.id is build.author.id:
         build.delete()
         messages.success(request, "Build Deleted.")
         return redirect('users_builds', request.user.username)
+
 
 @csrf_exempt
 def get_web_price(request):
@@ -192,27 +198,30 @@ def get_web_price(request):
         page = requests.get(url, headers=headers)
         soup = BeautifulSoup(page.content, 'html.parser')
         attr_val = str(domain.price_element)
-        if domain.attr == "1":
-            price_site = soup.find(id=attr_val).get_text()
-            price = price_site.strip()
-        else:
-            price_site = soup.find(class_=attr_val).get_text()
-            price = price_site.strip()
-        new_price = re.sub(r'[^\w^.]','', price)
+        selector_type = 'id' if domain.attr == "1" else 'class_'
+        price_site_obj = soup.find(**{selector_type: attr_val})
+        price = ''
+
+        if price_site_obj:
+            price = price_site_obj.get_text().strip()
+
+        new_price = re.sub(r'[^\w^.]', '', price)
         return HttpResponse(new_price)
+
 
 def download_qrcode(request, build_id):
     """For a user to download the QR Code file for display"""
     build = Builds.objects.get(build_id=build_id)
     path = build.qrcode.url
     return redirect(path)
-    
+
+
 def view_build(request, build_id):
     """View a Build"""
     build = Builds.objects.get(build_id=build_id)
 
     if request.user.id is not build.author.id:
-        build.views =+ 1
+        build.views = + 1
         build.save()
 
     user_liked = False
