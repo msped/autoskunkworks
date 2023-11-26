@@ -6,7 +6,7 @@ WORKDIR /backend
 
 # install psycopg2 dependencies
 RUN apk update
-RUN apk add postgresql-dev gcc python3-dev musl-dev
+RUN apk add postgresql-dev gcc python3-dev musl-dev zlib-dev jpeg-dev
 
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
