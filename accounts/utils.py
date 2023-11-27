@@ -19,17 +19,17 @@ def signup_email(request):
         fail_silently=False
     )
 
+
 def deactivate_email(request):
     """Send out email to confirm signup"""
     html_email = loader.render_to_string(
         'emails/deactivate_account.html',
-    )    
+    )
     send_mail(
         subject='Your AutoSkunkWorks Account has been deactivated.',
         html_message=html_email,
         message=strip_tags(html_email),
-        from_email= settings.DEFAULT_FROM_EMAIL,
+        from_email=settings.DEFAULT_FROM_EMAIL,
         recipient_list=[request.user.email,],
         fail_silently=False
     )
-

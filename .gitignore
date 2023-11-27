@@ -5,3 +5,4 @@
 /htmlcov
 /media
 .vscode/
+postgres_data/

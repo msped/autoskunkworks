@@ -15,6 +15,7 @@ from django.conf import settings
 
 UserModel = get_user_model()
 
+
 class UserLoginForm(forms.Form):
     """Form to log a user in"""
     username = forms.CharField(label="Username")
@@ -23,6 +24,7 @@ class UserLoginForm(forms.Form):
     class Meta:
         model = User
         fields = ['Username', 'Password']
+
 
 class UserRegisterForm(UserCreationForm):
     """Form for registering a new user"""
@@ -73,6 +75,7 @@ class UserRegisterForm(UserCreationForm):
 
         return password2
 
+
 class Profile(forms.ModelForm):
     class Meta:
         model = User
@@ -81,6 +84,7 @@ class Profile(forms.ModelForm):
             'last_name',
             'email'
         ]
+
 
 class PasswordResetForm(forms.Form):
     email = forms.EmailField(
@@ -102,7 +106,7 @@ class PasswordResetForm(forms.Form):
             subject=subject,
             html_message=body,
             message=strip_tags(body),
-            from_email= from_email,
+            from_email=from_email,
             recipient_list=[to_email,],
             fail_silently=False
         )

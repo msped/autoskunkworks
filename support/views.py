@@ -9,6 +9,7 @@ from .forms import ContactForm
 
 # Create your views here.
 
+
 def support(request):
     """Support page view"""
     if request.method == "POST":
@@ -18,12 +19,12 @@ def support(request):
             email = form.cleaned_data['email']
             subject = form.cleaned_data['subject']
             message_form = form.cleaned_data['message']
-            html_content=f'<p>New form submission</p> {message_form} \n \n From: {name} ({email})'
+            html_content = f'<p>New form submission</p> {message_form} \n \n From: {name} ({email})'
             send_mail(
                 subject=f'Contact Form Submission - {subject}',
                 html_message=html_content,
                 message=strip_tags(html_content),
-                from_email= settings.DEFAULT_FROM_EMAIL,
+                from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[settings.ADMINS,],
                 fail_silently=False
             )
